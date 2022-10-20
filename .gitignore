@@ -17,4 +17,4 @@ Match3d/.vsconfig
 *.swp
 *.DotSettings
 *.gen.csproj.meta
-
+*.bak
