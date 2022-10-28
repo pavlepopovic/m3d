@@ -19,12 +19,11 @@ public class admobads : MonoBehaviour
 	void Start()
 	{
         MobileAds.Initialize(initStatus => { });
-        print ("againrun");
-			requestintersitial ();
+			requestintersitial();
         rewardbasedad = new RewardedAd(admobrewardedvideoid);
         // Called when the user should be rewarded for interacting with the ad.
         rewardbasedad.OnUserEarnedReward += HandleUserEarnedReward;
-        requestrewardbasedvideo ();
+        requestrewardbasedvideo();
 	}
 
     public void HandleUserEarnedReward(object sender, Reward args)

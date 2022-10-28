@@ -122,7 +122,6 @@ public class GameManager : MonoBehaviour
 
     public void checklevelcomplete(int collectedobjectvalue)
     {
-        print("collectedobjectvalue " + collectedobjectvalue + "totalobjects " + totalobjects);
         if (collectedobjectvalue == totalobjects)
         {
             Invoke("maketimescalezero", 1f);
