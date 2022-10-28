@@ -3,6 +3,7 @@ Match3d/Library
 Match3d/Logs
 Match3d/obj
 Match3d/.vsconfig
+Match3d/Temp
 
 *.user
 *.idea
