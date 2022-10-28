@@ -80,11 +80,6 @@ public class GameManager : MonoBehaviour
             TimeFreezeLocked.SetActive(false);
         }
 
-        
-
-
-
-
         CreateLevel();
         
         Invoke("Makecubediable", 0.5f);
@@ -111,10 +106,6 @@ public class GameManager : MonoBehaviour
             g.transform.position = new Vector3(g.transform.position.x + Random.Range(-1, 1), g.transform.position.y, g.transform.position.z + Random.Range(0, -1));
         }
     }
-
-
-
-
 
     // Update is called once per frame
     void Update()
@@ -196,13 +187,6 @@ public class GameManager : MonoBehaviour
         prefmanager.instance.Setlevelsvalue(levelvalue);
         SceneManager.LoadScene("gameplay");
     }
-
-
-
-
-
-
-
 
     void maketimescalezero()
     {
