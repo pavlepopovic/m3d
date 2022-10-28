@@ -30,21 +30,21 @@ public class admobads : MonoBehaviour
     {
         if (advalue == 1)
         {
-            FindObjectOfType<MainMenuManager>().GiveCoins(100);
+			UnityEngine.Assertions.Assert.IsFalse(true, "Unexpected add: 1");
         }
 		else if (advalue == 2)
         {
-            FindObjectOfType<GameManager>().Skiplevelvalue();
+			UnityEngine.Assertions.Assert.IsFalse(true, "Unexpected add: 2");
         }
         else if(advalue == 3)
         {
-            FindObjectOfType<GameManager>().GivetHints(1);
+			UnityEngine.Assertions.Assert.IsFalse(true, "Unexpected add: 3");
         }
         else if (advalue == 4)
         {
-            FindObjectOfType<GameManager>().GiveFreezetime(1);
-        }
-        else if (advalue == 5)
+			UnityEngine.Assertions.Assert.IsFalse(true, "Unexpected add: 4");
+		}
+		else if (advalue == 5)
         {
 			UnityEngine.Assertions.Assert.IsFalse(true, "Unexpected add: 5");
         }
