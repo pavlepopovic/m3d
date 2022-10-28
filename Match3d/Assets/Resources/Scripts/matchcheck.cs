@@ -5,10 +5,8 @@ using UnityEngine.UI;
 
 public class matchcheck : MonoBehaviour
 {
-
     int collectedobjectvalue=0;
     
-
     [Header("Object that have Placed")]
     public List<GameObject> PlaceObject = new List<GameObject>();
     [Header("Destination point")]
@@ -39,10 +37,7 @@ public class matchcheck : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(collectedobjectvalue);
     }
-
-
 
     private void OnTriggerStay(Collider other)
     {
@@ -131,10 +126,7 @@ public class matchcheck : MonoBehaviour
     //Collect And Destroy Objects
     void collectObject()
     {
-        print("Index 0 placed");
-        //   collectedobjectvalue++;
 
-        
         Destroy(PlaceObject[0].gameObject);
        
             Destroy(PlaceObject[1].gameObject);
@@ -144,18 +136,11 @@ public class matchcheck : MonoBehaviour
             HintObjects.Clear();
       
     }
-    
-
-
-
-
+   
     void disableanim()
     {
-       
-            matchanim.GetComponent<Animator>().SetBool("collect", false);
+        matchanim.GetComponent<Animator>().SetBool("collect", false);
     }
-
-
 
     void disablestaranim()
     {
@@ -164,23 +149,13 @@ public class matchcheck : MonoBehaviour
         Starvalue.text = starvalue.ToString();
         collectedobjectvalue++;
         GameManager.instance.checklevelcomplete(collectedobjectvalue);
-
-
     }
-
-
-
 
     public void OnhintClick()
     {
-        print(prefmanager.instance.Gethintvalue());
-
-
         if (prefmanager.instance.Gethintvalue() > 0)
            
             {
-
-            
 
             hintbutton.interactable = false;
             int hintvalue = prefmanager.instance.Gethintvalue();
@@ -203,9 +178,6 @@ public class matchcheck : MonoBehaviour
         {
             Addrewardhintdialogbox.SetActive(true);
         }
-        
-        //string s= Spawnpoint.transform.GetChild(0).gameObject.transform.name;
-        //  GameObject[] automatchobject = GameObject.f
     }
 
     void PlaceOtherObject()
@@ -213,14 +185,11 @@ public class matchcheck : MonoBehaviour
         translateobjecttopoint(HintObjects[1],PointB.transform.GetChild(0).gameObject);
         Invoke("MakeHintButtonInteractable", 2f);
     }
+
     void MakeHintButtonInteractable()
     {
         hintbutton.interactable = true;
     }
-    //Find One GameObject for Hint
-
-
-    //Find Two GameObjects for replacing
 
     void FindGameObjects()
     {
@@ -228,7 +197,6 @@ public class matchcheck : MonoBehaviour
         HintObjects.Clear();
         if (PlaceObject.Count == 1)
         {
-            print("assignfirstobject");
             HintObjects.Add(PlaceObject[0].gameObject);
         }
         else
@@ -237,17 +205,14 @@ public class matchcheck : MonoBehaviour
             HintObjects.Add(Spawnpoint.transform.GetChild(0).gameObject);
         }
         
-
         while( i < Spawnpoint.transform.childCount)
         {
-            print(i);
             if(Spawnpoint.transform.GetChild(i).name== HintObjects[0].name )
             {
                 if (PlaceObject.Count==1)
                 {
                     if(!GameObject.ReferenceEquals(Spawnpoint.transform.GetChild(i).gameObject,PlaceObject[0].gameObject))
                     {
-                        print("Wrong Object Assigned");
                         HintObjects.Add(Spawnpoint.transform.GetChild(i).gameObject);
                         break;
                     }
@@ -262,7 +227,6 @@ public class matchcheck : MonoBehaviour
         }
     }
 
-
     //MOving Object to Center of point to give Merging illusion
     IEnumerator movetomatchpoint(float delayTime, GameObject a, GameObject b)
     {
@@ -272,27 +236,18 @@ public class matchcheck : MonoBehaviour
         { // until one second passed
             a.transform.position = Vector3.Lerp(a.transform.position, Matchpoint.transform.position, Time.time - startTime); // lerp from A to B in one second
             b.transform.position = Vector3.Lerp(b.transform.position, Matchpoint.transform.position, Time.time - startTime); // lerp from A to B in one second
-            yield return 0.17f; // wait for next frame
-            print("Drop the Object Now");
-           
+            yield return 0.17f; // wait for next frame           
         }
     }
 
-
-
-
-
-
-
-    //lerping the GameObject to destination with 1 sec delay
     void translateobjecttopoint(GameObject g,GameObject point)
     {
         g.gameObject.GetComponent<item>().HintBool = true;
         g.gameObject.GetComponent<item>().OnMouseDown();
         g.gameObject.GetComponent<item>().OnMouseDrag();
         StartCoroutine(WaitAndMove(0.05f,g, point));
-        
     }
+
     IEnumerator WaitAndMove(float delayTime,GameObject g,GameObject point)
     {
         yield return new WaitForSeconds(delayTime); // start at time X
@@ -301,11 +256,7 @@ public class matchcheck : MonoBehaviour
         { // until one second passed
             g.transform.position = Vector3.Lerp(g.transform.position, point.transform.position, Time.time - startTime); // lerp from A to B in one second
             yield return 0.5f; // wait for next frame
-            print("Drop the Object Now");
             g.gameObject.GetComponent<item>().OnMouseUp();
         }
     }
-
-
-
 }

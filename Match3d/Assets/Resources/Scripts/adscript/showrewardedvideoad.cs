@@ -1,12 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class showrewardedvideoad : MonoBehaviour
 {
-    // Start is called before the first frame update
     public void OnShowrewardedad(int n)
     {
-        GameObject.FindObjectOfType<admobads>().showad(n);
+        switch(n)
+        {
+            case 5:
+                FindObjectOfType<leveltimer>().ReviveButton();
+                break;
+            default:
+                UnityEngine.Assertions.Assert.IsTrue(false);
+                break;
+        }
     }
 }

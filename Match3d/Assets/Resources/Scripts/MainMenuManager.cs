@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -33,27 +31,21 @@ public class MainMenuManager : MonoBehaviour
 
     int levelvalue;
 
-    // Start is called before the first frame update
     void Start()
     {
-      //   PlayerPrefs.DeleteAll();
-
         levelvalue = prefmanager.instance.Getlevelsvalue();
         leveltext.text = "Level " + levelvalue;
-        //levelvalue = 1;
         prefmanager.instance.Setlevelsvalue(levelvalue);
         setingdialogue();
         setlevelprogress();
     }
     
-    // Update is called once per frame
     void Update()
     {
         cointext.text = prefmanager.instance.Getcoinsvalue().ToString();
         shopcointext.text= prefmanager.instance.Getcoinsvalue().ToString();
     }
 
-    //OnMainMenuPlayClick
     public void onMainmenuPLayclick()
     {
         SoundManager.instance.PlayButtonSOund();
@@ -67,24 +59,15 @@ public class MainMenuManager : MonoBehaviour
         SceneManager.LoadScene("gameplay");
     }
 
-    //Setting Level Value And Progress bar
-
     void setlevelprogress()
     {
         float currentlevelvalue = prefmanager.instance.Getlevelsvalue();
         levelValue.text = currentlevelvalue.ToString();
         var  fillvalue=currentlevelvalue / 100f;
-      //  var fillvalue = 0.001f;
-        // fillvalue = $$anonymous$$athf.Repeat(myVar, 1.0f);
         print(fillvalue);
         Levelfillbar.fillAmount = fillvalue;
-
-
-
     }
 
-
-    //Setting dialog adjustment at Start
     void setingdialogue()
     {
         music.sprite = onoff[prefmanager.instance.Getmusicsvalue()];
@@ -116,33 +99,30 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-
-
     public void SettingDialogclick()
     {
         SoundManager.instance.PlayButtonSOund();
         Setting.gameObject.SetActive(true);
     }
+
     public void closeSettingDialogclick()
     {
         SoundManager.instance.PlayButtonSOund();
         Setting.gameObject.SetActive(false);
     }
 
-
-    //
     public void OnShopclick()
     {
         SoundManager.instance.PlayButtonSOund();
         Shop.gameObject.SetActive(true);
     }
 
-
     public void OnShareclick()
     {
         SoundManager.instance.PlayButtonSOund();
         Share.gameObject.SetActive(true);
     }
+
     public void OnSharecloseclick()
     {
         SoundManager.instance.PlayButtonSOund();
@@ -154,14 +134,6 @@ public class MainMenuManager : MonoBehaviour
         SoundManager.instance.PlayButtonSOund();
         Shop.gameObject.SetActive(false);
     }
-
-
-
-
-
-
-
-
 
     public void onmusicclick()
     {
@@ -212,54 +184,22 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-
-
     public void OnPrivacyclick()
     {
         Application.OpenURL(privacypolicy);
     }
+
     public void RateUS()
     {
         Application.OpenURL(Application.identifier);
     }
 
-
-
-
-
-
-
     public void GiveCoins(int value)
     {
-
         int coinvalue= prefmanager.instance.Getcoinsvalue();
         coinvalue += value;
         prefmanager.instance.SetcoinsValue(coinvalue);
 
         cointext.text = prefmanager.instance.Getcoinsvalue().ToString();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
