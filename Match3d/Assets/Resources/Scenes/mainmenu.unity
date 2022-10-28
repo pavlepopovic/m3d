@@ -18415,10 +18415,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69626d202b7c431468c20318939dbc79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dailyrewarddialogbox: {fileID: 125156237}
-  mstowait: 86400000
-  button: {fileID: 1804913226}
-  chesttimer2: {fileID: 110176198}
+  DailyRewardDialogBox: {fileID: 125156237}
+  MilisecondsToWait: 86400000
+  Button: {fileID: 1804913226}
+  ChestTimer: {fileID: 110176198}
 --- !u!1 &1685532574
 GameObject:
   m_ObjectHideFlags: 0
@@ -18864,8 +18864,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1695090245}
-        m_TargetAssemblyTypeName: showrewardedvideoad, Assembly-CSharp
-        m_MethodName: OnShowrewardedad
+        m_TargetAssemblyTypeName: AdStandIn, Assembly-CSharp
+        m_MethodName: StandInRewardedAd
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -19941,7 +19941,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1682590416}
         m_TargetAssemblyTypeName: dailyreward, Assembly-CSharp
-        m_MethodName: Oncollectclick
+        m_MethodName: OnCollectClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -4211,8 +4211,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 719702504}
-        m_TargetAssemblyTypeName: showrewardedvideoad, Assembly-CSharp
-        m_MethodName: OnShowrewardedad
+        m_TargetAssemblyTypeName: AdStandIn, Assembly-CSharp
+        m_MethodName: StandInRewardedAd
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5372,8 +5372,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 816050299}
-        m_TargetAssemblyTypeName: showrewardedvideoad, Assembly-CSharp
-        m_MethodName: OnShowrewardedad
+        m_TargetAssemblyTypeName: AdStandIn, Assembly-CSharp
+        m_MethodName: StandInRewardedAd
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9130,8 +9130,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1172271445}
-        m_TargetAssemblyTypeName: showrewardedvideoad, Assembly-CSharp
-        m_MethodName: OnShowrewardedad
+        m_TargetAssemblyTypeName: AdStandIn, Assembly-CSharp
+        m_MethodName: StandInRewardedAd
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9493,8 +9493,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1200190190}
-        m_TargetAssemblyTypeName: showrewardedvideoad, Assembly-CSharp
-        m_MethodName: OnShowrewardedad
+        m_TargetAssemblyTypeName: AdStandIn, Assembly-CSharp
+        m_MethodName: StandInRewardedAd
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

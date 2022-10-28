@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class showrewardedvideoad : MonoBehaviour
+public class AdStandIn : MonoBehaviour
 {
-    public void OnShowrewardedad(int n)
+    public void StandInRewardedAd(int n)
     {
         switch (n)
         {
@@ -27,3 +27,4 @@ public class showrewardedvideoad : MonoBehaviour
         }
     }
 }
+
