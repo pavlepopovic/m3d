@@ -64,7 +64,6 @@ public class MainMenuManager : MonoBehaviour
         float currentlevelvalue = prefmanager.instance.Getlevelsvalue();
         levelValue.text = currentlevelvalue.ToString();
         var  fillvalue=currentlevelvalue / 100f;
-        print(fillvalue);
         Levelfillbar.fillAmount = fillvalue;
     }
 
