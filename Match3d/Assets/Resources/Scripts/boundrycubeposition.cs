@@ -36,18 +36,8 @@ public class boundrycubeposition : MonoBehaviour
         m_clampMinY = Camera.main.ScreenToWorldPoint(new Vector2(0, 0 + clampMarginMinY)).z + offsetyminvalue;
         m_clampMaxY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height + clampMarginMaxY)).z + offsetymaxvalue;
 
-        // print(m_clampMinX + "m_clampMinX" + m_clampMaxX + "m_clampMaxX" + m_clampMinY + "m_clampMinY" + m_clampMaxY + "m_clampMaxY");
-
         rightcube.transform.position = new Vector3(m_clampMaxX, rightcube.transform.position.y, rightcube. transform.position.z);
         leftcube.transform.position = new Vector3(m_clampMinX, leftcube.transform.position.y, leftcube.transform.position.z);
-
-
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 }
 

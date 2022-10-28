@@ -22,7 +22,6 @@ public class donotdestroyonload : MonoBehaviour {
 		} else {
 		//	gameObject.transform.GetComponent<admobads> ().OnDestroybanner ();
 			if (this != d) {
-				print ("Occur");
 				Destroy (this.gameObject);
 			}
 		}

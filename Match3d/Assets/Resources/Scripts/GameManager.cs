@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -8,7 +6,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
-
     public int ShowRateUsAfterlevels;
     [Header("Level Editor")]
     public leveleditor levels;
@@ -16,7 +13,7 @@ public class GameManager : MonoBehaviour
     [Header("Spawnpoint")]
     public GameObject Spawnpoint;
     int levelvalue,totalobjects;
-   public GameObject holdercube;
+    public GameObject holdercube;
 
     [Header("dialogeboxes")]
     public GameObject tutorial;
@@ -30,23 +27,15 @@ public class GameManager : MonoBehaviour
     public GameObject ShowRateUsDialogbox;
     public GameObject Popupdialogbox;
 
-
-
     [Header("FreezeAndHintimageandtxt")]
     public GameObject HintLocked;
     public GameObject HintUnlocked, TimeFreezeUnlock, TimeFreezeLocked;
-
-
-
 
     public GameObject freeze;
     public Text freezetextvalue,hinttextvalue;
     public int freezedelayvalue;
 
     public GameObject HintAddButton, TimeFreezeAddButton , RewardTimeFreezeDialogbox;
-
-    
-
 
     private void Awake()
     {
@@ -64,7 +53,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         levelvalue = prefmanager.instance.Getlevelsvalue();
-       // levelvalue = 1;
         if (levelvalue == 1)
         {
             tutorial.gameObject.SetActive(true);
@@ -80,15 +68,11 @@ public class GameManager : MonoBehaviour
             TimeFreezeLocked.SetActive(false);
         }
 
-        
-
-
-
-
         CreateLevel();
         
         Invoke("Makecubediable", 0.5f);
     }
+
     void Makecubediable()
     {
         holdercube.gameObject.SetActive(false);
@@ -112,18 +96,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
-
-
     // Update is called once per frame
     void Update()
     {
-        
-
         freezetextvalue.text =""+ prefmanager.instance.Getfreezevalue();
         hinttextvalue.text = "" + prefmanager.instance.Gethintvalue();
-
 
         if (prefmanager.instance.Getfreezevalue() <= 0)
         {
@@ -143,20 +120,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
     public void checklevelcomplete(int collectedobjectvalue)
     {
-
-        print("collectedobjectvalue " + collectedobjectvalue + "totalobjects " + totalobjects);
         if (collectedobjectvalue == totalobjects)
         {
             Invoke("maketimescalezero", 1f);
 
-             TimerText.text = GameObject.FindObjectOfType<leveltimer>().sadaminute + ":" + GameObject.FindObjectOfType<leveltimer>().sadasecond + " Min";
-             levelvalue++;
-             prefmanager.instance.Setlevelsvalue(levelvalue);
-
+            TimerText.text = FindObjectOfType<leveltimer>().sadaminute + ":" + FindObjectOfType<leveltimer>().sadasecond + " Min";
+            levelvalue++;
+            prefmanager.instance.Setlevelsvalue(levelvalue);
 
             SoundManager.instance.PlaystarcollectSOund();
 
@@ -167,9 +139,7 @@ public class GameManager : MonoBehaviour
             coinvalue += rewardcoinvalue;
             prefmanager.instance.SetcoinsValue(coinvalue);
 
-
             ScoreText.text = totalobjects.ToString();
-
 
             levelcompletebox.SetActive(true);
 
@@ -188,7 +158,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     public void Skiplevelvalue()
     {
         levelvalue= prefmanager.instance.Getlevelsvalue();
@@ -196,13 +165,6 @@ public class GameManager : MonoBehaviour
         prefmanager.instance.Setlevelsvalue(levelvalue);
         SceneManager.LoadScene("gameplay");
     }
-
-
-
-
-
-
-
 
     void maketimescalezero()
     {
@@ -215,29 +177,34 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         pausedialogbox.SetActive(true);
     }
+
     public void Onresumeclick()
     {
         SoundManager.instance.PlayButtonSOund();
         Time.timeScale = 1f;
         pausedialogbox.SetActive(false);
     }
+
     public void OnHomeclick()
     {
         SoundManager.instance.PlayButtonSOund();
         Time.timeScale = 1f;
         SceneManager.LoadScene("mainmenu");
     }
+
     public void OnNextclick()
     {
         SoundManager.instance.PlayButtonSOund();
         Time.timeScale = 1f;
         SceneManager.LoadScene("gameplay");
     }
+
     public void OnRateUsclick()
     {
         SoundManager.instance.PlayButtonSOund();
         Application.OpenURL("https://play.google.com/store/apps/details?id="+ Application.identifier);
     }
+
     public void Onretryclick()
     {
         SoundManager.instance.PlayButtonSOund();
@@ -247,7 +214,6 @@ public class GameManager : MonoBehaviour
 
     public void freezetime()
     {
-
         if (prefmanager.instance.Getfreezevalue() > 0)
         {
             freeze.transform.parent.gameObject.GetComponent<Button>().interactable = false;
@@ -256,7 +222,7 @@ public class GameManager : MonoBehaviour
             prefmanager.instance.Setfreezevalue(freezevalue);
             SoundManager.instance.PlayButtonSOund();
             Time.timeScale = 1f;
-            GameObject.FindObjectOfType<leveltimer>().freezetimebool = true;
+            FindObjectOfType<leveltimer>().freezetimebool = true;
             freeze.SetActive(true);
         }
         else
@@ -264,10 +230,6 @@ public class GameManager : MonoBehaviour
             RewardTimeFreezeDialogbox.SetActive(true);
         }
     }
-
-
-
-    // Give Hints to Users using Coins
 
     public void AddCoinHints()
     {
@@ -289,19 +251,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-    //Give Hints
-
     public void GivetHints(int hintvalue)
     {
         int hintsvalue = prefmanager.instance.Gethintvalue();
         hintsvalue += hintvalue;
         prefmanager.instance.SetHintValue(hintsvalue);
     }
-
-
-
-    //Give time freeze to User
 
     public void AddCoinTimeFreeze()
     {
@@ -323,9 +278,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
-
     public void GiveFreezetime(int freezeassigningvalue)
     {
         int freezevalue = prefmanager.instance.Getfreezevalue();
@@ -338,13 +290,6 @@ public class GameManager : MonoBehaviour
         Popupdialogbox.SetActive(false);
     }
 
-
-
-
-
-
-    //Rate Us Now
-
     public void RateUsNow()
     {
         int coinvalue = prefmanager.instance.Getcoinsvalue();
@@ -354,15 +299,4 @@ public class GameManager : MonoBehaviour
         SoundManager.instance.PlayButtonSOund();
         Application.OpenURL("https://play.google.com/store/apps/details?id=" + Application.identifier);
     }
-
-
-
-
-
-
-
-
-
-
-
 }

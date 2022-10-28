@@ -57,7 +57,6 @@ public class item : MonoBehaviour
         m_clampMinY = Camera.main.ScreenToWorldPoint(new Vector2(0, 0 + clampMarginMinY)).z+ offsetyminvalue;
         m_clampMaxY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height + clampMarginMaxY)).z+ offsetymaxvalue;
         Invoke("makespawnfalse", 1f);
-      //  print(m_clampMinX + "m_clampMinX" + m_clampMaxX + "m_clampMaxX" + m_clampMinY + "m_clampMinY" + m_clampMaxY + "m_clampMaxY");
     }
     void makespawnfalse()
     {
@@ -94,39 +93,21 @@ public class item : MonoBehaviour
             {
                 // Same goes here
                 transform.position = new Vector3(m_clampMaxX, transform.position.y, transform.position.z);
-            
-                //    print("Keep running");
             }
             if (transform.position.z < m_clampMinY)
             {
                 // Same goes here
                 transform.position = new Vector3(transform.position.x, transform.position.y, m_clampMinY);
-           
-
-                print("Keep running");
             }
             if (transform.position.z > m_clampMaxY)
             {
                 // Same goes here
                 transform.position = new Vector3(transform.position.x, transform.position.y, m_clampMaxY);
-            
-                // print("Player position");
             }
-       // }
-
-
-
     }
-    // Update is called once per frame
-    void Update()
-    {
-       
 
-    }
     public void OnMouseDown()
     {
-
-       
         rb.useGravity = false;
         rb.constraints = RigidbodyConstraints.None;
         Screenpoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
@@ -135,7 +116,6 @@ public class item : MonoBehaviour
 
     public void OnMouseDrag()
     {
-       // applyforce = true;
         Vector3 cursorpoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Screenpoint.z);
         Vector3 Cursorposition = Camera.main.ScreenToWorldPoint(cursorpoint) + offset;
         rb.position = Cursorposition;
@@ -150,7 +130,7 @@ public class item : MonoBehaviour
     }
     public void OnMouseUp()
     {
-       
+
         rb.useGravity = true;
         rb.constraints = RigidbodyConstraints.None;
         applyforce = true;
@@ -174,8 +154,4 @@ public class item : MonoBehaviour
        RotationValues.y,
         RotationValues.z);
     }
-
-
-
-
 }
