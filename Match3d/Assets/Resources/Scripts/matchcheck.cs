@@ -61,7 +61,7 @@ public class matchcheck : MonoBehaviour
            
                 other.gameObject.transform.position = PointA.transform.position;
                 other.gameObject.transform.rotation = PointA.transform.rotation;
-            other.gameObject.GetComponent<item>().SetRotation(); 
+            other.gameObject.GetComponent<Item>().SetRotation(); 
             other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
            
                 PlaceObject.Add(other.gameObject);
@@ -72,7 +72,7 @@ public class matchcheck : MonoBehaviour
                
                 other.gameObject.transform.position = PointB.transform.position;
                 other.gameObject.transform.rotation = PointB.transform.rotation;
-            other.gameObject.GetComponent<item>().SetRotation();
+            other.gameObject.GetComponent<Item>().SetRotation();
             other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
             other.gameObject.GetComponent<MeshCollider>().enabled = false;
@@ -242,9 +242,9 @@ public class matchcheck : MonoBehaviour
 
     void translateobjecttopoint(GameObject g,GameObject point)
     {
-        g.gameObject.GetComponent<item>().HintBool = true;
-        g.gameObject.GetComponent<item>().OnMouseDown();
-        g.gameObject.GetComponent<item>().OnMouseDrag();
+        g.gameObject.GetComponent<Item>().HintBool = true;
+        g.gameObject.GetComponent<Item>().OnMouseDown();
+        g.gameObject.GetComponent<Item>().OnMouseDrag();
         StartCoroutine(WaitAndMove(0.05f,g, point));
     }
 
@@ -256,7 +256,7 @@ public class matchcheck : MonoBehaviour
         { // until one second passed
             g.transform.position = Vector3.Lerp(g.transform.position, point.transform.position, Time.time - startTime); // lerp from A to B in one second
             yield return 0.5f; // wait for next frame
-            g.gameObject.GetComponent<item>().OnMouseUp();
+            g.gameObject.GetComponent<Item>().OnMouseUp();
         }
     }
 }

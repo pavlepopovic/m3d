@@ -1,25 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class unfreezetime : MonoBehaviour
+public class UnfreezeTime : MonoBehaviour
 {
-    public float freezevalue;
+    public float FreezeValue;
+
     private void OnEnable()
     {
-        freezevalue = GameManager.instance.freezedelayvalue;
+        FreezeValue = GameManager.instance.freezedelayvalue;
     }
-    // Update is called once per frame
+
     void Update()
     {
-        freezevalue -= Time.deltaTime;
-        gameObject.GetComponent<Text>().text = "" + Mathf.Round(freezevalue);
-        if (freezevalue <= 0)
+        FreezeValue -= Time.deltaTime;
+        gameObject.GetComponent<Text>().text = "" + Mathf.Round(FreezeValue);
+
+        if (FreezeValue <= 0)
         {
-           GameManager.instance. freeze.transform.parent.gameObject.GetComponent<Button>().interactable = true;
-            GameObject.FindObjectOfType<leveltimer>().freezetimebool = false;
-            GameObject.FindObjectOfType<leveltimer>().CountDown();
+            GameManager.instance.freeze.transform.parent.gameObject.GetComponent<Button>().interactable = true;
+            FindObjectOfType<leveltimer>().freezetimebool = false;
+            FindObjectOfType<leveltimer>().CountDown();
             gameObject.transform.parent.gameObject.SetActive(false);
         }
     }
