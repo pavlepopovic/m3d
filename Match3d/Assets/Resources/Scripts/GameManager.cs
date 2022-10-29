@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
         {
             Invoke("maketimescalezero", 1f);
 
-            TimerText.text = FindObjectOfType<leveltimer>().sadaminute + ":" + FindObjectOfType<leveltimer>().sadasecond + " Min";
+            TimerText.text = FindObjectOfType<leveltimer>().SadaMinute + ":" + FindObjectOfType<leveltimer>().SadaSeconds + " Min";
             levelvalue++;
             prefmanager.instance.Setlevelsvalue(levelvalue);
 
@@ -222,7 +222,7 @@ public class GameManager : MonoBehaviour
             prefmanager.instance.Setfreezevalue(freezevalue);
             SoundManager.instance.PlayButtonSOund();
             Time.timeScale = 1f;
-            FindObjectOfType<leveltimer>().freezetimebool = true;
+            FindObjectOfType<leveltimer>().FreezeTimeBool = true;
             freeze.SetActive(true);
         }
         else

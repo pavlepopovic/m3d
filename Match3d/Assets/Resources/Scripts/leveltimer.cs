@@ -1,182 +1,117 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class leveltimer : MonoBehaviour {
+public class leveltimer : MonoBehaviour
+{
 	public GameObject restart;
-
-	public bool freezetimebool;
-
-
 	public leveleditor level;
-	private Text time;
-	float tim;
-	int levelselectiontimer;
-	bool flag=true;
-	int i=0;
-	public int Minutes;
-	public int Seconds;
-	bool firsttime;
-	public int sadaminute, sadasecond;
 
+	private Text m_TimeText;
+	private int m_LevelSectionTimer;
+
+	private bool m_Flag = true;
+	private bool m_FirstTime = false;
+	private int m_Minutes;
+	private int m_Seconds;
+
+	public int SadaSeconds;
+	public int SadaMinute;
+	
+	public bool FreezeTimeBool;
 
 	// Use this for initialization
-	void Start () {
-		time = GetComponent<Text> ();
-		levelselectiontimer = prefmanager.instance.Getlevelsvalue();
-        //levelselectiontimer = 1;
+	void Start()
+	{
+		m_TimeText = GetComponent<Text>();
+
+		m_LevelSectionTimer = prefmanager.instance.Getlevelsvalue();
 		Time.timeScale = 1;
-		if (i == 0)
-		{
-			Minutes = level.LevelData[levelselectiontimer - 1].minute;
-		  Seconds = level.LevelData[levelselectiontimer - 1].seconds;
-			i++;
+		if (!m_FirstTime)
+        {
+			m_Minutes = level.LevelData[m_LevelSectionTimer - 1].minute;
+			m_Seconds = level.LevelData[m_LevelSectionTimer - 1].seconds;
+			m_FirstTime = true;
 		}
 
-
-		/*
-		if (levelselectiontimer == 1) {
-			if(i==0) {
-				Minutes = 1;
-				i++;
-			}
-		} */
 		StartCoroutine(Wait());
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		
-
-
-
-//				tim -= Time.deltaTime;
-//				time.text = "" + Mathf.Round (tim);
-//				if (tim <= 1) {
-//					Time.timeScale = 0;
-//					restart.SetActive (true);
-//					flag = false;
-//					} else {
-//				Time.timeScale = 1;
-//				}
-			//		}
-		if(Seconds < 10)
+		if(m_Seconds < 10)
 		{
-			time.text = (Minutes + ":0" + Seconds);
+			m_TimeText.text = (m_Minutes + ":0" + m_Seconds);
 		}
-		if(Seconds > 9)
+		if(m_Seconds > 9)
 		{
-			time.text = (Minutes + ":" + Seconds);
+			m_TimeText.text = (m_Minutes + ":" + m_Seconds);
 		}
-
 	}
 
 	public void ReviveButton()
     {
-		Seconds = 60;
+		m_Seconds = 60;
 		CountDown();
 		restart.SetActive(false);
 	}
 
-
-
-
-
 	public void CountDown()
 	{
-		if (sadasecond >= 60)
+		if (SadaSeconds >= 60)
 		{
-			PlusMinute();
-			sadasecond = 0;
+			SadaMinute++;
+			SadaSeconds = 0;
 		}
 
-		
-
-
-
-		if (Seconds <= 0)
+		if (m_Seconds <= 0)
 		{
-			MinusMinute();
-			Seconds = 60;
-			
+			m_Minutes--;
+			m_Seconds = 60;			
 		}
-		if(Minutes >= 0)
+
+		if(m_Minutes >= 0)
 		{
-			MinusSeconds();
+			m_Seconds -= 1;
+			SadaSeconds += 1;
 		}
-		if(Minutes <= 0 && Seconds <= 0)
+
+		if(m_Minutes <= 0 && m_Seconds <= 0)
 		{
-            //			Gads.ShowBanner ();
             Time.timeScale = 0f;
-			restart.SetActive (true);
-			//	Application.LoadLevel ("LevelFail");
+			restart.SetActive(true);
 			StopTimer();
 		}
 		else
 		{
-			Start ();
+			Start();
 		}
-		if ((Minutes==3) && (Seconds<=30) && flag) {
-			flag = false;
-			//				Uads.showUnityAd ();
+		if ((m_Minutes==3) && (m_Seconds<=30) && m_Flag)
+		{
+			m_Flag = false;
 		}
 	}
+
 	public void MinusMinute()
 	{
-		Minutes -= 1;
-        
-		
-
-
+		m_Minutes -= 1;
 	}
-	public void PlusMinute()
-    {
-		sadaminute += 1;
-	}
-
-
-
-
-
-
-
-	public void MinusSeconds()
-	{
-		Seconds -= 1;
-		sadasecond += 1;
-	}
-	public void PlusSeconds()
-	{
-		
-		sadasecond += 1;
-	}
-
-
 
 	public IEnumerator Wait()
 	{
 		yield return new WaitForSeconds(1);
-		if (freezetimebool == false)
+		if (FreezeTimeBool == false)
 		{
 			CountDown();
 		}
 	}
+
 	public void StopTimer()
 	{
-		Seconds = 0;
-		Minutes = 0;
+		m_Seconds = 0;
+		m_Minutes = 0;
 	}
-
-
-
-
-
-
-
-
-
 }
 
 
