@@ -18,16 +18,13 @@ public class MainMenuManager : MonoBehaviour
     public GameObject levelplay;
     public Text leveltext;
 
-
     [Header("Coins And LifeValue")]
     public Text cointext;
     public Text shopcointext;
 
-
     [Header("Setting icons")]
     public Sprite[] onoff;
     public Image music, sound, vibration;
-
 
     int levelvalue;
 
@@ -36,8 +33,8 @@ public class MainMenuManager : MonoBehaviour
         levelvalue = prefmanager.instance.Getlevelsvalue();
         leveltext.text = "Level " + levelvalue;
         prefmanager.instance.Setlevelsvalue(levelvalue);
-        setingdialogue();
-        setlevelprogress();
+        SettingsDialog();
+        SetLevelProgress();
     }
     
     void Update()
@@ -46,20 +43,21 @@ public class MainMenuManager : MonoBehaviour
         shopcointext.text= prefmanager.instance.Getcoinsvalue().ToString();
     }
 
-    public void onMainmenuPLayclick()
+    // Supposed to bring up stuff like boosters - not implemented
+    public void OnMainMenuPlayClick()
     {
         SoundManager.instance.PlayButtonSOund();
         levelplay.gameObject.SetActive(true);
     }
 
-    public void onPLayclick()
+    public void OnPlayClick()
     {
         Loading.SetActive(true);
         SoundManager.instance.PlayButtonSOund();
         SceneManager.LoadScene("gameplay");
     }
 
-    void setlevelprogress()
+    void SetLevelProgress()
     {
         float currentlevelvalue = prefmanager.instance.Getlevelsvalue();
         levelValue.text = currentlevelvalue.ToString();
@@ -67,7 +65,7 @@ public class MainMenuManager : MonoBehaviour
         Levelfillbar.fillAmount = fillvalue;
     }
 
-    void setingdialogue()
+    void SettingsDialog()
     {
         music.sprite = onoff[prefmanager.instance.Getmusicsvalue()];
         if (prefmanager.instance.Getmusicsvalue() == 1)
@@ -98,31 +96,31 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    public void SettingDialogclick()
+    public void OnSettingsDialogClick()
     {
         SoundManager.instance.PlayButtonSOund();
         Setting.gameObject.SetActive(true);
     }
 
-    public void closeSettingDialogclick()
+    public void OnSettingsDialogCloseClick()
     {
         SoundManager.instance.PlayButtonSOund();
         Setting.gameObject.SetActive(false);
     }
 
-    public void OnShopclick()
+    public void OnShopClick()
     {
         SoundManager.instance.PlayButtonSOund();
         Shop.gameObject.SetActive(true);
     }
 
-    public void OnShareclick()
+    public void OnShareClick()
     {
         SoundManager.instance.PlayButtonSOund();
         Share.gameObject.SetActive(true);
     }
 
-    public void OnSharecloseclick()
+    public void OnShareCloseClick()
     {
         SoundManager.instance.PlayButtonSOund();
         Share.gameObject.SetActive(false);
@@ -134,7 +132,7 @@ public class MainMenuManager : MonoBehaviour
         Shop.gameObject.SetActive(false);
     }
 
-    public void onmusicclick()
+    public void OnMusicClick()
     {
         if (prefmanager.instance.Getmusicsvalue() == 1)
         {
@@ -151,7 +149,7 @@ public class MainMenuManager : MonoBehaviour
         SoundManager.instance.SetMusicSource();
     }
 
-    public void onsoundclick()
+    public void OnSoundClick()
     {
         if (prefmanager.instance.Getsoundsvalue() == 1)
         {
@@ -167,7 +165,7 @@ public class MainMenuManager : MonoBehaviour
         SoundManager.instance.SetSoundSource();
     }
 
-    public void onvibrationclick()
+    public void OnVibrationClick()
     {
         if (prefmanager.instance.Getvibrationsvalue() == 1)
         {

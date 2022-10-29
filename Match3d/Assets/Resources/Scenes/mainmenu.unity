@@ -1118,7 +1118,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: SettingDialogclick
+        m_MethodName: OnSettingsDialogClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5830,7 +5830,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: onPLayclick
+        m_MethodName: OnPlayClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7123,7 +7123,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: onPLayclick
+        m_MethodName: OnPlayClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11843,7 +11843,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: onmusicclick
+        m_MethodName: OnMusicClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15379,7 +15379,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: onvibrationclick
+        m_MethodName: OnVibrationClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17059,7 +17059,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: onsoundclick
+        m_MethodName: OnSoundClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18247,7 +18247,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: closeSettingDialogclick
+        m_MethodName: OnSettingsDialogCloseClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18415,10 +18415,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69626d202b7c431468c20318939dbc79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DailyRewardDialogBox: {fileID: 125156237}
-  MilisecondsToWait: 86400000
   Button: {fileID: 1804913226}
   ChestTimer: {fileID: 110176198}
+  DailyRewardDialogBox: {fileID: 125156237}
+  MilisecondsToWait: 86400000
 --- !u!1 &1685532574
 GameObject:
   m_ObjectHideFlags: 0
@@ -19187,7 +19187,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: SettingDialogclick
+        m_MethodName: OnSettingsDialogClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20640,7 +20640,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OnSharecloseclick
+        m_MethodName: OnShareCloseClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20856,7 +20856,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OnShareclick
+        m_MethodName: OnShareClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24148,7 +24148,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OnShopclick
+        m_MethodName: OnShopClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
