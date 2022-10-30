@@ -6,48 +6,62 @@ public class MainMenuManager : MonoBehaviour
 {
     public GameObject Loading;
 
-    public string privacypolicy;
+    [UnityEngine.Serialization.FormerlySerializedAs("privacypolicy")]
+    public string PrivacyPolicy;
 
-    public Image Levelfillbar;
-    public Text levelValue;
+    [UnityEngine.Serialization.FormerlySerializedAs("Levelfillbar")]
+    public Image LevelFillBar;
+    [UnityEngine.Serialization.FormerlySerializedAs("levelValue")]
+    public Text LevelValue;
     [Header("Dialogs")]
     public GameObject Setting;
     public GameObject Shop;
     public GameObject Share;
-    public GameObject Dailygift;
-    public GameObject levelplay;
-    public Text leveltext;
+    [UnityEngine.Serialization.FormerlySerializedAs("Dailygift")]
+    public GameObject DailyGift;
+    [UnityEngine.Serialization.FormerlySerializedAs("levelplay")]
+    public GameObject LevelPlay;
+    [UnityEngine.Serialization.FormerlySerializedAs("leveltext")]
+    public Text LevelText;
 
     [Header("Coins And LifeValue")]
-    public Text cointext;
-    public Text shopcointext;
+    [UnityEngine.Serialization.FormerlySerializedAs("cointext")]
+    public Text CoinText;
+    [UnityEngine.Serialization.FormerlySerializedAs("shopcointext")]
+    public Text ShopCoinText;
 
     [Header("Setting icons")]
-    public Sprite[] onoff;
-    public Image music, sound, vibration;
+    [UnityEngine.Serialization.FormerlySerializedAs("onoff")]
+    public Sprite[] OnOff;
+    [UnityEngine.Serialization.FormerlySerializedAs("music")]
+    public Image Music;
+    [UnityEngine.Serialization.FormerlySerializedAs("sound")]
+    public Image Sound;
+    [UnityEngine.Serialization.FormerlySerializedAs("vibration")]
+    public Image Vibration;
 
-    int levelvalue;
+    private int m_LevelValue;
 
     void Start()
     {
-        levelvalue = prefmanager.instance.Getlevelsvalue();
-        leveltext.text = "Level " + levelvalue;
-        prefmanager.instance.Setlevelsvalue(levelvalue);
+        m_LevelValue = prefmanager.instance.Getlevelsvalue();
+        LevelText.text = "Level " + m_LevelValue;
+        prefmanager.instance.Setlevelsvalue(m_LevelValue);
         SettingsDialog();
         SetLevelProgress();
     }
     
     void Update()
     {
-        cointext.text = prefmanager.instance.Getcoinsvalue().ToString();
-        shopcointext.text= prefmanager.instance.Getcoinsvalue().ToString();
+        CoinText.text = prefmanager.instance.Getcoinsvalue().ToString();
+        ShopCoinText.text= prefmanager.instance.Getcoinsvalue().ToString();
     }
 
     // Supposed to bring up stuff like boosters - not implemented
     public void OnMainMenuPlayClick()
     {
         SoundManager.instance.PlayButtonSOund();
-        levelplay.gameObject.SetActive(true);
+        LevelPlay.gameObject.SetActive(true);
     }
 
     public void OnPlayClick()
@@ -60,39 +74,39 @@ public class MainMenuManager : MonoBehaviour
     void SetLevelProgress()
     {
         float currentlevelvalue = prefmanager.instance.Getlevelsvalue();
-        levelValue.text = currentlevelvalue.ToString();
+        LevelValue.text = currentlevelvalue.ToString();
         var  fillvalue=currentlevelvalue / 100f;
-        Levelfillbar.fillAmount = fillvalue;
+        LevelFillBar.fillAmount = fillvalue;
     }
 
     void SettingsDialog()
     {
-        music.sprite = onoff[prefmanager.instance.Getmusicsvalue()];
+        Music.sprite = OnOff[prefmanager.instance.Getmusicsvalue()];
         if (prefmanager.instance.Getmusicsvalue() == 1)
         {
-            music.transform.GetChild(0).GetComponent<Text>().text = "ON";
+            Music.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
         else
         {
-            music.transform.GetChild(0).GetComponent<Text>().text = "OFF";
+            Music.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
-        sound.sprite = onoff[prefmanager.instance.Getsoundsvalue()];
+        Sound.sprite = OnOff[prefmanager.instance.Getsoundsvalue()];
         if (prefmanager.instance.Getmusicsvalue() == 1)
         {
-            sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
+            Sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
         else
         {
-            sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
+            Sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
-        vibration.sprite = onoff[prefmanager.instance.Getvibrationsvalue()];
+        Vibration.sprite = OnOff[prefmanager.instance.Getvibrationsvalue()];
         if (prefmanager.instance.Getmusicsvalue() == 1)
         {
-            sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
+            Sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
         else
         {
-            sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
+            Sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
     }
 
@@ -137,14 +151,14 @@ public class MainMenuManager : MonoBehaviour
         if (prefmanager.instance.Getmusicsvalue() == 1)
         {
             prefmanager.instance.Setmusicsvalue(0);
-            music.sprite = onoff[prefmanager.instance.Getmusicsvalue()];
-            music.transform.GetChild(0).GetComponent<Text>().text = "OFF";
+            Music.sprite = OnOff[prefmanager.instance.Getmusicsvalue()];
+            Music.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
         else
         {
             prefmanager.instance.Setmusicsvalue(1);
-            music.sprite = onoff[prefmanager.instance.Getmusicsvalue()];
-            music.transform.GetChild(0).GetComponent<Text>().text = "ON";
+            Music.sprite = OnOff[prefmanager.instance.Getmusicsvalue()];
+            Music.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
         SoundManager.instance.SetMusicSource();
     }
@@ -154,14 +168,14 @@ public class MainMenuManager : MonoBehaviour
         if (prefmanager.instance.Getsoundsvalue() == 1)
         {
             prefmanager.instance.Setsoundsvalue(0);
-            sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
+            Sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
         else
         {
             prefmanager.instance.Setsoundsvalue(1);
-            sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
+            Sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
-        sound.sprite = onoff[prefmanager.instance.Getsoundsvalue()];
+        Sound.sprite = OnOff[prefmanager.instance.Getsoundsvalue()];
         SoundManager.instance.SetSoundSource();
     }
 
@@ -170,20 +184,20 @@ public class MainMenuManager : MonoBehaviour
         if (prefmanager.instance.Getvibrationsvalue() == 1)
         {
             prefmanager.instance.Setvibrationvalue(0);
-            vibration.sprite = onoff[prefmanager.instance.Getvibrationsvalue()];
-            vibration.transform.GetChild(0).GetComponent<Text>().text = "OFF";
+            Vibration.sprite = OnOff[prefmanager.instance.Getvibrationsvalue()];
+            Vibration.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
         else
         {
             prefmanager.instance.Setvibrationvalue(1);
-            vibration.sprite = onoff[prefmanager.instance.Getvibrationsvalue()];
-            vibration.transform.GetChild(0).GetComponent<Text>().text = "ON";
+            Vibration.sprite = OnOff[prefmanager.instance.Getvibrationsvalue()];
+            Vibration.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
     }
 
     public void OnPrivacyclick()
     {
-        Application.OpenURL(privacypolicy);
+        Application.OpenURL(PrivacyPolicy);
     }
 
     public void RateUS()
@@ -197,6 +211,6 @@ public class MainMenuManager : MonoBehaviour
         coinvalue += value;
         prefmanager.instance.SetcoinsValue(coinvalue);
 
-        cointext.text = prefmanager.instance.Getcoinsvalue().ToString();
+        CoinText.text = prefmanager.instance.Getcoinsvalue().ToString();
     }
 }

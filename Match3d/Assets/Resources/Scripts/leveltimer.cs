@@ -4,21 +4,20 @@ using UnityEngine.UI;
 
 public class leveltimer : MonoBehaviour
 {
-	public GameObject restart;
-	public leveleditor level;
+	[UnityEngine.Serialization.FormerlySerializedAs("restart")]
+	public GameObject Restart;
+	[UnityEngine.Serialization.FormerlySerializedAs("level")]
+	public leveleditor Level;
+	public int SadaSeconds;
+	public int SadaMinute;	
+	public bool FreezeTimeBool;
 
 	private Text m_TimeText;
 	private int m_LevelSectionTimer;
-
 	private bool m_Flag = true;
 	private bool m_FirstTime = false;
 	private int m_Minutes;
 	private int m_Seconds;
-
-	public int SadaSeconds;
-	public int SadaMinute;
-	
-	public bool FreezeTimeBool;
 
 	// Use this for initialization
 	void Start()
@@ -29,8 +28,8 @@ public class leveltimer : MonoBehaviour
 		Time.timeScale = 1;
 		if (!m_FirstTime)
         {
-			m_Minutes = level.LevelData[m_LevelSectionTimer - 1].minute;
-			m_Seconds = level.LevelData[m_LevelSectionTimer - 1].seconds;
+			m_Minutes = Level.LevelData[m_LevelSectionTimer - 1].minute;
+			m_Seconds = Level.LevelData[m_LevelSectionTimer - 1].seconds;
 			m_FirstTime = true;
 		}
 
@@ -54,7 +53,7 @@ public class leveltimer : MonoBehaviour
     {
 		m_Seconds = 60;
 		CountDown();
-		restart.SetActive(false);
+		Restart.SetActive(false);
 	}
 
 	public void CountDown()
@@ -80,7 +79,7 @@ public class leveltimer : MonoBehaviour
 		if(m_Minutes <= 0 && m_Seconds <= 0)
 		{
             Time.timeScale = 0f;
-			restart.SetActive(true);
+			Restart.SetActive(true);
 			StopTimer();
 		}
 		else

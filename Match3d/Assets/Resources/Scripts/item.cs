@@ -3,7 +3,9 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     public Vector3 RotationValues;
-    public bool applyforce;
+
+    [UnityEngine.Serialization.FormerlySerializedAs("applyforce")]
+    public bool ApplyForce;
 
     [HideInInspector]
     public bool HintBool;
@@ -58,7 +60,7 @@ public class Item : MonoBehaviour
              Mathf.Clamp(transform.position.y, -1f, 1f), Mathf.Clamp(transform.position.z, -3f, 3f));
         }
 
-        if (applyforce == true && HintBool != true)
+        if (ApplyForce == true && HintBool != true)
         {
             GetComponent<Rigidbody>().AddForce(Physics.gravity * 100f, ForceMode.Acceleration);
         }
@@ -114,7 +116,7 @@ public class Item : MonoBehaviour
     {
         m_RigidBody.useGravity = true;
         m_RigidBody.constraints = RigidbodyConstraints.None;
-        applyforce = true;
+        ApplyForce = true;
         Invoke("MakeForceFalse", 0.07f);
 
         transform.localScale = new Vector3(m_OriginalScaleX , m_OriginalScaleY, m_OriginalScaleZ);
@@ -123,7 +125,7 @@ public class Item : MonoBehaviour
 
     void MakeForceFalse()
     {
-        applyforce = false;
+        ApplyForce = false;
     }
 
     void MakeSpawnFalse()
