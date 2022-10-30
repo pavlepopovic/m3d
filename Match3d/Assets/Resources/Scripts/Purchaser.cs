@@ -1,44 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Purchasing;
 
-    
+// Deriving the Purchaser class from IStoreListener enables it to receive messages from Unity Purchasing.
+public class Purchaser : MonoBehaviour, IStoreListener
+{
+	private static IStoreController m_StoreController;          // The Unity Purchasing system.
+	private static IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
 
-// Placing the Purchaser class in the CompleteProject namespace allows it to interact with ScoreManager, 
-// one of the existing Survival Shooter scripts.
-	// Deriving the Purchaser class from IStoreListener enables it to receive messages from Unity Purchasing.
-	public class Purchaser : MonoBehaviour, IStoreListener
-	{
+	// Product identifiers for all products capable of being purchased: 
+	// "convenience" general identifiers for use with Purchasing, and their store-specific identifier 
+	// counterparts for use with and outside of Unity Purchasing. Define store-specific identifiers 
+	// also on each platform's publisher dashboard (iTunes Connect, Google Play Developer Console, etc.)
 
-     
+	// General product identifiers for the consumable, non-consumable, and subscription products.
+	// Use these handles in the code to reference which product to purchase. Also use these values 
+	// when defining the Product Identifiers on the store. Except, for illustration purposes, the 
+	// kProductIDSubscription - it has custom Apple and Google identifiers. We declare their store-
+	// specific mapping to Unity Purchasing's AddProduct, below.
+	public static string kProductIDConsumable =    "consumable";   
+	public static string kProductIDNonConsumable = "nonconsumable";
+	public static string kProductIDSubscription =  "subscription"; 
 
-
-    
-
-		private static IStoreController m_StoreController;          // The Unity Purchasing system.
-		private static IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
-
-		// Product identifiers for all products capable of being purchased: 
-		// "convenience" general identifiers for use with Purchasing, and their store-specific identifier 
-		// counterparts for use with and outside of Unity Purchasing. Define store-specific identifiers 
-		// also on each platform's publisher dashboard (iTunes Connect, Google Play Developer Console, etc.)
-
-		// General product identifiers for the consumable, non-consumable, and subscription products.
-		// Use these handles in the code to reference which product to purchase. Also use these values 
-		// when defining the Product Identifiers on the store. Except, for illustration purposes, the 
-		// kProductIDSubscription - it has custom Apple and Google identifiers. We declare their store-
-		// specific mapping to Unity Purchasing's AddProduct, below.
-		public static string kProductIDConsumable =    "consumable";   
-		public static string kProductIDNonConsumable = "nonconsumable";
-		public static string kProductIDSubscription =  "subscription"; 
-
-	[Header("Remove Ads Inapp Ids")]
-	public  string removeadsID =    "removeads";
+    [Header("Remove Ads Inapp Ids")]
+    public  string removeadsID =    "removeads";
     public String RemoveAdprice;
     public Text RemoveAdTxt;
-
 
     [Space(100)]
     public Text[] SpecialOfferText;
@@ -50,8 +38,6 @@ using UnityEngine.Purchasing;
     public String specialofferpreviousprice;
     public String specialofferdiscountprice;
     [Header("Master Bundle")]
-
-
 
     [Space(100)]
     public Text[] MasterOfferText;
@@ -81,28 +67,23 @@ using UnityEngine.Purchasing;
     public int asignmegaofferhintvalue;
     public int asignmegaoffertimefreezevalue;
     public String megaofferprice;
-    
-    
-
+     
     [Space(100)]
     public Text[] CoinsTexts;
     [Header("Coins Inapps Ids")]
 
     [Header("Coins PAck1")]
-    public  string coinpack1ID = "coin1";
+    public string coinpack1ID = "coin1";
     public string coinpack1price = "hint10";
     public int assigncoinpack1Values;
 
-
     [Header("Coins PAck2")]
-    public  string coinpack2ID = "coin2";
+    public string coinpack2ID = "coin2";
     public string coinpack2price = "hint10";
     public int assigncoinpack2Values;
 
-
-
     [Header("Coins PAck3")]
-    public  string coinpack3ID = "coin3";
+    public string coinpack3ID = "coin3";
     public string coinpack3price = "hint10";
     public int assigncoinpack3Values;
 
@@ -111,56 +92,37 @@ using UnityEngine.Purchasing;
     public string coinpack4price = "hint10";
     public int assigncoinpack4Values;
 
-
-
-
-
-
-
-
-
-
-
-
-
     // Apple App Store-specific product identifier for the subscription product.
     private static string kProductNameAppleSubscription =  "com.unity3d.subscription.new";
 
-		// Google Play Store-specific product identifier subscription product.
-		private static string kProductNameGooglePlaySubscription =  "com.unity3d.subscription.original"; 
+	// Google Play Store-specific product identifier subscription product.
+	private static string kProductNameGooglePlaySubscription =  "com.unity3d.subscription.original"; 
 
-		void Start()
+	void Start()
+	{
+		// If we haven't set up the Unity Purchasing reference
+		if (m_StoreController == null)
 		{
-			// If we haven't set up the Unity Purchasing reference
-			if (m_StoreController == null)
-			{
-				// Begin to configure our connection to Purchasing
-				InitializePurchasing();
-			}
+			// Begin to configure our connection to Purchasing
+			InitializePurchasing();
+		}
 
-        AssignallInapps();
-        }
+        AssignAllInApps();
+    }
 
-    void AssignallInapps()
+    void AssignAllInApps()
     {
-        assignremoveAdText();
+        AssignRemoveAdsText();
         AssignSpecialOfferText();
         AssignMasterBundleText();
         AssignSuperBundleText();
         AssignMegaBundleText();
-        assigncoinspackText();
+        AssignCoinsPackText();
        
     }
 
-
-   
-
-
-
-    
-
-    //assigning Coin Texts
-    void assigncoinspackText()
+    // Assigning Coin Texts
+    void AssignCoinsPackText()
     {
         CoinsTexts[0].text = "$" + coinpack1price;
         CoinsTexts[1].text = assigncoinpack1Values.ToString()+" Coins";
@@ -172,15 +134,13 @@ using UnityEngine.Purchasing;
         CoinsTexts[7].text = assigncoinpack4Values.ToString() + " Coins";
     }
 
-
-
-    //assigning Remove Ad  Texts
-    void assignremoveAdText()
+    // Assigning Remove Ad  Texts
+    void AssignRemoveAdsText()
     {
         RemoveAdTxt.text ="$"+ RemoveAdprice.ToString();
     }
 
-        //assigning Special Offer Texts
+    // Assigning Special Offer Texts
     void AssignSpecialOfferText()
     {
         SpecialOfferText[0].GetComponent<Text>().text = asignspecialoffercoinvalue + " Coins";
@@ -190,8 +150,7 @@ using UnityEngine.Purchasing;
         SpecialOfferText[4].GetComponent<Text>().text = "$" + specialofferdiscountprice;
     }
 
-
-    //assigning Master Offer Texts
+    // Assigning Master Offer Texts
     void AssignMasterBundleText()
     {
         MasterOfferText[0].GetComponent<Text>().text = asignmasteroffercoinvalue + "Coins";
@@ -200,7 +159,7 @@ using UnityEngine.Purchasing;
         MasterOfferText[3].GetComponent<Text>().text = "$" + Masterofferprice;
     }
 
-    //assigning Super Offer Texts
+    // Assigning Super Offer Texts
     void AssignSuperBundleText()
     {
         SuperOfferText[0].GetComponent<Text>().text = asignSuperoffercoinvalue + "Coins";
@@ -209,7 +168,7 @@ using UnityEngine.Purchasing;
         SuperOfferText[3].GetComponent<Text>().text = "$" + superofferprice;
     }
 
-    //assigning Mega Offer Texts
+    // Assigning Mega Offer Texts
     void AssignMegaBundleText()
     {
         MegaOfferText[0].GetComponent<Text>().text = asignmegaoffercoinvalue+"Coins";
@@ -218,27 +177,20 @@ using UnityEngine.Purchasing;
         MegaOfferText[3].GetComponent<Text>().text = "$" + megaofferprice;
     }
 
-
-
-
-
-
-
     public void InitializePurchasing() 
+	{
+		// If we have already connected to Purchasing ...
+		if (IsInitialized())
 		{
-			// If we have already connected to Purchasing ...
-			if (IsInitialized())
-			{
-				// ... we are done here.
-				return;
-			}
+			// ... we are done here.
+			return;
+		}
 
-			// Create a builder, first passing in a suite of Unity provided stores.
-			var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+		// Create a builder, first passing in a suite of Unity provided stores.
+		var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
-			// Add a product to sell / restore by way of its identifier, associating the general identifier
-			// with its store-specific identifiers.
-		
+		// Add a product to sell / restore by way of its identifier, associating the general identifier
+		// with its store-specific identifiers.	
         builder.AddProduct(coinpack1ID, ProductType.Consumable);
         builder.AddProduct(coinpack2ID, ProductType.Consumable);
         builder.AddProduct(coinpack3ID, ProductType.Consumable);
@@ -249,88 +201,80 @@ using UnityEngine.Purchasing;
         builder.AddProduct(megaofferID, ProductType.Consumable);
         // Continue adding the non-consumable product.
         builder.AddProduct(removeadsID, ProductType.NonConsumable);
-			// And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
-			// if the Product ID was configured differently between Apple and Google stores. Also note that
-			// one uses the general kProductIDSubscription handle inside the game - the store-specific IDs 
-			// must only be referenced here. 
+		// And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
+		// if the Product ID was configured differently between Apple and Google stores. Also note that
+		// one uses the general kProductIDSubscription handle inside the game - the store-specific IDs 
+		// must only be referenced here. 
 //			builder.AddProduct(kProductIDSubscription, ProductType.Subscription, new IDs(){
 //				{ kProductNameAppleSubscription, AppleAppStore.Name },
 //				{ kProductNameGooglePlaySubscription, GooglePlay.Name },
 //			});
 
-			// Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
-			// and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
-			UnityPurchasing.Initialize(this, builder);
-		}
-
-
-		private bool IsInitialized()
-		{
-			// Only say we are initialized if both the Purchasing references are set.
-			return m_StoreController != null && m_StoreExtensionProvider != null;
-		}
-
-
-//		public void BuyConsumable()
-//		{
-//			// Buy the consumable product using its general identifier. Expect a response either 
-//			// through ProcessPurchase or OnPurchaseFailed asynchronously.
-//			BuyProductID(kProductIDConsumable);
-//		}
-
-	public void Removeads()
-	{
-		// Buy the consumable product using its general identifier. Expect a response either 
-		// through ProcessPurchase or OnPurchaseFailed asynchronously.
-		BuyProductID(removeadsID);
+		// Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
+		// and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
+		UnityPurchasing.Initialize(this, builder);
 	}
-	public void buycoinspackage(int n)
-	{
-		// Buy the consumable product using its general identifier. Expect a response either 
-		// through ProcessPurchase or OnPurchaseFailed asynchronously.
-		if (n == 1) {
-			BuyProductID (coinpack1ID);
 
-		}else if (n == 2) {
-			BuyProductID (coinpack2ID);
-		}else if (n == 3) {
-			BuyProductID (coinpack3ID);
-		}
+	private bool IsInitialized()
+	{
+		// Only say we are initialized if both the Purchasing references are set.
+		return m_StoreController != null && m_StoreExtensionProvider != null;
+	}
+
+    public void RemoveAds()
+    {
+	    // Buy the consumable product using its general identifier. Expect a response either 
+	    // through ProcessPurchase or OnPurchaseFailed asynchronously.
+	    BuyProductID(removeadsID);
+    }
+
+    public void BuyCoinsPackage(int n)
+    {
+	    // Buy the consumable product using its general identifier. Expect a response either 
+	    // through ProcessPurchase or OnPurchaseFailed asynchronously.
+	    if (n == 1)
+        {
+		    BuyProductID(coinpack1ID);
+	    }
+        else if (n == 2)
+        {
+		    BuyProductID(coinpack2ID);
+	    }
+        else if (n == 3)
+        {
+		    BuyProductID(coinpack3ID);
+	    }
         else if (n == 4)
         {
             BuyProductID(coinpack4ID);
         }
-
-
     }
    
-    
-
-
-    
-
-    public void buyspecialofferpackage()
+    public void BuySpecialOfferPackage()
     {
         // Buy the consumable product using its general identifier. Expect a response either 
         // through ProcessPurchase or OnPurchaseFailed asynchronously.
 
         BuyProductID(specialofferID);
     }
-    public void buyMasterofferpackage()
+
+    public void BuyMasterOfferPackage()
     {
         // Buy the consumable product using its general identifier. Expect a response either 
         // through ProcessPurchase or OnPurchaseFailed asynchronously.
 
         BuyProductID(masterofferID);
     }
-    public void buySuperofferpackage()
+
+    public void BuySuperOfferPackage()
     {
         // Buy the consumable product using its general identifier. Expect a response either 
         // through ProcessPurchase or OnPurchaseFailed asynchronously.
 
         BuyProductID(SuperofferID);
     }
-    public void buyMegaofferpackage()
+
+    public void BuyMegaOfferPackage()
     {
         // Buy the consumable product using its general identifier. Expect a response either 
         // through ProcessPurchase or OnPurchaseFailed asynchronously.
@@ -338,338 +282,256 @@ using UnityEngine.Purchasing;
         BuyProductID(megaofferID);
     }
 
-
-
-    //		public void BuyNonConsumable()
-    //		{
-    //			// Buy the non-consumable product using its general identifier. Expect a response either 
-    //			// through ProcessPurchase or OnPurchaseFailed asynchronously.
-    //			BuyProductID(kProductIDNonConsumable);
-    //		}
-
-
     public void BuySubscription()
-		{
-			// Buy the subscription product using its the general identifier. Expect a response either 
-			// through ProcessPurchase or OnPurchaseFailed asynchronously.
-			// Notice how we use the general product identifier in spite of this ID being mapped to
-			// custom store-specific identifiers above.
-			BuyProductID(kProductIDSubscription);
-		}
+	{
+		// Buy the subscription product using its the general identifier. Expect a response either 
+		// through ProcessPurchase or OnPurchaseFailed asynchronously.
+		// Notice how we use the general product identifier in spite of this ID being mapped to
+		// custom store-specific identifiers above.
+		BuyProductID(kProductIDSubscription);
+	}
 
-
-		void BuyProductID(string productId)
+	void BuyProductID(string productId)
+	{
+		// If Purchasing has been initialized ...
+		if (IsInitialized())
 		{
-			// If Purchasing has been initialized ...
-			if (IsInitialized())
+			// ... look up the Product reference with the general product identifier and the Purchasing 
+			// system's products collection.
+			Product product = m_StoreController.products.WithID(productId);
+
+			// If the look up found a product for this device's store and that product is ready to be sold ... 
+			if (product != null && product.availableToPurchase)
 			{
-				// ... look up the Product reference with the general product identifier and the Purchasing 
-				// system's products collection.
-				Product product = m_StoreController.products.WithID(productId);
-
-				// If the look up found a product for this device's store and that product is ready to be sold ... 
-				if (product != null && product.availableToPurchase)
-				{
-					Debug.Log(string.Format("Purchasing product asychronously: '{0}'", product.definition.id));
-					// ... buy the product. Expect a response either through ProcessPurchase or OnPurchaseFailed 
-					// asynchronously.
-					m_StoreController.InitiatePurchase(product);
-				}
-				// Otherwise ...
-				else
-				{
-					// ... report the product look-up failure situation  
-					Debug.Log("BuyProductID: FAIL. Not purchasing product, either is not found or is not available for purchase");
-				}
+				Debug.Log(string.Format("Purchasing product asychronously: '{0}'", product.definition.id));
+				// ... buy the product. Expect a response either through ProcessPurchase or OnPurchaseFailed 
+				// asynchronously.
+				m_StoreController.InitiatePurchase(product);
 			}
 			// Otherwise ...
 			else
 			{
-				// ... report the fact Purchasing has not succeeded initializing yet. Consider waiting longer or 
-				// retrying initiailization.
-				Debug.Log("BuyProductID FAIL. Not initialized.");
+				// ... report the product look-up failure situation  
+				Debug.Log("BuyProductID: FAIL. Not purchasing product, either is not found or is not available for purchase");
 			}
 		}
-
-
-		// Restore purchases previously made by this customer. Some platforms automatically restore purchases, like Google. 
-		// Apple currently requires explicit purchase restoration for IAP, conditionally displaying a password prompt.
-		public void RestorePurchases()
+		// Otherwise ...
+		else
 		{
-			// If Purchasing has not yet been set up ...
-			if (!IsInitialized())
-			{
-				// ... report the situation and stop restoring. Consider either waiting longer, or retrying initialization.
-				Debug.Log("RestorePurchases FAIL. Not initialized.");
-				return;
-			}
+			// ... report the fact Purchasing has not succeeded initializing yet. Consider waiting longer or 
+			// retrying initiailization.
+			Debug.Log("BuyProductID FAIL. Not initialized.");
+		}
+	}
 
-			// If we are running on an Apple device ... 
-			if (Application.platform == RuntimePlatform.IPhonePlayer || 
-				Application.platform == RuntimePlatform.OSXPlayer)
-			{
-				// ... begin restoring purchases
-				Debug.Log("RestorePurchases started ...");
-
-				// Fetch the Apple store-specific subsystem.
-				var apple = m_StoreExtensionProvider.GetExtension<IAppleExtensions>();
-				// Begin the asynchronous process of restoring purchases. Expect a confirmation response in 
-				// the Action<bool> below, and ProcessPurchase if there are previously purchased products to restore.
-				apple.RestoreTransactions((result) => {
-					// The first phase of restoration. If no more responses are received on ProcessPurchase then 
-					// no purchases are available to be restored.
-					Debug.Log("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");
-				});
-			}
-			// Otherwise ...
-			else
-			{
-				// We are not running on an Apple device. No work is necessary to restore purchases.
-				Debug.Log("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform);
-			}
+	// Restore purchases previously made by this customer. Some platforms automatically restore purchases, like Google. 
+	// Apple currently requires explicit purchase restoration for IAP, conditionally displaying a password prompt.
+	public void RestorePurchases()
+	{
+		// If Purchasing has not yet been set up ...
+		if (!IsInitialized())
+		{
+			// ... report the situation and stop restoring. Consider either waiting longer, or retrying initialization.
+			Debug.Log("RestorePurchases FAIL. Not initialized.");
+			return;
 		}
 
-
-		//  
-		// --- IStoreListener
-		//
-
-		public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+		// If we are running on an Apple device ... 
+		if (Application.platform == RuntimePlatform.IPhonePlayer || 
+			Application.platform == RuntimePlatform.OSXPlayer)
 		{
-			// Purchasing has succeeded initializing. Collect our Purchasing references.
-			Debug.Log("OnInitialized: PASS");
+			// ... begin restoring purchases
+			Debug.Log("RestorePurchases started ...");
 
-			// Overall Purchasing system, configured with products for this application.
-			m_StoreController = controller;
-			// Store specific subsystem, for accessing device-specific store features.
-			m_StoreExtensionProvider = extensions;
+			// Fetch the Apple store-specific subsystem.
+			var apple = m_StoreExtensionProvider.GetExtension<IAppleExtensions>();
+			// Begin the asynchronous process of restoring purchases. Expect a confirmation response in 
+			// the Action<bool> below, and ProcessPurchase if there are previously purchased products to restore.
+			apple.RestoreTransactions((result) => {
+				// The first phase of restoration. If no more responses are received on ProcessPurchase then 
+				// no purchases are available to be restored.
+				Debug.Log("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");
+			});
 		}
-
-
-		public void OnInitializeFailed(InitializationFailureReason error)
+		// Otherwise ...
+		else
 		{
-			// Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
-			Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
+			// We are not running on an Apple device. No work is necessary to restore purchases.
+			Debug.Log("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform);
 		}
+	}
 
+	public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+	{
+		// Purchasing has succeeded initializing. Collect our Purchasing references.
+		Debug.Log("OnInitialized: PASS");
 
-		public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args) 
-		{
-			// A consumable product has been purchased by this user.
-		if (String.Equals(args.purchasedProduct.definition.id, coinpack1ID, StringComparison.Ordinal))
-			{
-				Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            int temp = prefmanager.instance.Getcoinsvalue();
+		// Overall Purchasing system, configured with products for this application.
+		m_StoreController = controller;
+		// Store specific subsystem, for accessing device-specific store features.
+		m_StoreExtensionProvider = extensions;
+	}
+
+	public void OnInitializeFailed(InitializationFailureReason error)
+	{
+		// Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
+		Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
+	}
+
+	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args) 
+	{
+		// A consumable product has been purchased by this user.
+	    if (String.Equals(args.purchasedProduct.definition.id, coinpack1ID, StringComparison.Ordinal))
+	    {
+		    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+            int temp = PrefManager.s_Instance.GetCoinsValue();
             temp = temp + assigncoinpack1Values;
-            prefmanager.instance.SetcoinsValue(temp);
-
-         //   UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-
-
+            PrefManager.s_Instance.SetCoinsValue(temp);
         }
-
-		else if (String.Equals(args.purchasedProduct.definition.id, coinpack2ID, StringComparison.Ordinal)){
-			Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            int temp = prefmanager.instance.Getcoinsvalue();
+	    else if (String.Equals(args.purchasedProduct.definition.id, coinpack2ID, StringComparison.Ordinal)){
+		    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+            int temp = PrefManager.s_Instance.GetCoinsValue();
             temp = temp + assigncoinpack2Values;
-            prefmanager.instance.SetcoinsValue(temp);
-
-           // UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            PrefManager.s_Instance.SetCoinsValue(temp);
         }
-
-		else if (String.Equals(args.purchasedProduct.definition.id, coinpack3ID, StringComparison.Ordinal)){
-			Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            int temp = prefmanager.instance.Getcoinsvalue();
+	    else if (String.Equals(args.purchasedProduct.definition.id, coinpack3ID, StringComparison.Ordinal)){
+		    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+            int temp = PrefManager.s_Instance.GetCoinsValue();
             temp = temp + assigncoinpack3Values;
-            prefmanager.instance.SetcoinsValue(temp);
-
-          //  UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            PrefManager.s_Instance.SetCoinsValue(temp);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, coinpack3ID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            int temp = prefmanager.instance.Getcoinsvalue();
+            int temp = PrefManager.s_Instance.GetCoinsValue();
             temp = temp + assigncoinpack4Values;
-            prefmanager.instance.SetcoinsValue(temp);
-
-            //  UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            PrefManager.s_Instance.SetCoinsValue(temp);
         }
-
-
-
-
         else if (String.Equals(args.purchasedProduct.definition.id, specialofferID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-
             
-            //Set Hint Value
-            int hint = prefmanager.instance.Gethintvalue();
+            // Set Hint Value
+            int hint = PrefManager.s_Instance.GetHintValue();
             hint = hint + asignspecialofferhintvalue;
-            prefmanager.instance.SetHintValue(hint);
+            PrefManager.s_Instance.SetHintValue(hint);
 
-
-            //Set TimeFreeze Value
-            int timefreeze = prefmanager.instance.Getfreezevalue();
+            // Set TimeFreeze Value
+            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
             timefreeze = timefreeze + asignspecialoffertimefreezevalue;
-            prefmanager.instance.Setfreezevalue(timefreeze);
+            PrefManager.s_Instance.SetFreezeValue(timefreeze);
 
-            //Set Coins Value
-            int coinvalue = prefmanager.instance.Getcoinsvalue();
+            // Set Coins Value
+            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
             coinvalue = coinvalue + asignspecialoffercoinvalue;
-            prefmanager.instance.SetcoinsValue(coinvalue);
-
-         //   UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-
-            // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-            //ScoreManager.score += 100;
+            PrefManager.s_Instance.SetCoinsValue(coinvalue);
         }
-
         else if (String.Equals(args.purchasedProduct.definition.id, specialofferID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
-
-            //Set Hint Value
-            int hint = prefmanager.instance.Gethintvalue();
+            // Set Hint Value
+            int hint = PrefManager.s_Instance.GetHintValue();
             hint = hint + asignspecialofferhintvalue;
-            prefmanager.instance.SetHintValue(hint);
+            PrefManager.s_Instance.SetHintValue(hint);
 
-
-            //Set TimeFreeze Value
-            int timefreeze = prefmanager.instance.Getfreezevalue();
+            // Set TimeFreeze Value
+            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
             timefreeze = timefreeze + asignspecialoffertimefreezevalue;
-            prefmanager.instance.Setfreezevalue(timefreeze);
+            PrefManager.s_Instance.SetFreezeValue(timefreeze);
 
-            //Set Coins Value
-            int coinvalue = prefmanager.instance.Getcoinsvalue();
+            // Set Coins Value
+            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
             coinvalue = coinvalue + asignspecialoffercoinvalue;
-            prefmanager.instance.SetcoinsValue(coinvalue);
-
-            //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-
-            // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-            //ScoreManager.score += 100;
+            PrefManager.s_Instance.SetCoinsValue(coinvalue);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, masterofferID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
-
             //Set Hint Value
-            int hint = prefmanager.instance.Gethintvalue();
+            int hint = PrefManager.s_Instance.GetHintValue();
             hint = hint + asignmasterofferhintvalue;
-            prefmanager.instance.SetHintValue(hint);
-
+            PrefManager.s_Instance.SetHintValue(hint);
 
             //Set TimeFreeze Value
-            int timefreeze = prefmanager.instance.Getfreezevalue();
+            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
             timefreeze = timefreeze + asignmasteroffertimefreezevalue;
-            prefmanager.instance.Setfreezevalue(timefreeze);
+            PrefManager.s_Instance.SetFreezeValue(timefreeze);
 
             //Set Coins Value
-            int coinvalue = prefmanager.instance.Getcoinsvalue();
+            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
             coinvalue = coinvalue + asignspecialoffercoinvalue;
-            prefmanager.instance.SetcoinsValue(coinvalue);
-
-            //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-
-            // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-            //ScoreManager.score += 100;
+            PrefManager.s_Instance.SetCoinsValue(coinvalue);
         }
-
-
         else if (String.Equals(args.purchasedProduct.definition.id, SuperofferID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
-
-            //Set Hint Value
-            int hint = prefmanager.instance.Gethintvalue();
+            // Set Hint Value
+            int hint = PrefManager.s_Instance.GetHintValue();
             hint = hint + asignSuperofferhintvalue;
-            prefmanager.instance.SetHintValue(hint);
+            PrefManager.s_Instance.SetHintValue(hint);
 
-
-            //Set TimeFreeze Value
-            int timefreeze = prefmanager.instance.Getfreezevalue();
+            // Set TimeFreeze Value
+            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
             timefreeze = timefreeze + asignSuperoffertimefreezevalue;
-            prefmanager.instance.Setfreezevalue(timefreeze);
+            PrefManager.s_Instance.SetFreezeValue(timefreeze);
 
-            //Set Coins Value
-            int coinvalue = prefmanager.instance.Getcoinsvalue();
+            // Set Coins Value
+            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
             coinvalue = coinvalue + asignSuperoffercoinvalue;
-            prefmanager.instance.SetcoinsValue(coinvalue);
-
-          //  UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-
-            // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-            //ScoreManager.score += 100;
+            PrefManager.s_Instance.SetCoinsValue(coinvalue);
         }
-
         else if (String.Equals(args.purchasedProduct.definition.id, megaofferID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
-
-            //Set Hint Value
-            int hint = prefmanager.instance.Gethintvalue();
+            // Set Hint Value
+            int hint = PrefManager.s_Instance.GetHintValue();
             hint = hint + asignmegaofferhintvalue;
-            prefmanager.instance.SetHintValue(hint);
+            PrefManager.s_Instance.SetHintValue(hint);
 
-
-            //Set TimeFreeze Value
-            int timefreeze = prefmanager.instance.Getfreezevalue();
+            // Set TimeFreeze Value
+            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
             timefreeze = timefreeze + asignmegaoffertimefreezevalue;
-            prefmanager.instance.Setfreezevalue(timefreeze);
+            PrefManager.s_Instance.SetFreezeValue(timefreeze);
 
-            //Set Coins Value
-            int coinvalue = prefmanager.instance.Getcoinsvalue();
+            // Set Coins Value
+            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
             coinvalue = coinvalue + asignmegaoffercoinvalue;
-            prefmanager.instance.SetcoinsValue(coinvalue);
-
-         //   UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-
-            // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-            //ScoreManager.score += 100;
+            PrefManager.s_Instance.SetCoinsValue(coinvalue);
         }
-
         // Or ... a non-consumable product has been purchased by this user.
-
-
-
-
         else if (String.Equals(args.purchasedProduct.definition.id, removeadsID, StringComparison.Ordinal))
-			{
-				Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+	    {
+		    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
             // TODO: The non-consumable item has been successfully purchased, grant this item to the player.
             //Utils.SaveRemoveAds();
             PlayerPrefs.SetInt("removeads", 1);
-
-
         }
-			// Or ... a subscription product has been purchased by this user.
-			else if (String.Equals(args.purchasedProduct.definition.id, kProductIDSubscription, StringComparison.Ordinal))
-			{
-				Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-				// TODO: The subscription item has been successfully purchased, grant this to the player.
-			}
-			// Or ... an unknown product has been purchased by this user. Fill in additional products here....
-			else 
-			{
-				Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
-			}
+	    // Or ... a subscription product has been purchased by this user.
+	    else if (String.Equals(args.purchasedProduct.definition.id, kProductIDSubscription, StringComparison.Ordinal))
+	    {
+		    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+		    // TODO: The subscription item has been successfully purchased, grant this to the player.
+	    }
+	    // Or ... an unknown product has been purchased by this user. Fill in additional products here....
+	    else 
+	    {
+		    Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
+	    }
 
-			// Return a flag indicating whether this product has completely been received, or if the application needs 
-			// to be reminded of this purchase at next app launch. Use PurchaseProcessingResult.Pending when still 
-			// saving purchased products to the cloud, and when that save is delayed. 
-			return PurchaseProcessingResult.Complete;
-		}
+	    // Return a flag indicating whether this product has completely been received, or if the application needs 
+	    // to be reminded of this purchase at next app launch. Use PurchaseProcessingResult.Pending when still 
+	    // saving purchased products to the cloud, and when that save is delayed. 
+	    return PurchaseProcessingResult.Complete;
+    }
 
-
-		public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
-		{
-			// A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
-			// this reason with the user to guide their troubleshooting actions.
-			Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
-		}
+	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
+	{
+		// A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
+		// this reason with the user to guide their troubleshooting actions.
+		Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
 	}
+}

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
@@ -12,21 +10,22 @@ public class SoundManager : MonoBehaviour
 
     [Header("Audio Clips")]
     public AudioClip Music;
-    public AudioClip wrongmatch;
+
+    [UnityEngine.Serialization.FormerlySerializedAs("wrongmatch")]
+    public AudioClip WrongMatch;
     public AudioClip ButtonSound;
-    public AudioClip waterdropsound;
-    public AudioClip levelcompeletesound;
+    [UnityEngine.Serialization.FormerlySerializedAs("levelcompeletesound")]
+    public AudioClip LevelCompleteSound;
 
-    public AudioClip starcollect1;
-    public AudioClip starcollect2;
-    public AudioClip starcollect3;
+    [UnityEngine.Serialization.FormerlySerializedAs("starcollect1")]
+    public AudioClip StarCollect1;
+    [UnityEngine.Serialization.FormerlySerializedAs("starcollect2")]
+    public AudioClip StarCollect2;
+    [UnityEngine.Serialization.FormerlySerializedAs("starcollect3")]
+    public AudioClip StarCollect3;
 
-    public AudioClip matchsound;
-    public AudioClip confettiparticle;
-
-
-
-
+    [UnityEngine.Serialization.FormerlySerializedAs("matchsound")]  
+    public AudioClip MatchSound;
 
     // Start is called before the first frame update
     void Start()
@@ -39,14 +38,14 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        playmusic();
+        PlayMusic();
         SetSoundSource();
         SetMusicSource();
     }
 
     public void SetSoundSource()
     {
-        if (prefmanager.instance.Getsoundsvalue()==1)
+        if (PrefManager.s_Instance.GetSoundsValue() == 1)
         {
             SoundSource.mute = false;
         }
@@ -55,9 +54,10 @@ public class SoundManager : MonoBehaviour
             SoundSource.mute = true;
         }
     }
+
     public void SetMusicSource()
     {
-        if (prefmanager.instance.Getmusicsvalue() == 1)
+        if (PrefManager.s_Instance.GetMusicValue() == 1)
         {
             MusicSource.mute = false;
         }
@@ -66,90 +66,42 @@ public class SoundManager : MonoBehaviour
             MusicSource.mute = true;
         }
     }
-    public void MakeVibaration()
-    {
-        if (prefmanager.instance.Getvibrationsvalue() == 1)
-        {
-            Handheld.Vibrate();
-        }
-       
-    }
 
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void PlayButtonSOund()
+    public void PlayButtonSound()
     {
         SoundSource.PlayOneShot(ButtonSound);
     }
-    public void PlaywaterdropSoundplay()
+
+    public void PlayWrongMatchSound()
     {
-        SoundSource.clip = waterdropsound;
-        SoundSource.Play();
-    }
-    public void PlaywaterdropSOundstop()
-    {
-        SoundSource.clip = null;
+        SoundSource.PlayOneShot(WrongMatch);
     }
 
-    
-
-    public void PlayconfettiSOund()
+    public void PlayBottleFillSound()
     {
-        SoundSource.PlayOneShot(confettiparticle);
+        SoundSource.PlayOneShot(MatchSound);
     }
 
-
-
-    public void wrongmatchsound()
+    public void PlayStarCollectSound()
     {
-
-        SoundSource.PlayOneShot(wrongmatch);
-    }
-
-    public void PlaybottlfillSOund()
-    {
-
-        SoundSource.PlayOneShot(matchsound);
-    }
-    public void PlaylevelcompeleteSOund()
-    {
-        SoundSource.PlayOneShot(levelcompeletesound);
-    }
-    public void PlaystarcollectSOund()
-    {
-        SoundSource.PlayOneShot(starcollect1);
+        SoundSource.PlayOneShot(StarCollect1);
         Invoke("PlayStar2", 0.2f);
     }
-     void PlayStar2()
+
+    void PlayStar2()
     {
-        SoundSource.PlayOneShot(starcollect2);
+        SoundSource.PlayOneShot(StarCollect2);
         Invoke("PlayStar3", 0.2f);
     }
+
     void PlayStar3()
     {
-        SoundSource.PlayOneShot(starcollect3);
-      
+        SoundSource.PlayOneShot(StarCollect3);      
     }
-    public void playmusic()
+
+    public void PlayMusic()
     {
         MusicSource.clip=Music;
         MusicSource.Play();
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
