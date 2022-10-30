@@ -7,7 +7,7 @@ public class UnfreezeTime : MonoBehaviour
 
     private void OnEnable()
     {
-        FreezeValue = GameManager.s_Instance.freezedelayvalue;
+        FreezeValue = GameManager.s_Instance.FreezeDelayValue;
     }
 
     void Update()
@@ -17,7 +17,7 @@ public class UnfreezeTime : MonoBehaviour
 
         if (FreezeValue <= 0)
         {
-            GameManager.s_Instance.freeze.transform.parent.gameObject.GetComponent<Button>().interactable = true;
+            GameManager.s_Instance.Freeze.transform.parent.gameObject.GetComponent<Button>().interactable = true;
             FindObjectOfType<leveltimer>().FreezeTimeBool = false;
             FindObjectOfType<leveltimer>().CountDown();
             gameObject.transform.parent.gameObject.SetActive(false);

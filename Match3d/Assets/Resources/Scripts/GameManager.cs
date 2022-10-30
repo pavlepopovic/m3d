@@ -10,32 +10,32 @@ public class GameManager : MonoBehaviour
 
     [Header("Level Editor")]
     [UnityEngine.Serialization.FormerlySerializedAs("levels")]
-    public leveleditor levels;
+    public leveleditor Levels;
     [UnityEngine.Serialization.FormerlySerializedAs("levelValuetxt")]
-    public Text levelValuetxt;
+    public Text LevelValueText;
     [Header("Spawnpoint")]
     [UnityEngine.Serialization.FormerlySerializedAs("Spawnpoint")]
-    public GameObject Spawnpoint;
+    public GameObject SpawnPoint;
     int levelvalue,totalobjects;
     [UnityEngine.Serialization.FormerlySerializedAs("holdercube")]
-    public GameObject holdercube;
+    public GameObject HolderCube;
 
     [Header("dialogeboxes")]
     [UnityEngine.Serialization.FormerlySerializedAs("tutorial")]
-    public GameObject tutorial;
+    public GameObject Tutorial;
     [UnityEngine.Serialization.FormerlySerializedAs("pausedialogbox")]
-    public GameObject pausedialogbox;
+    public GameObject PausedDialogBox;
     [UnityEngine.Serialization.FormerlySerializedAs("levelcompletebox")]
-    public GameObject levelcompletebox;
+    public GameObject LevelCompleteBox;
     [UnityEngine.Serialization.FormerlySerializedAs("levelfailbox")]
-    public GameObject levelfailbox;
+    public GameObject LevelFailBox;
     public Text ScoreText;
     public Text TimerText;
     [UnityEngine.Serialization.FormerlySerializedAs("levelfailtimertext")]
-    public Text levelfailtimertext;
+    public Text LevelFailTimerText;
     public Text RewardCoinValue;
     [UnityEngine.Serialization.FormerlySerializedAs("ShowRateUsDialogbox")]
-    public GameObject ShowRateUsDialogbox;
+    public GameObject ShowRateUsDialogBox;
     [UnityEngine.Serialization.FormerlySerializedAs("Popupdialogbox")]
     public GameObject Popupdialogbox;
 
@@ -45,17 +45,18 @@ public class GameManager : MonoBehaviour
     public GameObject TimeFreezeUnlock;
     public GameObject TimeFreezeLocked;
     [UnityEngine.Serialization.FormerlySerializedAs("freeze")]
-    public GameObject freeze;
+    public GameObject Freeze;
     [UnityEngine.Serialization.FormerlySerializedAs("freezetextvalue")]
-    public Text freezetextvalue;
+    public Text FreezeTextValue;
     [UnityEngine.Serialization.FormerlySerializedAs("hinttextvalue")]
-    public Text hinttextvalue;
+    public Text HintTextValue;
     [UnityEngine.Serialization.FormerlySerializedAs("freezedelayvalue")]
-    public int freezedelayvalue;
+    public int FreezeDelayValue;
 
     public GameObject HintAddButton;
     public GameObject TimeFreezeAddButton;
-    public GameObject RewardTimeFreezeDialogbox;
+    [UnityEngine.Serialization.FormerlySerializedAs("RewardTimeFreezeDialogbox")]
+    public GameObject RewardTimeFreezeDialogBox;
 
     private void Awake()
     {
@@ -75,7 +76,7 @@ public class GameManager : MonoBehaviour
         levelvalue = prefmanager.instance.Getlevelsvalue();
         if (levelvalue == 1)
         {
-            tutorial.gameObject.SetActive(true);
+            Tutorial.gameObject.SetActive(true);
         }
         if (levelvalue >= 3)
         {
@@ -95,23 +96,23 @@ public class GameManager : MonoBehaviour
 
     void Makecubediable()
     {
-        holdercube.gameObject.SetActive(false);
+        HolderCube.gameObject.SetActive(false);
     }
 
     void CreateLevel()
     {
-        totalobjects = levels.LevelData[levelvalue-1].TotalObjects.Length;
-        levelValuetxt.text = "LV." + levelvalue.ToString();
-        levelfailtimertext.text = levels.LevelData[levelvalue - 1].minute+ ":" + levels.LevelData[levelvalue - 1].seconds+"Min";
+        totalobjects = Levels.LevelData[levelvalue-1].TotalObjects.Length;
+        LevelValueText.text = "LV." + levelvalue.ToString();
+        LevelFailTimerText.text = Levels.LevelData[levelvalue - 1].minute+ ":" + Levels.LevelData[levelvalue - 1].seconds+"Min";
         SpawnObjects();
         SpawnObjects();
     }
 
     void SpawnObjects()
     {
-        for(int i=0;i< levels.LevelData[levelvalue-1].TotalObjects.Length; i++)
+        for(int i=0;i< Levels.LevelData[levelvalue-1].TotalObjects.Length; i++)
         {
-            GameObject g=Instantiate(levels.LevelData[levelvalue-1].TotalObjects[i].gameObject,Spawnpoint.transform);
+            GameObject g=Instantiate(Levels.LevelData[levelvalue-1].TotalObjects[i].gameObject,SpawnPoint.transform);
             g.transform.position = new Vector3(g.transform.position.x + Random.Range(-1, 1), g.transform.position.y, g.transform.position.z + Random.Range(0, -1));
         }
     }
@@ -119,8 +120,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        freezetextvalue.text =""+ prefmanager.instance.Getfreezevalue();
-        hinttextvalue.text = "" + prefmanager.instance.Gethintvalue();
+        FreezeTextValue.text =""+ prefmanager.instance.Getfreezevalue();
+        HintTextValue.text = "" + prefmanager.instance.Gethintvalue();
 
         if (prefmanager.instance.Getfreezevalue() <= 0)
         {
@@ -161,12 +162,12 @@ public class GameManager : MonoBehaviour
 
             ScoreText.text = totalobjects.ToString();
 
-            levelcompletebox.SetActive(true);
+            LevelCompleteBox.SetActive(true);
 
             int Showrateusdialogvalue = prefmanager.instance.GetCurrentrateusvalue();
             if (Showrateusdialogvalue == ShowRateUsAfterlevels)
             {
-                ShowRateUsDialogbox.SetActive(true);
+                ShowRateUsDialogBox.SetActive(true);
                 Showrateusdialogvalue = 0;
                 prefmanager.instance.SetCurrentrateusvalue(Showrateusdialogvalue);
             }
@@ -195,14 +196,14 @@ public class GameManager : MonoBehaviour
     {
         SoundManager.instance.PlayButtonSOund();
         Time.timeScale = 0f;
-        pausedialogbox.SetActive(true);
+        PausedDialogBox.SetActive(true);
     }
 
     public void Onresumeclick()
     {
         SoundManager.instance.PlayButtonSOund();
         Time.timeScale = 1f;
-        pausedialogbox.SetActive(false);
+        PausedDialogBox.SetActive(false);
     }
 
     public void OnHomeclick()
@@ -236,18 +237,18 @@ public class GameManager : MonoBehaviour
     {
         if (prefmanager.instance.Getfreezevalue() > 0)
         {
-            freeze.transform.parent.gameObject.GetComponent<Button>().interactable = false;
+            Freeze.transform.parent.gameObject.GetComponent<Button>().interactable = false;
             int freezevalue = prefmanager.instance.Getfreezevalue();
             freezevalue--;
             prefmanager.instance.Setfreezevalue(freezevalue);
             SoundManager.instance.PlayButtonSOund();
             Time.timeScale = 1f;
             FindObjectOfType<leveltimer>().FreezeTimeBool = true;
-            freeze.SetActive(true);
+            Freeze.SetActive(true);
         }
         else
         {
-            RewardTimeFreezeDialogbox.SetActive(true);
+            RewardTimeFreezeDialogBox.SetActive(true);
         }
     }
 
