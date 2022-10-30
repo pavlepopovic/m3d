@@ -9647,12 +9647,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restart: {fileID: 7940968953416431718}
-  freezetimebool: 0
   level: {fileID: 11400000, guid: 764b160aadebfaa4095a9ca83f4dc3c6, type: 2}
-  Minutes: 0
-  Seconds: 0
-  sadaminute: 0
-  sadasecond: 0
+  SadaSeconds: 0
+  SadaMinute: 0
+  FreezeTimeBool: 0
 --- !u!1 &1206211604
 GameObject:
   m_ObjectHideFlags: 0
@@ -9815,31 +9813,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowRateUsAfterlevels: 3
-  levels: {fileID: 11400000, guid: 764b160aadebfaa4095a9ca83f4dc3c6, type: 2}
-  levelValuetxt: {fileID: 1765862600}
-  Spawnpoint: {fileID: 800689900}
-  holdercube: {fileID: 114176573}
-  tutorial: {fileID: 608071624}
-  pausedialogbox: {fileID: 1749470163}
-  levelcompletebox: {fileID: 1047897866}
-  levelfailbox: {fileID: 7940968953416431718}
+  Levels: {fileID: 11400000, guid: 764b160aadebfaa4095a9ca83f4dc3c6, type: 2}
+  LevelValueText: {fileID: 1765862600}
+  SpawnPoint: {fileID: 800689900}
+  HolderCube: {fileID: 114176573}
+  Tutorial: {fileID: 608071624}
+  PausedDialogBox: {fileID: 1749470163}
+  LevelCompleteBox: {fileID: 1047897866}
+  LevelFailBox: {fileID: 7940968953416431718}
   ScoreText: {fileID: 873952990}
   TimerText: {fileID: 197050651}
-  levelfailtimertext: {fileID: 2033897462}
+  LevelFailTimerText: {fileID: 2033897462}
   RewardCoinValue: {fileID: 1898916105}
-  ShowRateUsDialogbox: {fileID: 1007452483}
+  ShowRateUsDialogBox: {fileID: 1007452483}
   Popupdialogbox: {fileID: 2070237028}
   HintLocked: {fileID: 990526521}
   HintUnlocked: {fileID: 1861952500}
   TimeFreezeUnlock: {fileID: 1189919131}
   TimeFreezeLocked: {fileID: 1426920082}
-  freeze: {fileID: 2098479612}
-  freezetextvalue: {fileID: 1633633653}
-  hinttextvalue: {fileID: 1106633308}
-  freezedelayvalue: 20
+  Freeze: {fileID: 2098479612}
+  FreezeTextValue: {fileID: 1633633653}
+  HintTextValue: {fileID: 1106633308}
+  FreezeDelayValue: 20
   HintAddButton: {fileID: 1568777490}
   TimeFreezeAddButton: {fileID: 1890875907}
-  RewardTimeFreezeDialogbox: {fileID: 58283250}
+  RewardTimeFreezeDialogBox: {fileID: 58283250}
 --- !u!4 &1211475869
 Transform:
   m_ObjectHideFlags: 0
