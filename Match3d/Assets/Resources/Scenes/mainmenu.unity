@@ -1407,7 +1407,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buycoinspackage
+        m_MethodName: BuyCoinsPackage
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1777,7 +1777,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buySuperofferpackage
+        m_MethodName: BuySpecialOfferPackage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4042,7 +4042,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OnPrivacyclick
+        m_MethodName: OnPrivacyClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4938,7 +4938,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OnShopclick
+        m_MethodName: OnShopClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5090,7 +5090,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: Removeads
+        m_MethodName: RemoveAds
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7269,7 +7269,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OnShareclick
+        m_MethodName: OnShareClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10092,23 +10092,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Loading: {fileID: 381336602}
-  privacypolicy: 
-  Levelfillbar: {fileID: 237276308}
-  levelValue: {fileID: 1493955664}
+  PrivacyPolicy: 
+  LevelFillBar: {fileID: 237276308}
+  LevelValue: {fileID: 1493955664}
   Setting: {fileID: 680464719}
   Shop: {fileID: 650364432}
   Share: {fileID: 67890329}
-  Dailygift: {fileID: 125156237}
-  levelplay: {fileID: 1419808290}
-  leveltext: {fileID: 1324355573}
-  cointext: {fileID: 1092950581}
-  shopcointext: {fileID: 629212652}
-  onoff:
+  DailyGift: {fileID: 125156237}
+  LevelPlay: {fileID: 1419808290}
+  LevelText: {fileID: 1324355573}
+  CoinText: {fileID: 1092950581}
+  ShopCoinText: {fileID: 629212652}
+  OnOff:
   - {fileID: 21300000, guid: 3a54d516b39c357449ffbe64fe6ed92a, type: 3}
   - {fileID: 21300000, guid: 88f1b7032e6bce9498201e8e67b1b491, type: 3}
-  music: {fileID: 970579006}
-  sound: {fileID: 1555597179}
-  vibration: {fileID: 1316826703}
+  Music: {fileID: 970579006}
+  Sound: {fileID: 1555597179}
+  Vibration: {fileID: 1316826703}
 --- !u!4 &799160311
 Transform:
   m_ObjectHideFlags: 0
@@ -10760,7 +10760,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buycoinspackage
+        m_MethodName: BuyCoinsPackage
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11328,7 +11328,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: Removeads
+        m_MethodName: RemoveAds
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12019,7 +12019,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buySuperofferpackage
+        m_MethodName: BuySuperOfferPackage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12587,7 +12587,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buyMasterofferpackage
+        m_MethodName: BuyMasterOfferPackage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13814,7 +13814,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buycoinspackage
+        m_MethodName: BuyCoinsPackage
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -22725,7 +22725,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buyMegaofferpackage
+        m_MethodName: BuyMegaOfferPackage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24015,7 +24015,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buycoinspackage
+        m_MethodName: BuyCoinsPackage
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

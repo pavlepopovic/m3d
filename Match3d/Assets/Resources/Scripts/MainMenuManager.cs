@@ -195,7 +195,7 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    public void OnPrivacyclick()
+    public void OnPrivacyClick()
     {
         Application.OpenURL(PrivacyPolicy);
     }
