@@ -67,7 +67,7 @@ public class DailyReward : MonoBehaviour
 
 	public void OnCollectClick()
 	{
-		SoundManager.instance.PlayButtonSOund();
+		SoundManager.instance.PlayButtonSound();
 
 		int coin = PrefManager.s_Instance.GetCoinsValue();
 		coin += 100;

@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
             m_LevelValue++;
             PrefManager.s_Instance.SetLevelsValue(m_LevelValue);
 
-            SoundManager.instance.PlaystarcollectSOund();
+            SoundManager.instance.PlayStarCollectSound();
 
             // Setting Reward Coin Value
             int rewardCoinValue = m_TotalObjects * 10;
@@ -199,41 +199,41 @@ public class GameManager : MonoBehaviour
 
     public void OnPauseClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Time.timeScale = 0f;
         PausedDialogBox.SetActive(true);
     }
 
     public void OnResumeClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Time.timeScale = 1f;
         PausedDialogBox.SetActive(false);
     }
 
     public void OnHomeClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Time.timeScale = 1f;
         SceneManager.LoadScene("mainmenu");
     }
 
     public void OnNextClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Time.timeScale = 1f;
         SceneManager.LoadScene("gameplay");
     }
 
     public void OnRateUsClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Application.OpenURL("https://play.google.com/store/apps/details?id="+ Application.identifier);
     }
 
     public void OnRetryClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Time.timeScale = 1f;
         SceneManager.LoadScene("gameplay");
     }
@@ -246,7 +246,7 @@ public class GameManager : MonoBehaviour
             int freezevalue = PrefManager.s_Instance.GetFreezeValue();
             freezevalue--;
             PrefManager.s_Instance.SetFreezeValue(freezevalue);
-            SoundManager.instance.PlayButtonSOund();
+            SoundManager.instance.PlayButtonSound();
             Time.timeScale = 1f;
             FindObjectOfType<leveltimer>().FreezeTimeBool = true;
             Freeze.SetActive(true);
@@ -322,7 +322,7 @@ public class GameManager : MonoBehaviour
         coinValue += 300;
         PrefManager.s_Instance.SetCoinsValue(coinValue);
 
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Application.OpenURL("https://play.google.com/store/apps/details?id=" + Application.identifier);
     }
 }

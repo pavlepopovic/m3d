@@ -67,7 +67,7 @@ public class MatchCheck : MonoBehaviour
             Invoke("DisableAnim", 0.4f);
             StartCoroutine(MoveToMatchPoint(0.01f, m_PlaceObject[0], m_PlaceObject[1]));
 
-            SoundManager.instance.PlaybottlfillSOund();
+            SoundManager.instance.PlayBottleFillSound();
             Invoke("DisableStarAnim", 1f);
             MatchAnim.GetComponent<Animator>().SetBool("collect", true);
             StarAnim.SetActive(true);            
@@ -77,7 +77,7 @@ public class MatchCheck : MonoBehaviour
             other.gameObject.transform.position = PointB.transform.position;
             other.gameObject.transform.rotation = PointB.transform.rotation;
 
-            SoundManager.instance.wrongmatchsound();
+            SoundManager.instance.PlayWrongMatchSound();
             if(PrefManager.s_Instance.GetVibrationsValue() == 1)
             {
                 Handheld.Vibrate();

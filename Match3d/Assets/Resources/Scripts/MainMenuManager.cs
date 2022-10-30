@@ -60,14 +60,14 @@ public class MainMenuManager : MonoBehaviour
     // Supposed to bring up stuff like boosters - not implemented
     public void OnMainMenuPlayClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         LevelPlay.gameObject.SetActive(true);
     }
 
     public void OnPlayClick()
     {
         Loading.SetActive(true);
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         SceneManager.LoadScene("gameplay");
     }
 
@@ -112,37 +112,37 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnSettingsDialogClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Setting.gameObject.SetActive(true);
     }
 
     public void OnSettingsDialogCloseClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Setting.gameObject.SetActive(false);
     }
 
     public void OnShopClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Shop.gameObject.SetActive(true);
     }
 
     public void OnShareClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Share.gameObject.SetActive(true);
     }
 
     public void OnShareCloseClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Share.gameObject.SetActive(false);
     }
 
     public void OnHomeClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Shop.gameObject.SetActive(false);
     }
 
