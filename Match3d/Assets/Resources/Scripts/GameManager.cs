@@ -4,91 +4,65 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager s_Instance = null;
+    public static GameManager instance = null;
 
     public int ShowRateUsAfterlevels;
-
-    #region Authoring
-
     [Header("Level Editor")]
-    [UnityEngine.Serialization.FormerlySerializedAs("levels")]
-    public leveleditor Levels;
-    [UnityEngine.Serialization.FormerlySerializedAs("levelValuetxt")]
-    public Text LevelValueText;
-    [Header("Spawn Point")]
-    [UnityEngine.Serialization.FormerlySerializedAs("Spawnpoint")]
-    public GameObject SpawnPoint;
-    [UnityEngine.Serialization.FormerlySerializedAs("holdercube")]
-    public GameObject HolderCube;
+    public leveleditor levels;
+    public Text levelValuetxt;
+    [Header("Spawnpoint")]
+    public GameObject Spawnpoint;
+    int levelvalue,totalobjects;
+    public GameObject holdercube;
 
     [Header("dialogeboxes")]
-    [UnityEngine.Serialization.FormerlySerializedAs("tutorial")]
-    public GameObject Tutorial;
-    [UnityEngine.Serialization.FormerlySerializedAs("pausedialogbox")]
-    public GameObject PausedDialogBox;
-    [UnityEngine.Serialization.FormerlySerializedAs("levelcompletebox")]
-    public GameObject LevelCompleteBox;
-    [UnityEngine.Serialization.FormerlySerializedAs("levelfailbox")]
-    public GameObject LevelFailBox;
+    public GameObject tutorial;
+    public GameObject pausedialogbox;
+    public GameObject levelcompletebox;
+    public GameObject levelfailbox;
     public Text ScoreText;
     public Text TimerText;
-    [UnityEngine.Serialization.FormerlySerializedAs("levelfailtimertext")]
-    public Text LevelFailTimerText;
+    public Text levelfailtimertext;
     public Text RewardCoinValue;
-    [UnityEngine.Serialization.FormerlySerializedAs("ShowRateUsDialogbox")]
-    public GameObject ShowRateUsDialogBox;
-    [UnityEngine.Serialization.FormerlySerializedAs("Popupdialogbox")]
-    public GameObject PopUpDialogBox;
+    public GameObject ShowRateUsDialogbox;
+    public GameObject Popupdialogbox;
 
-    [Header("Freeze And Hint Image And Text")]
+    [Header("FreezeAndHintimageandtxt")]
     public GameObject HintLocked;
-    public GameObject HintUnlocked;
-    public GameObject TimeFreezeUnlock;
-    public GameObject TimeFreezeLocked;
-    [UnityEngine.Serialization.FormerlySerializedAs("freeze")]
-    public GameObject Freeze;
-    [UnityEngine.Serialization.FormerlySerializedAs("freezetextvalue")]
-    public Text FreezeTextValue;
-    [UnityEngine.Serialization.FormerlySerializedAs("hinttextvalue")]
-    public Text HintTextValue;
-    [UnityEngine.Serialization.FormerlySerializedAs("freezedelayvalue")]
-    public int FreezeDelayValue;
+    public GameObject HintUnlocked, TimeFreezeUnlock, TimeFreezeLocked;
 
-    public GameObject HintAddButton;
-    public GameObject TimeFreezeAddButton;
-    [UnityEngine.Serialization.FormerlySerializedAs("RewardTimeFreezeDialogbox")]
-    public GameObject RewardTimeFreezeDialogBox;
+    public GameObject freeze;
+    public Text freezetextvalue,hinttextvalue;
+    public int freezedelayvalue;
 
-    #endregion
-
-    private int m_LevelValue;
-    private int m_TotalObjects;
+    public GameObject HintAddButton, TimeFreezeAddButton , RewardTimeFreezeDialogbox;
 
     private void Awake()
     {
-        if (s_Instance == null)
+        if (instance == null)
         {
-            s_Instance = this;
+            instance = this;
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 
+    // Start is called before the first frame update
     void Start()
     {
-        m_LevelValue = PrefManager.s_Instance.GetLevelsValue();
-        if (m_LevelValue == 1)
+        levelvalue = prefmanager.instance.Getlevelsvalue();
+        if (levelvalue == 1)
         {
-            Tutorial.gameObject.SetActive(true);
+            tutorial.gameObject.SetActive(true);
         }
-        if (m_LevelValue >= 3)
+        if (levelvalue >= 3)
         {
             HintLocked.SetActive(false);
             HintUnlocked.SetActive(true);
         }
-        if (m_LevelValue >= 5)
+        if (levelvalue >= 5)
         {
             TimeFreezeUnlock.SetActive(true);
             TimeFreezeLocked.SetActive(false);
@@ -96,40 +70,39 @@ public class GameManager : MonoBehaviour
 
         CreateLevel();
         
-        Invoke("MakeCubeInactive", 0.5f);
+        Invoke("Makecubediable", 0.5f);
     }
 
-    void MakeCubeInactive()
+    void Makecubediable()
     {
-        HolderCube.gameObject.SetActive(false);
+        holdercube.gameObject.SetActive(false);
     }
 
     void CreateLevel()
     {
-        m_TotalObjects = Levels.LevelData[m_LevelValue - 1].TotalObjects.Length;
-        LevelValueText.text = "LV." + m_LevelValue.ToString();
-        LevelFailTimerText.text = Levels.LevelData[m_LevelValue - 1].minute + ":" + Levels.LevelData[m_LevelValue - 1].seconds+ "Min";
+        totalobjects = levels.LevelData[levelvalue-1].TotalObjects.Length;
+        levelValuetxt.text = "LV." + levelvalue.ToString();
+        levelfailtimertext.text = levels.LevelData[levelvalue - 1].minute+ ":" + levels.LevelData[levelvalue - 1].seconds+"Min";
+        SpawnObjects();
         SpawnObjects();
     }
 
     void SpawnObjects()
     {
-        for (int j = 0; j < 2; j++)
+        for(int i=0;i< levels.LevelData[levelvalue-1].TotalObjects.Length; i++)
         {
-            for (int i = 0; i < Levels.LevelData[m_LevelValue - 1].TotalObjects.Length; i++)
-            {
-                GameObject g = Instantiate(Levels.LevelData[m_LevelValue - 1].TotalObjects[i].gameObject, SpawnPoint.transform);
-                g.transform.position = new Vector3(g.transform.position.x + Random.Range(-1, 1), g.transform.position.y, g.transform.position.z + Random.Range(0, -1));
-            }
+            GameObject g=Instantiate(levels.LevelData[levelvalue-1].TotalObjects[i].gameObject,Spawnpoint.transform);
+            g.transform.position = new Vector3(g.transform.position.x + Random.Range(-1, 1), g.transform.position.y, g.transform.position.z + Random.Range(0, -1));
         }
     }
 
+    // Update is called once per frame
     void Update()
     {
-        FreezeTextValue.text = "" + PrefManager.s_Instance.GetFreezeValue();
-        HintTextValue.text = "" + PrefManager.s_Instance.GetHintValue();
+        freezetextvalue.text =""+ prefmanager.instance.Getfreezevalue();
+        hinttextvalue.text = "" + prefmanager.instance.Gethintvalue();
 
-        if (PrefManager.s_Instance.GetFreezeValue() <= 0)
+        if (prefmanager.instance.Getfreezevalue() <= 0)
         {
             TimeFreezeAddButton.SetActive(true);
         }
@@ -137,7 +110,7 @@ public class GameManager : MonoBehaviour
         {
             TimeFreezeAddButton.SetActive(false);
         }
-        if (PrefManager.s_Instance.GetHintValue() <= 0)
+        if (prefmanager.instance.Gethintvalue() <= 0)
         {
             HintAddButton.SetActive(true);
         }
@@ -147,182 +120,183 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CheckLevelComplete(int collectedObjectValue)
+    public void checklevelcomplete(int collectedobjectvalue)
     {
-        if (collectedObjectValue == m_TotalObjects)
+        if (collectedobjectvalue == totalobjects)
         {
-            Invoke("MakeTimeScaleZero", 1f);
+            Invoke("maketimescalezero", 1f);
 
-            TimerText.text = FindObjectOfType<leveltimer>().SadaMinute + ":" + FindObjectOfType<leveltimer>().SadaSeconds + " Min";
-            m_LevelValue++;
-            PrefManager.s_Instance.SetLevelsValue(m_LevelValue);
+            TimerText.text = FindObjectOfType<leveltimer>().sadaminute + ":" + FindObjectOfType<leveltimer>().sadasecond + " Min";
+            levelvalue++;
+            prefmanager.instance.Setlevelsvalue(levelvalue);
 
-            SoundManager.instance.PlayStarCollectSound();
+            SoundManager.instance.PlaystarcollectSOund();
 
-            // Setting Reward Coin Value
-            int rewardCoinValue = m_TotalObjects * 10;
-            RewardCoinValue.text = "Earned " + rewardCoinValue + " Coins";
-            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
-            coinvalue += rewardCoinValue;
-            PrefManager.s_Instance.SetCoinsValue(coinvalue);
+            //Setting Reward Coin Value
+            int rewardcoinvalue = totalobjects * 10;
+            RewardCoinValue.text = "Earned " + rewardcoinvalue + " Coins";
+            int coinvalue = prefmanager.instance.Getcoinsvalue();
+            coinvalue += rewardcoinvalue;
+            prefmanager.instance.SetcoinsValue(coinvalue);
 
-            ScoreText.text = m_TotalObjects.ToString();
-            LevelCompleteBox.SetActive(true);
+            ScoreText.text = totalobjects.ToString();
 
-            int showRateUsDialogueValue = PrefManager.s_Instance.GetCurrentRateUsValue();
-            if (showRateUsDialogueValue == ShowRateUsAfterlevels)
+            levelcompletebox.SetActive(true);
+
+            int Showrateusdialogvalue = prefmanager.instance.GetCurrentrateusvalue();
+            if (Showrateusdialogvalue == ShowRateUsAfterlevels)
             {
-                ShowRateUsDialogBox.SetActive(true);
-                showRateUsDialogueValue = 0;
-                PrefManager.s_Instance.SetCurrentRateUsValue(showRateUsDialogueValue);
+                ShowRateUsDialogbox.SetActive(true);
+                Showrateusdialogvalue = 0;
+                prefmanager.instance.SetCurrentrateusvalue(Showrateusdialogvalue);
             }
             else
             {             
-                showRateUsDialogueValue++;
-                PrefManager.s_Instance.SetCurrentRateUsValue(showRateUsDialogueValue);
+                Showrateusdialogvalue++;
+                prefmanager.instance.SetCurrentrateusvalue(Showrateusdialogvalue);
             }
         }
     }
 
-    public void SkipLevelValue()
+    public void Skiplevelvalue()
     {
-        m_LevelValue= PrefManager.s_Instance.GetLevelsValue();
-        m_LevelValue++;
-        PrefManager.s_Instance.SetLevelsValue(m_LevelValue);
+        levelvalue= prefmanager.instance.Getlevelsvalue();
+        levelvalue++;
+        prefmanager.instance.Setlevelsvalue(levelvalue);
         SceneManager.LoadScene("gameplay");
     }
 
-    void MakeTimeScaleZero()
+    void maketimescalezero()
     {
         Time.timeScale = 0f;
     }
 
-    public void OnPauseClick()
+    public void Onpauseclick()
     {
-        SoundManager.instance.PlayButtonSound();
+        SoundManager.instance.PlayButtonSOund();
         Time.timeScale = 0f;
-        PausedDialogBox.SetActive(true);
+        pausedialogbox.SetActive(true);
     }
 
-    public void OnResumeClick()
+    public void Onresumeclick()
     {
-        SoundManager.instance.PlayButtonSound();
+        SoundManager.instance.PlayButtonSOund();
         Time.timeScale = 1f;
-        PausedDialogBox.SetActive(false);
+        pausedialogbox.SetActive(false);
     }
 
-    public void OnHomeClick()
+    public void OnHomeclick()
     {
-        SoundManager.instance.PlayButtonSound();
+        SoundManager.instance.PlayButtonSOund();
         Time.timeScale = 1f;
         SceneManager.LoadScene("mainmenu");
     }
 
-    public void OnNextClick()
+    public void OnNextclick()
     {
-        SoundManager.instance.PlayButtonSound();
+        SoundManager.instance.PlayButtonSOund();
         Time.timeScale = 1f;
         SceneManager.LoadScene("gameplay");
     }
 
-    public void OnRateUsClick()
+    public void OnRateUsclick()
     {
-        SoundManager.instance.PlayButtonSound();
+        SoundManager.instance.PlayButtonSOund();
         Application.OpenURL("https://play.google.com/store/apps/details?id="+ Application.identifier);
     }
 
-    public void OnRetryClick()
+    public void Onretryclick()
     {
-        SoundManager.instance.PlayButtonSound();
+        SoundManager.instance.PlayButtonSOund();
         Time.timeScale = 1f;
         SceneManager.LoadScene("gameplay");
     }
 
-    public void FreezeTime()
+    public void freezetime()
     {
-        if (PrefManager.s_Instance.GetFreezeValue() > 0)
+        if (prefmanager.instance.Getfreezevalue() > 0)
         {
-            Freeze.transform.parent.gameObject.GetComponent<Button>().interactable = false;
-            int freezevalue = PrefManager.s_Instance.GetFreezeValue();
+            freeze.transform.parent.gameObject.GetComponent<Button>().interactable = false;
+            int freezevalue = prefmanager.instance.Getfreezevalue();
             freezevalue--;
-            PrefManager.s_Instance.SetFreezeValue(freezevalue);
-            SoundManager.instance.PlayButtonSound();
+            prefmanager.instance.Setfreezevalue(freezevalue);
+            SoundManager.instance.PlayButtonSOund();
             Time.timeScale = 1f;
-            FindObjectOfType<leveltimer>().FreezeTimeBool = true;
-            Freeze.SetActive(true);
+            FindObjectOfType<leveltimer>().freezetimebool = true;
+            freeze.SetActive(true);
         }
         else
         {
-            RewardTimeFreezeDialogBox.SetActive(true);
+            RewardTimeFreezeDialogbox.SetActive(true);
         }
     }
 
     public void AddCoinHints()
     {
-        int coinvalue = PrefManager.s_Instance.GetCoinsValue();
+        int coinvalue = prefmanager.instance.Getcoinsvalue();
         if(coinvalue >= 1000)
         {
             coinvalue = coinvalue - 1000;
-            PrefManager.s_Instance.SetCoinsValue(coinvalue);
-            GiveHints(3);
-            PopUpDialogBox.SetActive(true);
-            PopUpDialogBox.transform.GetChild(0).gameObject.GetComponent<Text>().text = "You Got 3 Hints";
-            Invoke("DisableMessageDialogBox", 1f);
+            prefmanager.instance.SetcoinsValue(coinvalue);
+            GivetHints(3);
+            Popupdialogbox.SetActive(true);
+            Popupdialogbox.transform.GetChild(0).gameObject.GetComponent<Text>().text = "You Got 3 Hints";
+            Invoke("DisaableMessageDialogBox", 1f);
         }
         else
         {
-            PopUpDialogBox.SetActive(true);
-            PopUpDialogBox.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Not Enough Coins";
-            Invoke("DisableMessageDialogBox", 1f);
+            Popupdialogbox.SetActive(true);
+            Popupdialogbox.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Not Enough Coins";
+            Invoke("DisaableMessageDialogBox", 1f);
         }
     }
 
-    public void GiveHints(int numHintsToAdd)
+    public void GivetHints(int hintvalue)
     {
-        int hintsValue = PrefManager.s_Instance.GetHintValue();
-        hintsValue += numHintsToAdd;
-        PrefManager.s_Instance.SetHintValue(hintsValue);
+        int hintsvalue = prefmanager.instance.Gethintvalue();
+        hintsvalue += hintvalue;
+        prefmanager.instance.SetHintValue(hintsvalue);
     }
 
     public void AddCoinTimeFreeze()
     {
-        int coinvalue = PrefManager.s_Instance.GetCoinsValue();
+        int coinvalue = prefmanager.instance.Getcoinsvalue();
         if (coinvalue >= 1000)
         {
             coinvalue = coinvalue - 1000;
-            PrefManager.s_Instance.SetCoinsValue(coinvalue);
-            GiveFreezeTime(3);
-            PopUpDialogBox.SetActive(true);
-            PopUpDialogBox.transform.GetChild(0).gameObject.GetComponent<Text>().text = "You Got 3 Time Freezes";
-            Invoke("DisableMessageDialogBox", 1f);
+            prefmanager.instance.SetcoinsValue(coinvalue);
+            GiveFreezetime(3);
+            Popupdialogbox.SetActive(true);
+            Popupdialogbox.transform.GetChild(0).gameObject.GetComponent<Text>().text = "You Got 3 Time Freezes";
+            Invoke("DisaableMessageDialogBox", 1f);
         }
         else
         {
-            PopUpDialogBox.SetActive(true);
-            PopUpDialogBox.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Not Enough Coins";
-            Invoke("DisableMessageDialogBox", 1f);
+            Popupdialogbox.SetActive(true);
+            Popupdialogbox.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Not Enough Coins";
+            Invoke("DisaableMessageDialogBox", 1f);
         }
     }
 
-    public void GiveFreezeTime(int numFreezesToAdd)
+    public void GiveFreezetime(int freezeassigningvalue)
     {
-        int freezeValue = PrefManager.s_Instance.GetFreezeValue();
-        freezeValue += numFreezesToAdd;
-        PrefManager.s_Instance.SetFreezeValue(freezeValue);
+        int freezevalue = prefmanager.instance.Getfreezevalue();
+        freezevalue += freezeassigningvalue;
+        prefmanager.instance.Setfreezevalue(freezevalue);
     }
 
-    void DisableMessageDialogBox()
+    void DisaableMessageDialogBox()
     {
-        PopUpDialogBox.SetActive(false);
+        Popupdialogbox.SetActive(false);
     }
 
     public void RateUsNow()
     {
-        int coinValue = PrefManager.s_Instance.GetCoinsValue();
-        coinValue += 300;
-        PrefManager.s_Instance.SetCoinsValue(coinValue);
+        int coinvalue = prefmanager.instance.Getcoinsvalue();
+        coinvalue += 300;
+        prefmanager.instance.SetcoinsValue(coinvalue);
 
-        SoundManager.instance.PlayButtonSound();
+        SoundManager.instance.PlayButtonSOund();
         Application.OpenURL("https://play.google.com/store/apps/details?id=" + Application.identifier);
     }
 }

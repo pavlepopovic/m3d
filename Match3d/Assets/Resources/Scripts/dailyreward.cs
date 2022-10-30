@@ -1,104 +1,112 @@
-﻿using System;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using System;
 using UnityEngine.UI;
 
-public class DailyReward : MonoBehaviour
-{
-	private ulong m_LastChestOpen;
-	private int m_FirstTimeRewardValue;
+public class dailyreward : MonoBehaviour {
+	int firsttimerewardvalue;
+	public GameObject dailyrewarddialogbox;
 
-	public Button Button;
-	public Text ChestTimer;
-	public GameObject DailyRewardDialogBox;
-	public float MilisecondsToWait = 5000.0f;
+	public float mstowait=5000.0f;
+	public Button button;
+
+	private ulong lastchestopen;
+	public Text  chesttimer2;
     
-	void Start()
-	{
-		m_FirstTimeRewardValue = PlayerPrefs.GetInt("firsttimerewardvalue", 0);
-        if (m_FirstTimeRewardValue == 0)
-        {
-			DailyRewardDialogBox.SetActive(true);
-			m_FirstTimeRewardValue = 1;
-			PlayerPrefs.SetInt("firsttimerewardvalue", m_FirstTimeRewardValue);
-		}
+    
+    
+	// Use this for initialization
+	void Start () {
 
-		m_LastChestOpen =ulong.Parse(PlayerPrefs.GetString ("lastchestopen"));
-		if(!IsChestReady())
-		{
-			Button.interactable = false;
+		firsttimerewardvalue= PlayerPrefs.GetInt("firsttimerewardvalue", 0);
+        if (firsttimerewardvalue == 0)
+        {
+			dailyrewarddialogbox.SetActive(true);
+			firsttimerewardvalue = 1;
+			PlayerPrefs.SetInt("firsttimerewardvalue", firsttimerewardvalue);
+
+
+		}
+		lastchestopen =ulong.Parse(PlayerPrefs.GetString ("lastchestopen"));
+
+
+		if(!ischestready()){
+			button.interactable = false;
         }
         else
         {
-			DailyRewardDialogBox.SetActive(true);
-			ChestTimer.text = "Collect your Daily Reward!";
+
+			dailyrewarddialogbox.SetActive(true);
+			chesttimer2.text = "Collect your Daily Reward!";
         }
 	}
 	
-	void Update()
-	{
-		if(!Button.IsInteractable())
-		{
-			if (IsChestReady())
-			{
-				Button.interactable = true;
+	// Update is called once per frame
+	void Update () {
+		
+		if(!button.IsInteractable()){
+			if (ischestready()) {
+				button.interactable = true;
+
 				return;
 			}
-
-			ulong dif = (ulong) (DateTime.Now.Ticks) - m_LastChestOpen;
+			//setting the timer
+			ulong dif = (ulong) (DateTime.Now.Ticks) - lastchestopen;
+			//		Debug.Log (dif);
 			ulong m = dif / TimeSpan.TicksPerMillisecond;
-			float secondslefts = (float)(MilisecondsToWait - m) / 1000f;
-
+			float secondslefts = (float)(mstowait - m) / 1000f;
+//			if (valueforrespin == 1) {
+//				secondslefts = 0f;
+//				valueforrespin = 0;
+//			}
 			string t = "";
-            {
-				//Hours
-				t += ((int)secondslefts / 3600).ToString() + "h";
-				secondslefts -= ((int)secondslefts / 3600) * 3600;
+			//Hours
+			t+=((int)secondslefts/3600).ToString()+"h";
+			secondslefts-=((int)secondslefts/3600)*3600;
+			//Minutes
 
-				//Minutes
-				t += ((int)secondslefts / 60).ToString("00") + "m";
-
-				//Seconds
-				t += (secondslefts % 60).ToString("00") + "s";
-			}
+			t+=((int)secondslefts/60).ToString("00")+"m";
+			//Seconds
+			t+=(secondslefts%60).ToString("00")+"s";
 			
-            ChestTimer.text = t;
+            chesttimer2.text = t;
         }
+
+	
 	}
 
-	public void OnCollectClick()
-	{
-		SoundManager.instance.PlayButtonSound();
-
-		int coin = PrefManager.s_Instance.GetCoinsValue();
-		coin += 100;
-		PrefManager.s_Instance.SetCoinsValue(coin);
-
-		TimeCheckChest();
+	public void timecheckchest(){
+		lastchestopen = (ulong)(DateTime.Now.Ticks);
+		Debug.Log (DateTime.Now.Ticks.ToString());
+		PlayerPrefs.SetString ("lastchestopen",lastchestopen.ToString());
+		button.interactable = false;
+		
 	}
-
-	private void TimeCheckChest()
-	{
-		m_LastChestOpen = (ulong)(DateTime.Now.Ticks);
-		Debug.Log(DateTime.Now.Ticks.ToString());
-		PlayerPrefs.SetString("lastchestopen", m_LastChestOpen.ToString());
-		Button.interactable = false;
-	}
-
-	private bool IsChestReady()
-	{
-		ulong dif = (ulong) (DateTime.Now.Ticks) - m_LastChestOpen;
+	private bool ischestready(){
+		ulong dif = (ulong) (DateTime.Now.Ticks) - lastchestopen;
+//		Debug.Log (dif);
 		ulong m = dif / TimeSpan.TicksPerMillisecond;
-		float secondslefts = (float)(MilisecondsToWait - m) / 1000f;
-		if (secondslefts < 0) 
-		{
-			DailyRewardDialogBox.SetActive(true);
-			ChestTimer.text = "Collect your Daily Reward!";           
+		float secondslefts = (float)(mstowait - m) / 1000f;
+		if (secondslefts < 0) {
+			dailyrewarddialogbox.SetActive(true);
+			chesttimer2.text = "Collect your Daily Reward!";
+           
             return true;
 		}
 		else
-        {
 			return false;
 		}
-	}	
-}
+	
+    public void Oncollectclick()
+    {
+        SoundManager.instance.PlayButtonSOund();
 
+		int coin = prefmanager.instance.Getcoinsvalue();
+       coin += 100;
+		prefmanager.instance.SetcoinsValue(coin);
+       
+        timecheckchest();
+    }
+	
+	}

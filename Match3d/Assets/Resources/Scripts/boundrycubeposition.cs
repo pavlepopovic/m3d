@@ -1,24 +1,43 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class BoundryCubePosition : MonoBehaviour
+public class boundrycubeposition : MonoBehaviour
 {
-    [UnityEngine.Serialization.FormerlySerializedAs("leftcube")]
-    public GameObject LeftCube;
-    [UnityEngine.Serialization.FormerlySerializedAs("rightcube")]
-    public GameObject RightCube;
+    public GameObject leftcube, rightcube;
 
-    private const float k_ClampMarginMinX = 0.0f;
-    private const float k_ClampMarginMaxX = 0.0f;
-    private const float k_OffsetXMinValue = 0.0f;
-    private const float k_OffsetXMaxValue = 0.0f;
 
+    float
+         clampMarginMinX = 0.0f,
+         clampMarginMaxX = 0.0f,
+         clampMarginMinY = 0.0f,
+         clampMarginMaxY = 0.0f;
+
+
+    float offsetxminvalue = 0f;
+    float offsetxmaxvalue = -0f;
+    float offsetyminvalue = 0.8f;
+    float offsetymaxvalue = -0.25f;
+
+
+    // The minimum and maximum values which the object can go
+    private float
+        m_clampMinX,
+        m_clampMaxX,
+        m_clampMinY,
+        m_clampMaxY;
+    // Start is called before the first frame update
     void Start()
     {
-        float clampMinX = Camera.main.ScreenToWorldPoint(new Vector2(0 + k_ClampMarginMinX, 0)).x + k_OffsetXMinValue;
-        float clampMaxX = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width - k_ClampMarginMaxX, 0)).x + k_OffsetXMaxValue;
+        // Get the minimum and maximum position values according to the screen size represented by the main camera.
+        m_clampMinX = Camera.main.ScreenToWorldPoint(new Vector2(0 + clampMarginMinX, 0)).x + offsetxminvalue;
 
-        RightCube.transform.position = new Vector3(clampMaxX, RightCube.transform.position.y, RightCube. transform.position.z);
-        LeftCube.transform.position = new Vector3(clampMinX, LeftCube.transform.position.y, LeftCube.transform.position.z);
+        m_clampMaxX = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width - clampMarginMaxX, 0)).x + offsetxmaxvalue;
+        m_clampMinY = Camera.main.ScreenToWorldPoint(new Vector2(0, 0 + clampMarginMinY)).z + offsetyminvalue;
+        m_clampMaxY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height + clampMarginMaxY)).z + offsetymaxvalue;
+
+        rightcube.transform.position = new Vector3(m_clampMaxX, rightcube.transform.position.y, rightcube. transform.position.z);
+        leftcube.transform.position = new Vector3(m_clampMinX, leftcube.transform.position.y, leftcube.transform.position.z);
     }
 }
 

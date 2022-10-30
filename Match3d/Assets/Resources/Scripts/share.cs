@@ -1,29 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.IO;
+using System.Runtime.InteropServices;
 
-public class Share : MonoBehaviour
+
+public class share : MonoBehaviour
 {
-    [UnityEngine.Serialization.FormerlySerializedAs("subject")]
-    public string Subject;
 
-    [UnityEngine.Serialization.FormerlySerializedAs("body")]
-    public string Body;
+   public  string subject;
+   public string body ;
 
-    #if UNITY_IPHONE
+#if UNITY_IPHONE
  
-     [DllImport("__Internal")]
-     private static extern void sampleMethod (string iosPath, string message);
+ [DllImport("__Internal")]
+ private static extern void sampleMethod (string iosPath, string message);
  
-     [DllImport("__Internal")]
-     private static extern void sampleTextMethod (string message);
+ [DllImport("__Internal")]
+ private static extern void sampleTextMethod (string message);
  
-    #endif
+#endif
 
     public void OnAndroidTextSharingClick()
     {
-        StartCoroutine(ShareAndroidText());
-    }
 
+        StartCoroutine(ShareAndroidText());
+
+    }
     IEnumerator ShareAndroidText()
     {
         yield return new WaitForEndOfFrame();
@@ -38,9 +40,9 @@ public class Share : MonoBehaviour
         //set the type of sharing that is happening
         intentObject.Call<AndroidJavaObject>("setType", "text/plain");
         //add data to be passed to the other activity i.e., the data to be sent
-        intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_SUBJECT"), Subject);
+        intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_SUBJECT"), subject);
         //intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_TITLE"), "Text Sharing ");
-        intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_TEXT"), Body);
+        intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_TEXT"), body);
         //get the current activity
         AndroidJavaClass unity = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         AndroidJavaObject currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
@@ -50,20 +52,24 @@ public class Share : MonoBehaviour
 #endif
     }
 
+
     public void OniOSTextSharingClick()
     {
+
 #if UNITY_IPHONE || UNITY_IPAD
   string shareMessage = "Wow I Just Share Text ";
-  sampleTextMethod (shareMessage); 
+  sampleTextMethod (shareMessage);
+  
 #endif
     }
 
     public void RateUs()
     {
 #if UNITY_ANDROID
-        Application.OpenURL("https://play.google.com/store/apps/details?id=" + Application.identifier);
+        Application.OpenURL("https://play.google.com/store/apps/details?id="+Application.identifier);
 #elif UNITY_IPHONE
   Application.OpenURL("itms-apps://itunes.apple.com/app/idYOUR_ID");
 #endif
     }
+
 }

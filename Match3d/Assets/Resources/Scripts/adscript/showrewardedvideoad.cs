@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class AdStandIn : MonoBehaviour
+public class showrewardedvideoad : MonoBehaviour
 {
-    public void StandInRewardedAd(int n)
+    public void OnShowrewardedad(int n)
     {
         switch (n)
         {
@@ -10,13 +10,13 @@ public class AdStandIn : MonoBehaviour
                 FindObjectOfType<MainMenuManager>().GiveCoins(100);
                 break;
             case 2:
-                FindObjectOfType<GameManager>().SkipLevelValue();
+                FindObjectOfType<GameManager>().Skiplevelvalue();
                 break;
             case 3:
-                FindObjectOfType<GameManager>().GiveHints(1);
+                FindObjectOfType<GameManager>().GivetHints(1);
                 break;
             case 4:
-                FindObjectOfType<GameManager>().GiveFreezeTime(1);
+                FindObjectOfType<GameManager>().GiveFreezetime(1);
                 break;
             case 5:
                 FindObjectOfType<leveltimer>().ReviveButton();
@@ -27,4 +27,3 @@ public class AdStandIn : MonoBehaviour
         }
     }
 }
-
