@@ -69,9 +69,9 @@ public class DailyReward : MonoBehaviour
 	{
 		SoundManager.instance.PlayButtonSOund();
 
-		int coin = prefmanager.instance.Getcoinsvalue();
+		int coin = PrefManager.s_Instance.GetCoinsValue();
 		coin += 100;
-		prefmanager.instance.SetcoinsValue(coin);
+		PrefManager.s_Instance.SetCoinsValue(coin);
 
 		TimeCheckChest();
 	}

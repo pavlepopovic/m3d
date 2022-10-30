@@ -459,9 +459,9 @@ using UnityEngine.Purchasing;
 		if (String.Equals(args.purchasedProduct.definition.id, coinpack1ID, StringComparison.Ordinal))
 			{
 				Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            int temp = prefmanager.instance.Getcoinsvalue();
+            int temp = PrefManager.s_Instance.GetCoinsValue();
             temp = temp + assigncoinpack1Values;
-            prefmanager.instance.SetcoinsValue(temp);
+            PrefManager.s_Instance.SetCoinsValue(temp);
 
          //   UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 
@@ -470,27 +470,27 @@ using UnityEngine.Purchasing;
 
 		else if (String.Equals(args.purchasedProduct.definition.id, coinpack2ID, StringComparison.Ordinal)){
 			Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            int temp = prefmanager.instance.Getcoinsvalue();
+            int temp = PrefManager.s_Instance.GetCoinsValue();
             temp = temp + assigncoinpack2Values;
-            prefmanager.instance.SetcoinsValue(temp);
+            PrefManager.s_Instance.SetCoinsValue(temp);
 
            // UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
 
 		else if (String.Equals(args.purchasedProduct.definition.id, coinpack3ID, StringComparison.Ordinal)){
 			Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            int temp = prefmanager.instance.Getcoinsvalue();
+            int temp = PrefManager.s_Instance.GetCoinsValue();
             temp = temp + assigncoinpack3Values;
-            prefmanager.instance.SetcoinsValue(temp);
+            PrefManager.s_Instance.SetCoinsValue(temp);
 
           //  UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, coinpack3ID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            int temp = prefmanager.instance.Getcoinsvalue();
+            int temp = PrefManager.s_Instance.GetCoinsValue();
             temp = temp + assigncoinpack4Values;
-            prefmanager.instance.SetcoinsValue(temp);
+            PrefManager.s_Instance.SetCoinsValue(temp);
 
             //  UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
@@ -504,20 +504,20 @@ using UnityEngine.Purchasing;
 
             
             //Set Hint Value
-            int hint = prefmanager.instance.Gethintvalue();
+            int hint = PrefManager.s_Instance.GetHintValue();
             hint = hint + asignspecialofferhintvalue;
-            prefmanager.instance.SetHintValue(hint);
+            PrefManager.s_Instance.SetHintValue(hint);
 
 
             //Set TimeFreeze Value
-            int timefreeze = prefmanager.instance.Getfreezevalue();
+            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
             timefreeze = timefreeze + asignspecialoffertimefreezevalue;
-            prefmanager.instance.Setfreezevalue(timefreeze);
+            PrefManager.s_Instance.SetFreezeValue(timefreeze);
 
             //Set Coins Value
-            int coinvalue = prefmanager.instance.Getcoinsvalue();
+            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
             coinvalue = coinvalue + asignspecialoffercoinvalue;
-            prefmanager.instance.SetcoinsValue(coinvalue);
+            PrefManager.s_Instance.SetCoinsValue(coinvalue);
 
          //   UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 
@@ -531,20 +531,20 @@ using UnityEngine.Purchasing;
 
 
             //Set Hint Value
-            int hint = prefmanager.instance.Gethintvalue();
+            int hint = PrefManager.s_Instance.GetHintValue();
             hint = hint + asignspecialofferhintvalue;
-            prefmanager.instance.SetHintValue(hint);
+            PrefManager.s_Instance.SetHintValue(hint);
 
 
             //Set TimeFreeze Value
-            int timefreeze = prefmanager.instance.Getfreezevalue();
+            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
             timefreeze = timefreeze + asignspecialoffertimefreezevalue;
-            prefmanager.instance.Setfreezevalue(timefreeze);
+            PrefManager.s_Instance.SetFreezeValue(timefreeze);
 
             //Set Coins Value
-            int coinvalue = prefmanager.instance.Getcoinsvalue();
+            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
             coinvalue = coinvalue + asignspecialoffercoinvalue;
-            prefmanager.instance.SetcoinsValue(coinvalue);
+            PrefManager.s_Instance.SetCoinsValue(coinvalue);
 
             //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 
@@ -557,20 +557,20 @@ using UnityEngine.Purchasing;
 
 
             //Set Hint Value
-            int hint = prefmanager.instance.Gethintvalue();
+            int hint = PrefManager.s_Instance.GetHintValue();
             hint = hint + asignmasterofferhintvalue;
-            prefmanager.instance.SetHintValue(hint);
+            PrefManager.s_Instance.SetHintValue(hint);
 
 
             //Set TimeFreeze Value
-            int timefreeze = prefmanager.instance.Getfreezevalue();
+            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
             timefreeze = timefreeze + asignmasteroffertimefreezevalue;
-            prefmanager.instance.Setfreezevalue(timefreeze);
+            PrefManager.s_Instance.SetFreezeValue(timefreeze);
 
             //Set Coins Value
-            int coinvalue = prefmanager.instance.Getcoinsvalue();
+            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
             coinvalue = coinvalue + asignspecialoffercoinvalue;
-            prefmanager.instance.SetcoinsValue(coinvalue);
+            PrefManager.s_Instance.SetCoinsValue(coinvalue);
 
             //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 
@@ -585,20 +585,20 @@ using UnityEngine.Purchasing;
 
 
             //Set Hint Value
-            int hint = prefmanager.instance.Gethintvalue();
+            int hint = PrefManager.s_Instance.GetHintValue();
             hint = hint + asignSuperofferhintvalue;
-            prefmanager.instance.SetHintValue(hint);
+            PrefManager.s_Instance.SetHintValue(hint);
 
 
             //Set TimeFreeze Value
-            int timefreeze = prefmanager.instance.Getfreezevalue();
+            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
             timefreeze = timefreeze + asignSuperoffertimefreezevalue;
-            prefmanager.instance.Setfreezevalue(timefreeze);
+            PrefManager.s_Instance.SetFreezeValue(timefreeze);
 
             //Set Coins Value
-            int coinvalue = prefmanager.instance.Getcoinsvalue();
+            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
             coinvalue = coinvalue + asignSuperoffercoinvalue;
-            prefmanager.instance.SetcoinsValue(coinvalue);
+            PrefManager.s_Instance.SetCoinsValue(coinvalue);
 
           //  UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 
@@ -612,20 +612,20 @@ using UnityEngine.Purchasing;
 
 
             //Set Hint Value
-            int hint = prefmanager.instance.Gethintvalue();
+            int hint = PrefManager.s_Instance.GetHintValue();
             hint = hint + asignmegaofferhintvalue;
-            prefmanager.instance.SetHintValue(hint);
+            PrefManager.s_Instance.SetHintValue(hint);
 
 
             //Set TimeFreeze Value
-            int timefreeze = prefmanager.instance.Getfreezevalue();
+            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
             timefreeze = timefreeze + asignmegaoffertimefreezevalue;
-            prefmanager.instance.Setfreezevalue(timefreeze);
+            PrefManager.s_Instance.SetFreezeValue(timefreeze);
 
             //Set Coins Value
-            int coinvalue = prefmanager.instance.Getcoinsvalue();
+            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
             coinvalue = coinvalue + asignmegaoffercoinvalue;
-            prefmanager.instance.SetcoinsValue(coinvalue);
+            PrefManager.s_Instance.SetCoinsValue(coinvalue);
 
          //   UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 

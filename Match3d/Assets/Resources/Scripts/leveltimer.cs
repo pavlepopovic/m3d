@@ -24,7 +24,7 @@ public class leveltimer : MonoBehaviour
 	{
 		m_TimeText = GetComponent<Text>();
 
-		m_LevelSectionTimer = prefmanager.instance.Getlevelsvalue();
+		m_LevelSectionTimer = PrefManager.s_Instance.GetLevelsValue();
 		Time.timeScale = 1;
 		if (!m_FirstTime)
         {

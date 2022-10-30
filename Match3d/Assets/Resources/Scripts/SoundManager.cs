@@ -46,7 +46,7 @@ public class SoundManager : MonoBehaviour
 
     public void SetSoundSource()
     {
-        if (prefmanager.instance.Getsoundsvalue()==1)
+        if (PrefManager.s_Instance.GetSoundsValue()==1)
         {
             SoundSource.mute = false;
         }
@@ -57,7 +57,7 @@ public class SoundManager : MonoBehaviour
     }
     public void SetMusicSource()
     {
-        if (prefmanager.instance.Getmusicsvalue() == 1)
+        if (PrefManager.s_Instance.GetMusicValue() == 1)
         {
             MusicSource.mute = false;
         }
@@ -68,7 +68,7 @@ public class SoundManager : MonoBehaviour
     }
     public void MakeVibaration()
     {
-        if (prefmanager.instance.Getvibrationsvalue() == 1)
+        if (PrefManager.s_Instance.GetVibrationsValue() == 1)
         {
             Handheld.Vibrate();
         }
