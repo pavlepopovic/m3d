@@ -5001,7 +5001,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnHomeclick
+        m_MethodName: OnHomeClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5744,7 +5744,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnRateUsclick
+        m_MethodName: OnRateUsClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8840,7 +8840,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnHomeclick
+        m_MethodName: OnHomeClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9279,7 +9279,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: freezetime
+        m_MethodName: FreezeTime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9735,7 +9735,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnHomeclick
+        m_MethodName: OnHomeClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9826,7 +9826,7 @@ MonoBehaviour:
   LevelFailTimerText: {fileID: 2033897462}
   RewardCoinValue: {fileID: 1898916105}
   ShowRateUsDialogBox: {fileID: 1007452483}
-  Popupdialogbox: {fileID: 2070237028}
+  PopUpDialogBox: {fileID: 2070237028}
   HintLocked: {fileID: 990526521}
   HintUnlocked: {fileID: 1861952500}
   TimeFreezeUnlock: {fileID: 1189919131}
@@ -11159,7 +11159,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: freezetime
+        m_MethodName: FreezeTime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11291,7 +11291,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnRateUsclick
+        m_MethodName: OnRateUsClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12685,7 +12685,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Onpauseclick
+        m_MethodName: OnPauseClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14760,7 +14760,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Onretryclick
+        m_MethodName: OnRetryClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14893,7 +14893,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnRateUsclick
+        m_MethodName: OnRateUsClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16044,7 +16044,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnNextclick
+        m_MethodName: OnNextClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16403,7 +16403,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Onresumeclick
+        m_MethodName: OnResumeClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16864,7 +16864,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Onretryclick
+        m_MethodName: OnRetryClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
