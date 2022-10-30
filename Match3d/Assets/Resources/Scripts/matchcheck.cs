@@ -148,7 +148,7 @@ public class matchcheck : MonoBehaviour
         starvalue++;
         Starvalue.text = starvalue.ToString();
         collectedobjectvalue++;
-        GameManager.instance.checklevelcomplete(collectedobjectvalue);
+        GameManager.s_Instance.checklevelcomplete(collectedobjectvalue);
     }
 
     public void OnhintClick()

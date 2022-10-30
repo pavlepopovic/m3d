@@ -4,44 +4,64 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance = null;
+    public static GameManager s_Instance = null;
 
     public int ShowRateUsAfterlevels;
+
     [Header("Level Editor")]
+    [UnityEngine.Serialization.FormerlySerializedAs("levels")]
     public leveleditor levels;
+    [UnityEngine.Serialization.FormerlySerializedAs("levelValuetxt")]
     public Text levelValuetxt;
     [Header("Spawnpoint")]
+    [UnityEngine.Serialization.FormerlySerializedAs("Spawnpoint")]
     public GameObject Spawnpoint;
     int levelvalue,totalobjects;
+    [UnityEngine.Serialization.FormerlySerializedAs("holdercube")]
     public GameObject holdercube;
 
     [Header("dialogeboxes")]
+    [UnityEngine.Serialization.FormerlySerializedAs("tutorial")]
     public GameObject tutorial;
+    [UnityEngine.Serialization.FormerlySerializedAs("pausedialogbox")]
     public GameObject pausedialogbox;
+    [UnityEngine.Serialization.FormerlySerializedAs("levelcompletebox")]
     public GameObject levelcompletebox;
+    [UnityEngine.Serialization.FormerlySerializedAs("levelfailbox")]
     public GameObject levelfailbox;
     public Text ScoreText;
     public Text TimerText;
+    [UnityEngine.Serialization.FormerlySerializedAs("levelfailtimertext")]
     public Text levelfailtimertext;
     public Text RewardCoinValue;
+    [UnityEngine.Serialization.FormerlySerializedAs("ShowRateUsDialogbox")]
     public GameObject ShowRateUsDialogbox;
+    [UnityEngine.Serialization.FormerlySerializedAs("Popupdialogbox")]
     public GameObject Popupdialogbox;
 
-    [Header("FreezeAndHintimageandtxt")]
+    [Header("FreezeAndHintImageAndText")]
     public GameObject HintLocked;
-    public GameObject HintUnlocked, TimeFreezeUnlock, TimeFreezeLocked;
-
+    public GameObject HintUnlocked;
+    public GameObject TimeFreezeUnlock;
+    public GameObject TimeFreezeLocked;
+    [UnityEngine.Serialization.FormerlySerializedAs("freeze")]
     public GameObject freeze;
-    public Text freezetextvalue,hinttextvalue;
+    [UnityEngine.Serialization.FormerlySerializedAs("freezetextvalue")]
+    public Text freezetextvalue;
+    [UnityEngine.Serialization.FormerlySerializedAs("hinttextvalue")]
+    public Text hinttextvalue;
+    [UnityEngine.Serialization.FormerlySerializedAs("freezedelayvalue")]
     public int freezedelayvalue;
 
-    public GameObject HintAddButton, TimeFreezeAddButton , RewardTimeFreezeDialogbox;
+    public GameObject HintAddButton;
+    public GameObject TimeFreezeAddButton;
+    public GameObject RewardTimeFreezeDialogbox;
 
     private void Awake()
     {
-        if (instance == null)
+        if (s_Instance == null)
         {
-            instance = this;
+            s_Instance = this;
         }
         else
         {
