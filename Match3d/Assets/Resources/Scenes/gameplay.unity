@@ -4211,8 +4211,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 719702504}
-        m_TargetAssemblyTypeName: showrewardedvideoad, Assembly-CSharp
-        m_MethodName: OnShowrewardedad
+        m_TargetAssemblyTypeName: AdStandIn, Assembly-CSharp
+        m_MethodName: StandInRewardedAd
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5001,7 +5001,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnHomeclick
+        m_MethodName: OnHomeClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5372,8 +5372,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 816050299}
-        m_TargetAssemblyTypeName: showrewardedvideoad, Assembly-CSharp
-        m_MethodName: OnShowrewardedad
+        m_TargetAssemblyTypeName: AdStandIn, Assembly-CSharp
+        m_MethodName: StandInRewardedAd
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5744,7 +5744,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnRateUsclick
+        m_MethodName: OnRateUsClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8840,7 +8840,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnHomeclick
+        m_MethodName: OnHomeClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9130,8 +9130,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1172271445}
-        m_TargetAssemblyTypeName: showrewardedvideoad, Assembly-CSharp
-        m_MethodName: OnShowrewardedad
+        m_TargetAssemblyTypeName: AdStandIn, Assembly-CSharp
+        m_MethodName: StandInRewardedAd
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9279,7 +9279,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: freezetime
+        m_MethodName: FreezeTime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9493,8 +9493,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1200190190}
-        m_TargetAssemblyTypeName: showrewardedvideoad, Assembly-CSharp
-        m_MethodName: OnShowrewardedad
+        m_TargetAssemblyTypeName: AdStandIn, Assembly-CSharp
+        m_MethodName: StandInRewardedAd
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9646,13 +9646,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 042891c7e38345643b57ef3b8ca77f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restart: {fileID: 7940968953416431718}
-  freezetimebool: 0
-  level: {fileID: 11400000, guid: 764b160aadebfaa4095a9ca83f4dc3c6, type: 2}
-  Minutes: 0
-  Seconds: 0
-  sadaminute: 0
-  sadasecond: 0
+  Restart: {fileID: 7940968953416431718}
+  Level: {fileID: 11400000, guid: 764b160aadebfaa4095a9ca83f4dc3c6, type: 2}
+  SadaSeconds: 0
+  SadaMinute: 0
+  FreezeTimeBool: 0
 --- !u!1 &1206211604
 GameObject:
   m_ObjectHideFlags: 0
@@ -9737,7 +9735,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnHomeclick
+        m_MethodName: OnHomeClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9815,31 +9813,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowRateUsAfterlevels: 3
-  levels: {fileID: 11400000, guid: 764b160aadebfaa4095a9ca83f4dc3c6, type: 2}
-  levelValuetxt: {fileID: 1765862600}
-  Spawnpoint: {fileID: 800689900}
-  holdercube: {fileID: 114176573}
-  tutorial: {fileID: 608071624}
-  pausedialogbox: {fileID: 1749470163}
-  levelcompletebox: {fileID: 1047897866}
-  levelfailbox: {fileID: 7940968953416431718}
+  Levels: {fileID: 11400000, guid: 764b160aadebfaa4095a9ca83f4dc3c6, type: 2}
+  LevelValueText: {fileID: 1765862600}
+  SpawnPoint: {fileID: 800689900}
+  HolderCube: {fileID: 114176573}
+  Tutorial: {fileID: 608071624}
+  PausedDialogBox: {fileID: 1749470163}
+  LevelCompleteBox: {fileID: 1047897866}
+  LevelFailBox: {fileID: 7940968953416431718}
   ScoreText: {fileID: 873952990}
   TimerText: {fileID: 197050651}
-  levelfailtimertext: {fileID: 2033897462}
+  LevelFailTimerText: {fileID: 2033897462}
   RewardCoinValue: {fileID: 1898916105}
-  ShowRateUsDialogbox: {fileID: 1007452483}
-  Popupdialogbox: {fileID: 2070237028}
+  ShowRateUsDialogBox: {fileID: 1007452483}
+  PopUpDialogBox: {fileID: 2070237028}
   HintLocked: {fileID: 990526521}
   HintUnlocked: {fileID: 1861952500}
   TimeFreezeUnlock: {fileID: 1189919131}
   TimeFreezeLocked: {fileID: 1426920082}
-  freeze: {fileID: 2098479612}
-  freezetextvalue: {fileID: 1633633653}
-  hinttextvalue: {fileID: 1106633308}
-  freezedelayvalue: 20
+  Freeze: {fileID: 2098479612}
+  FreezeTextValue: {fileID: 1633633653}
+  HintTextValue: {fileID: 1106633308}
+  FreezeDelayValue: 20
   HintAddButton: {fileID: 1568777490}
   TimeFreezeAddButton: {fileID: 1890875907}
-  RewardTimeFreezeDialogbox: {fileID: 58283250}
+  RewardTimeFreezeDialogBox: {fileID: 58283250}
 --- !u!4 &1211475869
 Transform:
   m_ObjectHideFlags: 0
@@ -10058,18 +10056,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8553ced2a893e8e4aaa5570f942222ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlaceObject: []
   PointA: {fileID: 400096653}
   PointB: {fileID: 1080752484}
-  Matchpoint: {fileID: 1717529774}
-  matchanim: {fileID: 1314620556}
-  Staranim: {fileID: 894542891}
-  Starvalue: {fileID: 148875839}
-  hintbutton: {fileID: 1861952502}
-  Addrewardhintdialogbox: {fileID: 721531287}
-  Spawnpoint: {fileID: 800689900}
-  automovingobjectspeed: 0
-  HintObjects: []
+  MatchPoint: {fileID: 1717529774}
+  MatchAnim: {fileID: 1314620556}
+  StarAnim: {fileID: 894542891}
+  StarValue: {fileID: 148875839}
+  HintButton: {fileID: 1861952502}
+  AddRewardHintDialogBox: {fileID: 721531287}
+  SpawnPoint: {fileID: 800689900}
 --- !u!1 &1261922866
 GameObject:
   m_ObjectHideFlags: 0
@@ -10583,7 +10578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c1844065c81e9e45be3c2886697ff77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freezevalue: 20
+  FreezeValue: 20
 --- !u!1 &1330498387
 GameObject:
   m_ObjectHideFlags: 0
@@ -11161,7 +11156,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: freezetime
+        m_MethodName: FreezeTime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11293,7 +11288,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnRateUsclick
+        m_MethodName: OnRateUsClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12687,7 +12682,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Onpauseclick
+        m_MethodName: OnPauseClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14007,8 +14002,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1257186883}
-        m_TargetAssemblyTypeName: matchcheck, Assembly-CSharp
-        m_MethodName: OnhintClick
+        m_TargetAssemblyTypeName: MatchCheck, Assembly-CSharp
+        m_MethodName: OnHintClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14762,7 +14757,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Onretryclick
+        m_MethodName: OnRetryClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14895,7 +14890,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnRateUsclick
+        m_MethodName: OnRateUsClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16046,7 +16041,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OnNextclick
+        m_MethodName: OnNextClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16405,7 +16400,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Onresumeclick
+        m_MethodName: OnResumeClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16866,7 +16861,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1211475868}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Onretryclick
+        m_MethodName: OnRetryClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

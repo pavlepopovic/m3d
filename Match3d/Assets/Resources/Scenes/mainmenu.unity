@@ -877,8 +877,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f92e2e9e59245741b596a4f6498e4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subject: Match 3d Unity Tempalte
-  body: https://play.google.com/store/apps/details?id=com.markhorstudio.match3d
+  Subject: Match 3d Unity Template
+  Body: https://play.google.com/store/apps/details?id=com.markhorstudio.match3d
 --- !u!1 &87501398
 GameObject:
   m_ObjectHideFlags: 0
@@ -1118,7 +1118,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: SettingDialogclick
+        m_MethodName: OnSettingsDialogClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1407,7 +1407,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buycoinspackage
+        m_MethodName: BuyCoinsPackage
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1777,7 +1777,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buySuperofferpackage
+        m_MethodName: BuySpecialOfferPackage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4042,7 +4042,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OnPrivacyclick
+        m_MethodName: OnPrivacyClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4938,7 +4938,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OnShopclick
+        m_MethodName: OnShopClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5090,7 +5090,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: Removeads
+        m_MethodName: RemoveAds
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5830,7 +5830,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: onPLayclick
+        m_MethodName: OnPlayClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7123,7 +7123,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: onPLayclick
+        m_MethodName: OnPlayClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7269,7 +7269,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OnShareclick
+        m_MethodName: OnShareClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10092,23 +10092,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Loading: {fileID: 381336602}
-  privacypolicy: 
-  Levelfillbar: {fileID: 237276308}
-  levelValue: {fileID: 1493955664}
+  PrivacyPolicy: 
+  LevelFillBar: {fileID: 237276308}
+  LevelValue: {fileID: 1493955664}
   Setting: {fileID: 680464719}
   Shop: {fileID: 650364432}
   Share: {fileID: 67890329}
-  Dailygift: {fileID: 125156237}
-  levelplay: {fileID: 1419808290}
-  leveltext: {fileID: 1324355573}
-  cointext: {fileID: 1092950581}
-  shopcointext: {fileID: 629212652}
-  onoff:
+  DailyGift: {fileID: 125156237}
+  LevelPlay: {fileID: 1419808290}
+  LevelText: {fileID: 1324355573}
+  CoinText: {fileID: 1092950581}
+  ShopCoinText: {fileID: 629212652}
+  OnOff:
   - {fileID: 21300000, guid: 3a54d516b39c357449ffbe64fe6ed92a, type: 3}
   - {fileID: 21300000, guid: 88f1b7032e6bce9498201e8e67b1b491, type: 3}
-  music: {fileID: 970579006}
-  sound: {fileID: 1555597179}
-  vibration: {fileID: 1316826703}
+  Music: {fileID: 970579006}
+  Sound: {fileID: 1555597179}
+  Vibration: {fileID: 1316826703}
 --- !u!4 &799160311
 Transform:
   m_ObjectHideFlags: 0
@@ -10760,7 +10760,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buycoinspackage
+        m_MethodName: BuyCoinsPackage
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11328,7 +11328,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: Removeads
+        m_MethodName: RemoveAds
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11843,7 +11843,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: onmusicclick
+        m_MethodName: OnMusicClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12019,7 +12019,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buySuperofferpackage
+        m_MethodName: BuySuperOfferPackage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12587,7 +12587,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buyMasterofferpackage
+        m_MethodName: BuyMasterOfferPackage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13814,7 +13814,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buycoinspackage
+        m_MethodName: BuyCoinsPackage
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15379,7 +15379,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: onvibrationclick
+        m_MethodName: OnVibrationClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17059,7 +17059,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: onsoundclick
+        m_MethodName: OnSoundClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18247,7 +18247,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: closeSettingDialogclick
+        m_MethodName: OnSettingsDialogCloseClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18415,10 +18415,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69626d202b7c431468c20318939dbc79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dailyrewarddialogbox: {fileID: 125156237}
-  mstowait: 86400000
-  button: {fileID: 1804913226}
-  chesttimer2: {fileID: 110176198}
+  Button: {fileID: 1804913226}
+  ChestTimer: {fileID: 110176198}
+  DailyRewardDialogBox: {fileID: 125156237}
+  MilisecondsToWait: 86400000
 --- !u!1 &1685532574
 GameObject:
   m_ObjectHideFlags: 0
@@ -18864,8 +18864,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1695090245}
-        m_TargetAssemblyTypeName: showrewardedvideoad, Assembly-CSharp
-        m_MethodName: OnShowrewardedad
+        m_TargetAssemblyTypeName: AdStandIn, Assembly-CSharp
+        m_MethodName: StandInRewardedAd
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -19187,7 +19187,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: SettingDialogclick
+        m_MethodName: OnSettingsDialogClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -19941,7 +19941,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1682590416}
         m_TargetAssemblyTypeName: dailyreward, Assembly-CSharp
-        m_MethodName: Oncollectclick
+        m_MethodName: OnCollectClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20640,7 +20640,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OnSharecloseclick
+        m_MethodName: OnShareCloseClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20856,7 +20856,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OnShareclick
+        m_MethodName: OnShareClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -22725,7 +22725,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buyMegaofferpackage
+        m_MethodName: BuyMegaOfferPackage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24015,7 +24015,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1980096363}
         m_TargetAssemblyTypeName: Purchaser, Assembly-CSharp
-        m_MethodName: buycoinspackage
+        m_MethodName: BuyCoinsPackage
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24148,7 +24148,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 799160310}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OnShopclick
+        m_MethodName: OnShopClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

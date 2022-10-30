@@ -6,186 +6,198 @@ public class MainMenuManager : MonoBehaviour
 {
     public GameObject Loading;
 
-    public string privacypolicy;
+    [UnityEngine.Serialization.FormerlySerializedAs("privacypolicy")]
+    public string PrivacyPolicy;
 
-    public Image Levelfillbar;
-    public Text levelValue;
+    [UnityEngine.Serialization.FormerlySerializedAs("Levelfillbar")]
+    public Image LevelFillBar;
+    [UnityEngine.Serialization.FormerlySerializedAs("levelValue")]
+    public Text LevelValue;
     [Header("Dialogs")]
     public GameObject Setting;
     public GameObject Shop;
     public GameObject Share;
-    public GameObject Dailygift;
-    public GameObject levelplay;
-    public Text leveltext;
-
+    [UnityEngine.Serialization.FormerlySerializedAs("Dailygift")]
+    public GameObject DailyGift;
+    [UnityEngine.Serialization.FormerlySerializedAs("levelplay")]
+    public GameObject LevelPlay;
+    [UnityEngine.Serialization.FormerlySerializedAs("leveltext")]
+    public Text LevelText;
 
     [Header("Coins And LifeValue")]
-    public Text cointext;
-    public Text shopcointext;
-
+    [UnityEngine.Serialization.FormerlySerializedAs("cointext")]
+    public Text CoinText;
+    [UnityEngine.Serialization.FormerlySerializedAs("shopcointext")]
+    public Text ShopCoinText;
 
     [Header("Setting icons")]
-    public Sprite[] onoff;
-    public Image music, sound, vibration;
+    [UnityEngine.Serialization.FormerlySerializedAs("onoff")]
+    public Sprite[] OnOff;
+    [UnityEngine.Serialization.FormerlySerializedAs("music")]
+    public Image Music;
+    [UnityEngine.Serialization.FormerlySerializedAs("sound")]
+    public Image Sound;
+    [UnityEngine.Serialization.FormerlySerializedAs("vibration")]
+    public Image Vibration;
 
-
-    int levelvalue;
+    private int m_LevelValue;
 
     void Start()
     {
-        levelvalue = prefmanager.instance.Getlevelsvalue();
-        leveltext.text = "Level " + levelvalue;
-        prefmanager.instance.Setlevelsvalue(levelvalue);
-        setingdialogue();
-        setlevelprogress();
+        m_LevelValue = PrefManager.s_Instance.GetLevelsValue();
+        LevelText.text = "Level " + m_LevelValue;
+        PrefManager.s_Instance.SetLevelsValue(m_LevelValue);
+        SettingsDialog();
+        SetLevelProgress();
     }
     
     void Update()
     {
-        cointext.text = prefmanager.instance.Getcoinsvalue().ToString();
-        shopcointext.text= prefmanager.instance.Getcoinsvalue().ToString();
+        CoinText.text = PrefManager.s_Instance.GetCoinsValue().ToString();
+        ShopCoinText.text= PrefManager.s_Instance.GetCoinsValue().ToString();
     }
 
-    public void onMainmenuPLayclick()
+    // Supposed to bring up stuff like boosters - not implemented
+    public void OnMainMenuPlayClick()
     {
-        SoundManager.instance.PlayButtonSOund();
-        levelplay.gameObject.SetActive(true);
+        SoundManager.instance.PlayButtonSound();
+        LevelPlay.gameObject.SetActive(true);
     }
 
-    public void onPLayclick()
+    public void OnPlayClick()
     {
         Loading.SetActive(true);
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         SceneManager.LoadScene("gameplay");
     }
 
-    void setlevelprogress()
+    void SetLevelProgress()
     {
-        float currentlevelvalue = prefmanager.instance.Getlevelsvalue();
-        levelValue.text = currentlevelvalue.ToString();
+        float currentlevelvalue = PrefManager.s_Instance.GetLevelsValue();
+        LevelValue.text = currentlevelvalue.ToString();
         var  fillvalue=currentlevelvalue / 100f;
-        Levelfillbar.fillAmount = fillvalue;
+        LevelFillBar.fillAmount = fillvalue;
     }
 
-    void setingdialogue()
+    void SettingsDialog()
     {
-        music.sprite = onoff[prefmanager.instance.Getmusicsvalue()];
-        if (prefmanager.instance.Getmusicsvalue() == 1)
+        Music.sprite = OnOff[PrefManager.s_Instance.GetMusicValue()];
+        if (PrefManager.s_Instance.GetMusicValue() == 1)
         {
-            music.transform.GetChild(0).GetComponent<Text>().text = "ON";
+            Music.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
         else
         {
-            music.transform.GetChild(0).GetComponent<Text>().text = "OFF";
+            Music.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
-        sound.sprite = onoff[prefmanager.instance.Getsoundsvalue()];
-        if (prefmanager.instance.Getmusicsvalue() == 1)
+        Sound.sprite = OnOff[PrefManager.s_Instance.GetSoundsValue()];
+        if (PrefManager.s_Instance.GetMusicValue() == 1)
         {
-            sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
-        }
-        else
-        {
-            sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
-        }
-        vibration.sprite = onoff[prefmanager.instance.Getvibrationsvalue()];
-        if (prefmanager.instance.Getmusicsvalue() == 1)
-        {
-            sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
+            Sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
         else
         {
-            sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
+            Sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
+        }
+        Vibration.sprite = OnOff[PrefManager.s_Instance.GetVibrationsValue()];
+        if (PrefManager.s_Instance.GetMusicValue() == 1)
+        {
+            Sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
+        }
+        else
+        {
+            Sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
     }
 
-    public void SettingDialogclick()
+    public void OnSettingsDialogClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Setting.gameObject.SetActive(true);
     }
 
-    public void closeSettingDialogclick()
+    public void OnSettingsDialogCloseClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Setting.gameObject.SetActive(false);
     }
 
-    public void OnShopclick()
+    public void OnShopClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Shop.gameObject.SetActive(true);
     }
 
-    public void OnShareclick()
+    public void OnShareClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Share.gameObject.SetActive(true);
     }
 
-    public void OnSharecloseclick()
+    public void OnShareCloseClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Share.gameObject.SetActive(false);
     }
 
     public void OnHomeClick()
     {
-        SoundManager.instance.PlayButtonSOund();
+        SoundManager.instance.PlayButtonSound();
         Shop.gameObject.SetActive(false);
     }
 
-    public void onmusicclick()
+    public void OnMusicClick()
     {
-        if (prefmanager.instance.Getmusicsvalue() == 1)
+        if (PrefManager.s_Instance.GetMusicValue() == 1)
         {
-            prefmanager.instance.Setmusicsvalue(0);
-            music.sprite = onoff[prefmanager.instance.Getmusicsvalue()];
-            music.transform.GetChild(0).GetComponent<Text>().text = "OFF";
+            PrefManager.s_Instance.SetMusicValue(0);
+            Music.sprite = OnOff[PrefManager.s_Instance.GetMusicValue()];
+            Music.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
         else
         {
-            prefmanager.instance.Setmusicsvalue(1);
-            music.sprite = onoff[prefmanager.instance.Getmusicsvalue()];
-            music.transform.GetChild(0).GetComponent<Text>().text = "ON";
+            PrefManager.s_Instance.SetMusicValue(1);
+            Music.sprite = OnOff[PrefManager.s_Instance.GetMusicValue()];
+            Music.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
         SoundManager.instance.SetMusicSource();
     }
 
-    public void onsoundclick()
+    public void OnSoundClick()
     {
-        if (prefmanager.instance.Getsoundsvalue() == 1)
+        if (PrefManager.s_Instance.GetSoundsValue() == 1)
         {
-            prefmanager.instance.Setsoundsvalue(0);
-            sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
+            PrefManager.s_Instance.SetSoundsValue(0);
+            Sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
         else
         {
-            prefmanager.instance.Setsoundsvalue(1);
-            sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
+            PrefManager.s_Instance.SetSoundsValue(1);
+            Sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
-        sound.sprite = onoff[prefmanager.instance.Getsoundsvalue()];
+        Sound.sprite = OnOff[PrefManager.s_Instance.GetSoundsValue()];
         SoundManager.instance.SetSoundSource();
     }
 
-    public void onvibrationclick()
+    public void OnVibrationClick()
     {
-        if (prefmanager.instance.Getvibrationsvalue() == 1)
+        if (PrefManager.s_Instance.GetVibrationsValue() == 1)
         {
-            prefmanager.instance.Setvibrationvalue(0);
-            vibration.sprite = onoff[prefmanager.instance.Getvibrationsvalue()];
-            vibration.transform.GetChild(0).GetComponent<Text>().text = "OFF";
+            PrefManager.s_Instance.SetVibrationValue(0);
+            Vibration.sprite = OnOff[PrefManager.s_Instance.GetVibrationsValue()];
+            Vibration.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
         else
         {
-            prefmanager.instance.Setvibrationvalue(1);
-            vibration.sprite = onoff[prefmanager.instance.Getvibrationsvalue()];
-            vibration.transform.GetChild(0).GetComponent<Text>().text = "ON";
+            PrefManager.s_Instance.SetVibrationValue(1);
+            Vibration.sprite = OnOff[PrefManager.s_Instance.GetVibrationsValue()];
+            Vibration.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
     }
 
-    public void OnPrivacyclick()
+    public void OnPrivacyClick()
     {
-        Application.OpenURL(privacypolicy);
+        Application.OpenURL(PrivacyPolicy);
     }
 
     public void RateUS()
@@ -195,10 +207,10 @@ public class MainMenuManager : MonoBehaviour
 
     public void GiveCoins(int value)
     {
-        int coinvalue= prefmanager.instance.Getcoinsvalue();
+        int coinvalue= PrefManager.s_Instance.GetCoinsValue();
         coinvalue += value;
-        prefmanager.instance.SetcoinsValue(coinvalue);
+        PrefManager.s_Instance.SetCoinsValue(coinvalue);
 
-        cointext.text = prefmanager.instance.Getcoinsvalue().ToString();
+        CoinText.text = PrefManager.s_Instance.GetCoinsValue().ToString();
     }
 }
