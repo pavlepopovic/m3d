@@ -877,8 +877,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f92e2e9e59245741b596a4f6498e4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subject: Match 3d Unity Tempalte
-  body: https://play.google.com/store/apps/details?id=com.markhorstudio.match3d
+  Subject: Match 3d Unity Template
+  Body: https://play.google.com/store/apps/details?id=com.markhorstudio.match3d
 --- !u!1 &87501398
 GameObject:
   m_ObjectHideFlags: 0
