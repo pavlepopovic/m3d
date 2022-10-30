@@ -153,7 +153,7 @@ public class GameManager : MonoBehaviour
         {
             Invoke("MakeTimeScaleZero", 1f);
 
-            TimerText.text = FindObjectOfType<leveltimer>().SadaMinute + ":" + FindObjectOfType<leveltimer>().SadaSeconds + " Min";
+            TimerText.text = FindObjectOfType<LevelTimer>().SadaMinute + ":" + FindObjectOfType<LevelTimer>().SadaSeconds + " Min";
             m_LevelValue++;
             PrefManager.s_Instance.SetLevelsValue(m_LevelValue);
 
@@ -248,7 +248,7 @@ public class GameManager : MonoBehaviour
             PrefManager.s_Instance.SetFreezeValue(freezevalue);
             SoundManager.instance.PlayButtonSound();
             Time.timeScale = 1f;
-            FindObjectOfType<leveltimer>().FreezeTimeBool = true;
+            FindObjectOfType<LevelTimer>().FreezeTimeBool = true;
             Freeze.SetActive(true);
         }
         else

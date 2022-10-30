@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class leveltimer : MonoBehaviour
+public class LevelTimer : MonoBehaviour
 {
 	[UnityEngine.Serialization.FormerlySerializedAs("restart")]
 	public GameObject Restart;

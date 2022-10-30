@@ -19,7 +19,7 @@ public class AdStandIn : MonoBehaviour
                 FindObjectOfType<GameManager>().GiveFreezeTime(1);
                 break;
             case 5:
-                FindObjectOfType<leveltimer>().ReviveButton();
+                FindObjectOfType<LevelTimer>().ReviveButton();
                 break;
             default:
                 UnityEngine.Assertions.Assert.IsTrue(false);

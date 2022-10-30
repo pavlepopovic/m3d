@@ -18,8 +18,8 @@ public class UnfreezeTime : MonoBehaviour
         if (FreezeValue <= 0)
         {
             GameManager.s_Instance.Freeze.transform.parent.gameObject.GetComponent<Button>().interactable = true;
-            FindObjectOfType<leveltimer>().FreezeTimeBool = false;
-            FindObjectOfType<leveltimer>().CountDown();
+            FindObjectOfType<LevelTimer>().FreezeTimeBool = false;
+            FindObjectOfType<LevelTimer>().CountDown();
             gameObject.transform.parent.gameObject.SetActive(false);
         }
     }
