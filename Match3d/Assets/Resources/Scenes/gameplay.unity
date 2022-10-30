@@ -9646,8 +9646,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 042891c7e38345643b57ef3b8ca77f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restart: {fileID: 7940968953416431718}
-  level: {fileID: 11400000, guid: 764b160aadebfaa4095a9ca83f4dc3c6, type: 2}
+  Restart: {fileID: 7940968953416431718}
+  Level: {fileID: 11400000, guid: 764b160aadebfaa4095a9ca83f4dc3c6, type: 2}
   SadaSeconds: 0
   SadaMinute: 0
   FreezeTimeBool: 0
@@ -10056,18 +10056,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8553ced2a893e8e4aaa5570f942222ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlaceObject: []
   PointA: {fileID: 400096653}
   PointB: {fileID: 1080752484}
-  Matchpoint: {fileID: 1717529774}
-  matchanim: {fileID: 1314620556}
-  Staranim: {fileID: 894542891}
-  Starvalue: {fileID: 148875839}
-  hintbutton: {fileID: 1861952502}
-  Addrewardhintdialogbox: {fileID: 721531287}
-  Spawnpoint: {fileID: 800689900}
-  automovingobjectspeed: 0
-  HintObjects: []
+  MatchPoint: {fileID: 1717529774}
+  MatchAnim: {fileID: 1314620556}
+  StarAnim: {fileID: 894542891}
+  StarValue: {fileID: 148875839}
+  HintButton: {fileID: 1861952502}
+  AddRewardHintDialogBox: {fileID: 721531287}
+  SpawnPoint: {fileID: 800689900}
 --- !u!1 &1261922866
 GameObject:
   m_ObjectHideFlags: 0
@@ -14005,8 +14002,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1257186883}
-        m_TargetAssemblyTypeName: matchcheck, Assembly-CSharp
-        m_MethodName: OnhintClick
+        m_TargetAssemblyTypeName: MatchCheck, Assembly-CSharp
+        m_MethodName: OnHintClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
