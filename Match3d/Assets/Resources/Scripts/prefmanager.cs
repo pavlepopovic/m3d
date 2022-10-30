@@ -1,14 +1,20 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class PrefManager : MonoBehaviour
+public class prefmanager : MonoBehaviour
 {
-    public static PrefManager s_Instance = null;
+    public static prefmanager instance = null;
+
+    int hintvalue, addcubevalue, unlockedlevelvalue, coinsvalue, heartvalue;
+
+
 
     void Awake()
     {
-        if (s_Instance == null)
+        if (instance == null)
         {
-            s_Instance = this;
+            instance = this;
         }
         else
         {
@@ -16,92 +22,140 @@ public class PrefManager : MonoBehaviour
         }
     }
 
-    // For setting and getting hint values
-    public int GetHintValue()
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+
+
+
+    //for setting and getting hint values
+    public int Gethintvalue()
     {
         return PlayerPrefs.GetInt("hintpref", 5);
     }
-
     public void SetHintValue(int value)
     {
         PlayerPrefs.SetInt("hintpref", value);
     }
 
-    // for getting and setting coins value
-    public int GetCoinsValue()
+
+
+
+
+    //for getting and Setting extra cubes
+
+    public int Gettubevalue()
+    {
+        return PlayerPrefs.GetInt("tubepref", 5);
+    }
+    public void SettubeValue(int value)
+    {
+        PlayerPrefs.SetInt("tubepref", value);
+    }
+
+
+
+
+
+    //for getting and setting coinsvalue
+    public int Getcoinsvalue()
     {
         return PlayerPrefs.GetInt("coinsvalue", 0);
     }
-
-    public void SetCoinsValue(int value)
+    public void SetcoinsValue(int value)
     {
         PlayerPrefs.SetInt("coinsvalue", value);
     }
 
-    // Unlock level value container
-    public int GetLevelsValue()
+
+
+
+
+    //unlock level value container
+    public int Getlevelsvalue()
     {
         return PlayerPrefs.GetInt("level", 1);
     }
-
-    public void SetLevelsValue(int value)
+    public void Setlevelsvalue(int value)
     {
         PlayerPrefs.SetInt("level", value);
     }
 
-    // Music pref value
-    public int GetMusicValue()
+    //music pref value
+
+    public int Getmusicsvalue()
     {
         return PlayerPrefs.GetInt("musicvalue", 1);
     }
-
-    public void SetMusicValue(int value)
+    public void Setmusicsvalue(int value)
     {
         PlayerPrefs.SetInt("musicvalue", value);
     }
 
-    // Sound pref value
-    public int GetSoundsValue()
+    //sound pref value
+
+    public int Getsoundsvalue()
     {
         return PlayerPrefs.GetInt("soundvalue", 1);
     }
-
-    public void SetSoundsValue(int value)
+    public void Setsoundsvalue(int value)
     {
         PlayerPrefs.SetInt("soundvalue", value);
     }
 
-    // Vibration pref value
-    public int GetVibrationsValue()
+    //vibration pref value
+
+    public int Getvibrationsvalue()
     {
         return PlayerPrefs.GetInt("vibrationvalue", 1);
     }
-
-    public void SetVibrationValue(int value)
+    public void Setvibrationvalue(int value)
     {
         PlayerPrefs.SetInt("vibrationvalue", value);
     }
 
-    // Freeze pref value
-    public int GetFreezeValue()
+
+
+
+
+    //Freeze pref value
+
+    public int Getfreezevalue()
     {
         return PlayerPrefs.GetInt("freezevalue", 5);
     }
-
-    public void SetFreezeValue(int value)
+    public void Setfreezevalue(int value)
     {
         PlayerPrefs.SetInt("freezevalue", value);
     }
 
-    // Rate us pref value
-    public int GetCurrentRateUsValue()
+
+
+    //rate us pref value
+
+    public int GetCurrentrateusvalue()
     {
         int value = PlayerPrefs.GetInt("rateusvalue", 0);
         return value;
     }
-
-    public void SetCurrentRateUsValue(int value)
+    public void SetCurrentrateusvalue(int n)
     {
-        PlayerPrefs.SetInt("rateusvalue", value);       
+        PlayerPrefs.SetInt("rateusvalue", n);       
     }
+
+
+
+
+
+
+
 }
