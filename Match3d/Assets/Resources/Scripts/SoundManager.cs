@@ -14,8 +14,6 @@ public class SoundManager : MonoBehaviour
     [UnityEngine.Serialization.FormerlySerializedAs("wrongmatch")]
     public AudioClip WrongMatch;
     public AudioClip ButtonSound;
-    [UnityEngine.Serialization.FormerlySerializedAs("waterdropsound")]
-    public AudioClip WaterDropSound;
     [UnityEngine.Serialization.FormerlySerializedAs("levelcompeletesound")]
     public AudioClip LevelCompleteSound;
 
@@ -28,8 +26,6 @@ public class SoundManager : MonoBehaviour
 
     [UnityEngine.Serialization.FormerlySerializedAs("matchsound")]  
     public AudioClip MatchSound;
-    [UnityEngine.Serialization.FormerlySerializedAs("confettiparticle")]
-    public AudioClip ConfettiParticle;
 
     // Start is called before the first frame update
     void Start()
