@@ -78,7 +78,7 @@ public class MatchCheck : MonoBehaviour
             other.gameObject.transform.rotation = PointB.transform.rotation;
 
             SoundManager.instance.PlayWrongMatchSound();
-            if(PrefManager.s_Instance.GetVibrationsValue() == 1)
+            if(PrefManager.GetVibrationsValue() == 1)
             {
                 Handheld.Vibrate();
             }
@@ -118,12 +118,12 @@ public class MatchCheck : MonoBehaviour
 
     public void OnHintClick()
     {
-        if (PrefManager.s_Instance.GetHintValue() > 0)           
+        if (PrefManager.GetHintValue() > 0)           
         {
             HintButton.interactable = false;
-            int hintvalue = PrefManager.s_Instance.GetHintValue();
+            int hintvalue = PrefManager.GetHintValue();
             hintvalue--;
-            PrefManager.s_Instance.SetHintValue(hintvalue);
+            PrefManager.SetHintValue(hintvalue);
 
             FindGameObjects();
             if (m_PlaceObject.Count != 1)
