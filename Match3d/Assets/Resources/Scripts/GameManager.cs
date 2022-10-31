@@ -261,7 +261,7 @@ public class GameManager : MonoBehaviour
     public void AddCoinHints()
     {
         int coinvalue = PrefManager.GetCoinsValue();
-        if(coinvalue >= 1000)
+        if (coinvalue >= 1000)
         {
             coinvalue = coinvalue - 1000;
             PrefManager.SetCoinsValue(coinvalue);

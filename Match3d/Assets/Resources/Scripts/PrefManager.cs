@@ -14,6 +14,7 @@ public static class PrefManager
         SetVibrationValue(1);
         SetFreezeValue(5);
         SetCurrentRateUsValue(0);
+        SetStageProgress(0);
     }
 
     #region Getters
@@ -26,6 +27,16 @@ public static class PrefManager
     public static int GetStageValue()
     {
         return PlayerPrefs.GetInt("stage");
+    }
+
+    public static int GetStageProgress()
+    {
+        return PlayerPrefs.GetInt("stageprogress");
+    }
+
+    public static bool CanAdvanceToNextStage()
+    {
+        return GetStageProgress() == 5;
     }
 
     public static int GetHintValue()
@@ -123,6 +134,11 @@ public static class PrefManager
         PlayerPrefs.SetInt("rateusvalue", value);
     }
 
+    public static void SetStageProgress(int value)
+    {
+        PlayerPrefs.SetInt("stageprogress", value);
+    }
+
     #endregion
 
     #region Incrementers
@@ -137,6 +153,42 @@ public static class PrefManager
     {
         int currentStage = GetStageValue();
         PlayerPrefs.SetInt("stage", currentStage + 1);
+    }
+
+    public static void IncrementStageProgress()
+    {
+        int stageProgressValue = PlayerPrefs.GetInt("stageprogress");
+        PlayerPrefs.SetInt("stageprogress", stageProgressValue + 1);
+    }
+
+    #endregion
+
+    #region Decrementers
+
+    public static bool CanDecrementUpgradeStars()
+    {
+        return GetNumUpgradeStars() > 0;
+    }
+
+    public static void DecrementUpgradeStarsAndIncrementStageProgress()
+    {
+        int currentNumStars = PlayerPrefs.GetInt("upgradestars");
+        if (currentNumStars > 0)
+        {
+            PlayerPrefs.SetInt("upgradestars", currentNumStars - 1);
+            IncrementStageProgress();
+        }
+    }
+
+    #endregion
+
+    #region Logic
+
+    public static void AdvanceToNextStage()
+    {
+        UnityEngine.Assertions.Assert.IsTrue(CanAdvanceToNextStage());
+        IncrementStage();
+        SetStageProgress(0);
     }
 
     #endregion

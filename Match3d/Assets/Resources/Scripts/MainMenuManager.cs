@@ -31,6 +31,7 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("Upgrade stars")]
     public Text UpgradeStarsText;
+    public Button UpgradeStarsButton;
 
     [Header("Coins And LifeValue")]
     [UnityEngine.Serialization.FormerlySerializedAs("cointext")]
@@ -52,8 +53,7 @@ public class MainMenuManager : MonoBehaviour
     {
         LevelText.text = "Level " + PrefManager.GetLevelsValue(); // The level value which pops up if boosters are to be selected (not implemented)
         SettingsDialog();
-        SetStageProgress();
-        SetUpgradeStars();
+        ResolveGameState();
     }
     
     void Update()
@@ -76,18 +76,33 @@ public class MainMenuManager : MonoBehaviour
         SceneManager.LoadScene("gameplay");
     }
 
-    void SetStageProgress()
+    public void OnUpgradeStarClick()
     {
-        float currentStageLevel = PrefManager.GetStageValue();
-        StageValue.text = currentStageLevel.ToString();
-
-        // todo: do properly when stage is finalized
-        LevelFillBar.fillAmount = 0.5f;
+        UnityEngine.Assertions.Assert.IsTrue(PrefManager.CanDecrementUpgradeStars());
+        PrefManager.DecrementUpgradeStarsAndIncrementStageProgress();
+        ResolveGameState();
     }
 
-    void SetUpgradeStars()
+    void ResolveGameState()
     {
-        UpgradeStarsText.text = PrefManager.GetNumUpgradeStars().ToString();
+        // stage and stage progress
+        {
+            if (PrefManager.CanAdvanceToNextStage())
+            {
+                PrefManager.AdvanceToNextStage();
+            }
+
+            float currentStageLevel = PrefManager.GetStageValue();
+            StageValue.text = currentStageLevel.ToString();
+            LevelFillBar.fillAmount = PrefManager.GetStageProgress() / 5.0f;
+        }
+
+        // stars
+        {
+            int numStars = PrefManager.GetNumUpgradeStars();
+            UpgradeStarsText.text = numStars.ToString();
+            UpgradeStarsButton.interactable = numStars > 0;
+        }
     }
 
     void SettingsDialog()
