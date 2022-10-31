@@ -11,8 +11,10 @@ public class MainMenuManager : MonoBehaviour
 
     [UnityEngine.Serialization.FormerlySerializedAs("Levelfillbar")]
     public Image LevelFillBar;
+
+    // Level on screen
     [UnityEngine.Serialization.FormerlySerializedAs("levelValue")]
-    public Text LevelValue;
+    public Text StageValue;
     [Header("Dialogs")]
     public GameObject Setting;
     public GameObject Shop;
@@ -21,8 +23,14 @@ public class MainMenuManager : MonoBehaviour
     public GameObject DailyGift;
     [UnityEngine.Serialization.FormerlySerializedAs("levelplay")]
     public GameObject LevelPlay;
+
+    // level when pressing play, when boosters spawn
+    // unused as of now, use when implementing boosters
     [UnityEngine.Serialization.FormerlySerializedAs("leveltext")]
     public Text LevelText;
+
+    [Header("Upgrade stars")]
+    public Text UpgradeStarsText;
 
     [Header("Coins And LifeValue")]
     [UnityEngine.Serialization.FormerlySerializedAs("cointext")]
@@ -40,21 +48,18 @@ public class MainMenuManager : MonoBehaviour
     [UnityEngine.Serialization.FormerlySerializedAs("vibration")]
     public Image Vibration;
 
-    private int m_LevelValue;
-
     void Start()
     {
-        m_LevelValue = PrefManager.s_Instance.GetLevelsValue();
-        LevelText.text = "Level " + m_LevelValue;
-        PrefManager.s_Instance.SetLevelsValue(m_LevelValue);
+        LevelText.text = "Level " + PrefManager.GetLevelsValue(); // The level value which pops up if boosters are to be selected (not implemented)
         SettingsDialog();
-        SetLevelProgress();
+        SetStageProgress();
+        SetUpgradeStars();
     }
     
     void Update()
     {
-        CoinText.text = PrefManager.s_Instance.GetCoinsValue().ToString();
-        ShopCoinText.text= PrefManager.s_Instance.GetCoinsValue().ToString();
+        CoinText.text = PrefManager.GetCoinsValue().ToString();
+        ShopCoinText.text= PrefManager.GetCoinsValue().ToString();
     }
 
     // Supposed to bring up stuff like boosters - not implemented
@@ -71,18 +76,24 @@ public class MainMenuManager : MonoBehaviour
         SceneManager.LoadScene("gameplay");
     }
 
-    void SetLevelProgress()
+    void SetStageProgress()
     {
-        float currentlevelvalue = PrefManager.s_Instance.GetLevelsValue();
-        LevelValue.text = currentlevelvalue.ToString();
-        var  fillvalue=currentlevelvalue / 100f;
-        LevelFillBar.fillAmount = fillvalue;
+        float currentStageLevel = PrefManager.GetStageValue();
+        StageValue.text = currentStageLevel.ToString();
+
+        // todo: do properly when stage is finalized
+        LevelFillBar.fillAmount = 0.5f;
+    }
+
+    void SetUpgradeStars()
+    {
+        UpgradeStarsText.text = PrefManager.GetNumUpgradeStars().ToString();
     }
 
     void SettingsDialog()
     {
-        Music.sprite = OnOff[PrefManager.s_Instance.GetMusicValue()];
-        if (PrefManager.s_Instance.GetMusicValue() == 1)
+        Music.sprite = OnOff[PrefManager.GetMusicValue()];
+        if (PrefManager.GetMusicValue() == 1)
         {
             Music.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
@@ -90,8 +101,8 @@ public class MainMenuManager : MonoBehaviour
         {
             Music.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
-        Sound.sprite = OnOff[PrefManager.s_Instance.GetSoundsValue()];
-        if (PrefManager.s_Instance.GetMusicValue() == 1)
+        Sound.sprite = OnOff[PrefManager.GetSoundsValue()];
+        if (PrefManager.GetMusicValue() == 1)
         {
             Sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
@@ -99,8 +110,8 @@ public class MainMenuManager : MonoBehaviour
         {
             Sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
-        Vibration.sprite = OnOff[PrefManager.s_Instance.GetVibrationsValue()];
-        if (PrefManager.s_Instance.GetMusicValue() == 1)
+        Vibration.sprite = OnOff[PrefManager.GetVibrationsValue()];
+        if (PrefManager.GetMusicValue() == 1)
         {
             Sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
@@ -148,16 +159,16 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnMusicClick()
     {
-        if (PrefManager.s_Instance.GetMusicValue() == 1)
+        if (PrefManager.GetMusicValue() == 1)
         {
-            PrefManager.s_Instance.SetMusicValue(0);
-            Music.sprite = OnOff[PrefManager.s_Instance.GetMusicValue()];
+            PrefManager.SetMusicValue(0);
+            Music.sprite = OnOff[PrefManager.GetMusicValue()];
             Music.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
         else
         {
-            PrefManager.s_Instance.SetMusicValue(1);
-            Music.sprite = OnOff[PrefManager.s_Instance.GetMusicValue()];
+            PrefManager.SetMusicValue(1);
+            Music.sprite = OnOff[PrefManager.GetMusicValue()];
             Music.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
         SoundManager.instance.SetMusicSource();
@@ -165,32 +176,32 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnSoundClick()
     {
-        if (PrefManager.s_Instance.GetSoundsValue() == 1)
+        if (PrefManager.GetSoundsValue() == 1)
         {
-            PrefManager.s_Instance.SetSoundsValue(0);
+            PrefManager.SetSoundsValue(0);
             Sound.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
         else
         {
-            PrefManager.s_Instance.SetSoundsValue(1);
+            PrefManager.SetSoundsValue(1);
             Sound.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
-        Sound.sprite = OnOff[PrefManager.s_Instance.GetSoundsValue()];
+        Sound.sprite = OnOff[PrefManager.GetSoundsValue()];
         SoundManager.instance.SetSoundSource();
     }
 
     public void OnVibrationClick()
     {
-        if (PrefManager.s_Instance.GetVibrationsValue() == 1)
+        if (PrefManager.GetVibrationsValue() == 1)
         {
-            PrefManager.s_Instance.SetVibrationValue(0);
-            Vibration.sprite = OnOff[PrefManager.s_Instance.GetVibrationsValue()];
+            PrefManager.SetVibrationValue(0);
+            Vibration.sprite = OnOff[PrefManager.GetVibrationsValue()];
             Vibration.transform.GetChild(0).GetComponent<Text>().text = "OFF";
         }
         else
         {
-            PrefManager.s_Instance.SetVibrationValue(1);
-            Vibration.sprite = OnOff[PrefManager.s_Instance.GetVibrationsValue()];
+            PrefManager.SetVibrationValue(1);
+            Vibration.sprite = OnOff[PrefManager.GetVibrationsValue()];
             Vibration.transform.GetChild(0).GetComponent<Text>().text = "ON";
         }
     }
@@ -207,10 +218,10 @@ public class MainMenuManager : MonoBehaviour
 
     public void GiveCoins(int value)
     {
-        int coinvalue= PrefManager.s_Instance.GetCoinsValue();
+        int coinvalue= PrefManager.GetCoinsValue();
         coinvalue += value;
-        PrefManager.s_Instance.SetCoinsValue(coinvalue);
+        PrefManager.SetCoinsValue(coinvalue);
 
-        CoinText.text = PrefManager.s_Instance.GetCoinsValue().ToString();
+        CoinText.text = PrefManager.GetCoinsValue().ToString();
     }
 }

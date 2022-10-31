@@ -45,7 +45,7 @@ public class SoundManager : MonoBehaviour
 
     public void SetSoundSource()
     {
-        if (PrefManager.s_Instance.GetSoundsValue() == 1)
+        if (PrefManager.GetSoundsValue() == 1)
         {
             SoundSource.mute = false;
         }
@@ -57,7 +57,7 @@ public class SoundManager : MonoBehaviour
 
     public void SetMusicSource()
     {
-        if (PrefManager.s_Instance.GetMusicValue() == 1)
+        if (PrefManager.GetMusicValue() == 1)
         {
             MusicSource.mute = false;
         }

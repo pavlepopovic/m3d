@@ -1,107 +1,144 @@
 ﻿using UnityEngine;
 
-public class PrefManager : MonoBehaviour
+public static class PrefManager
 {
-    public static PrefManager s_Instance = null;
-
-    void Awake()
+    public static void Reset()
     {
-        if (s_Instance == null)
-        {
-            s_Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        SetLevelsValue(1);
+        SetNumUpgradeStars(0);
+        SetStageValue(1);
+        SetHintValue(5);
+        SetCoinsValue(1000);
+        SetMusicValue(1);
+        SetSoundsValue(1);
+        SetVibrationValue(1);
+        SetFreezeValue(5);
+        SetCurrentRateUsValue(0);
     }
 
-    // For setting and getting hint values
-    public int GetHintValue()
+    #region Getters
+
+    public static int GetNumUpgradeStars()
+    {
+        return PlayerPrefs.GetInt("upgradestars");
+    }
+
+    public static int GetStageValue()
+    {
+        return PlayerPrefs.GetInt("stage");
+    }
+
+    public static int GetHintValue()
     {
         return PlayerPrefs.GetInt("hintpref", 5);
     }
 
-    public void SetHintValue(int value)
-    {
-        PlayerPrefs.SetInt("hintpref", value);
-    }
-
-    // for getting and setting coins value
-    public int GetCoinsValue()
+    public static int GetCoinsValue()
     {
         return PlayerPrefs.GetInt("coinsvalue", 0);
     }
 
-    public void SetCoinsValue(int value)
-    {
-        PlayerPrefs.SetInt("coinsvalue", value);
-    }
-
-    // Unlock level value container
-    public int GetLevelsValue()
+    public static int GetLevelsValue()
     {
         return PlayerPrefs.GetInt("level", 1);
     }
 
-    public void SetLevelsValue(int value)
-    {
-        PlayerPrefs.SetInt("level", value);
-    }
-
-    // Music pref value
-    public int GetMusicValue()
+    public static int GetMusicValue()
     {
         return PlayerPrefs.GetInt("musicvalue", 1);
     }
 
-    public void SetMusicValue(int value)
-    {
-        PlayerPrefs.SetInt("musicvalue", value);
-    }
-
-    // Sound pref value
-    public int GetSoundsValue()
+    public static int GetSoundsValue()
     {
         return PlayerPrefs.GetInt("soundvalue", 1);
     }
 
-    public void SetSoundsValue(int value)
-    {
-        PlayerPrefs.SetInt("soundvalue", value);
-    }
-
-    // Vibration pref value
-    public int GetVibrationsValue()
+    public static int GetVibrationsValue()
     {
         return PlayerPrefs.GetInt("vibrationvalue", 1);
     }
 
-    public void SetVibrationValue(int value)
-    {
-        PlayerPrefs.SetInt("vibrationvalue", value);
-    }
-
-    // Freeze pref value
-    public int GetFreezeValue()
+    public static int GetFreezeValue()
     {
         return PlayerPrefs.GetInt("freezevalue", 5);
     }
 
-    public void SetFreezeValue(int value)
-    {
-        PlayerPrefs.SetInt("freezevalue", value);
-    }
-
-    // Rate us pref value
-    public int GetCurrentRateUsValue()
+    public static int GetCurrentRateUsValue()
     {
         int value = PlayerPrefs.GetInt("rateusvalue", 0);
         return value;
     }
 
-    public void SetCurrentRateUsValue(int value)
+    #endregion
+
+    #region Setters
+
+    public static void SetNumUpgradeStars(int numStars)
     {
-        PlayerPrefs.SetInt("rateusvalue", value);       
+        PlayerPrefs.SetInt("upgradestars", numStars);
     }
+
+    public static void SetStageValue(int stageValue)
+    {
+        PlayerPrefs.SetInt("stage", stageValue);
+    }
+
+    public static void SetHintValue(int value)
+    {
+        PlayerPrefs.SetInt("hintpref", value);
+    }
+
+    public static void SetCoinsValue(int value)
+    {
+        PlayerPrefs.SetInt("coinsvalue", value);
+    }
+
+    public static void SetLevelsValue(int value)
+    {
+        PlayerPrefs.SetInt("level", value);
+    }
+
+    public static void SetMusicValue(int value)
+    {
+        PlayerPrefs.SetInt("musicvalue", value);
+    }
+
+    public static void SetSoundsValue(int value)
+    {
+        PlayerPrefs.SetInt("soundvalue", value);
+    }
+
+    public static void SetVibrationValue(int value)
+    {
+        PlayerPrefs.SetInt("vibrationvalue", value);
+    }
+
+    public static void SetFreezeValue(int value)
+    {
+        PlayerPrefs.SetInt("freezevalue", value);
+    }
+
+    public static void SetCurrentRateUsValue(int value)
+    {
+        PlayerPrefs.SetInt("rateusvalue", value);
+    }
+
+    #endregion
+
+    #region Incrementers
+
+    public static void IncrementNumUpgradeStars()
+    {
+        int currentNumStars = PlayerPrefs.GetInt("upgradestars");
+        PlayerPrefs.SetInt("upgradestars", currentNumStars + 1);
+    }
+
+    public static void IncrementStage()
+    {
+        int currentStage = GetStageValue();
+        PlayerPrefs.SetInt("stage", currentStage + 1);
+    }
+
+    #endregion
+
 }

@@ -384,123 +384,123 @@ public class Purchaser : MonoBehaviour, IStoreListener
 	    if (String.Equals(args.purchasedProduct.definition.id, coinpack1ID, StringComparison.Ordinal))
 	    {
 		    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            int temp = PrefManager.s_Instance.GetCoinsValue();
+            int temp = PrefManager.GetCoinsValue();
             temp = temp + assigncoinpack1Values;
-            PrefManager.s_Instance.SetCoinsValue(temp);
+            PrefManager.SetCoinsValue(temp);
         }
 	    else if (String.Equals(args.purchasedProduct.definition.id, coinpack2ID, StringComparison.Ordinal)){
 		    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            int temp = PrefManager.s_Instance.GetCoinsValue();
+            int temp = PrefManager.GetCoinsValue();
             temp = temp + assigncoinpack2Values;
-            PrefManager.s_Instance.SetCoinsValue(temp);
+            PrefManager.SetCoinsValue(temp);
         }
 	    else if (String.Equals(args.purchasedProduct.definition.id, coinpack3ID, StringComparison.Ordinal)){
 		    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            int temp = PrefManager.s_Instance.GetCoinsValue();
+            int temp = PrefManager.GetCoinsValue();
             temp = temp + assigncoinpack3Values;
-            PrefManager.s_Instance.SetCoinsValue(temp);
+            PrefManager.SetCoinsValue(temp);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, coinpack3ID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            int temp = PrefManager.s_Instance.GetCoinsValue();
+            int temp = PrefManager.GetCoinsValue();
             temp = temp + assigncoinpack4Values;
-            PrefManager.s_Instance.SetCoinsValue(temp);
+            PrefManager.SetCoinsValue(temp);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, specialofferID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
             
             // Set Hint Value
-            int hint = PrefManager.s_Instance.GetHintValue();
+            int hint = PrefManager.GetHintValue();
             hint = hint + asignspecialofferhintvalue;
-            PrefManager.s_Instance.SetHintValue(hint);
+            PrefManager.SetHintValue(hint);
 
             // Set TimeFreeze Value
-            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
+            int timefreeze = PrefManager.GetFreezeValue();
             timefreeze = timefreeze + asignspecialoffertimefreezevalue;
-            PrefManager.s_Instance.SetFreezeValue(timefreeze);
+            PrefManager.SetFreezeValue(timefreeze);
 
             // Set Coins Value
-            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
+            int coinvalue = PrefManager.GetCoinsValue();
             coinvalue = coinvalue + asignspecialoffercoinvalue;
-            PrefManager.s_Instance.SetCoinsValue(coinvalue);
+            PrefManager.SetCoinsValue(coinvalue);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, specialofferID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
             // Set Hint Value
-            int hint = PrefManager.s_Instance.GetHintValue();
+            int hint = PrefManager.GetHintValue();
             hint = hint + asignspecialofferhintvalue;
-            PrefManager.s_Instance.SetHintValue(hint);
+            PrefManager.SetHintValue(hint);
 
             // Set TimeFreeze Value
-            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
+            int timefreeze = PrefManager.GetFreezeValue();
             timefreeze = timefreeze + asignspecialoffertimefreezevalue;
-            PrefManager.s_Instance.SetFreezeValue(timefreeze);
+            PrefManager.SetFreezeValue(timefreeze);
 
             // Set Coins Value
-            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
+            int coinvalue = PrefManager.GetCoinsValue();
             coinvalue = coinvalue + asignspecialoffercoinvalue;
-            PrefManager.s_Instance.SetCoinsValue(coinvalue);
+            PrefManager.SetCoinsValue(coinvalue);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, masterofferID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
             //Set Hint Value
-            int hint = PrefManager.s_Instance.GetHintValue();
+            int hint = PrefManager.GetHintValue();
             hint = hint + asignmasterofferhintvalue;
-            PrefManager.s_Instance.SetHintValue(hint);
+            PrefManager.SetHintValue(hint);
 
             //Set TimeFreeze Value
-            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
+            int timefreeze = PrefManager.GetFreezeValue();
             timefreeze = timefreeze + asignmasteroffertimefreezevalue;
-            PrefManager.s_Instance.SetFreezeValue(timefreeze);
+            PrefManager.SetFreezeValue(timefreeze);
 
             //Set Coins Value
-            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
+            int coinvalue = PrefManager.GetCoinsValue();
             coinvalue = coinvalue + asignspecialoffercoinvalue;
-            PrefManager.s_Instance.SetCoinsValue(coinvalue);
+            PrefManager.SetCoinsValue(coinvalue);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, SuperofferID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
             // Set Hint Value
-            int hint = PrefManager.s_Instance.GetHintValue();
+            int hint = PrefManager.GetHintValue();
             hint = hint + asignSuperofferhintvalue;
-            PrefManager.s_Instance.SetHintValue(hint);
+            PrefManager.SetHintValue(hint);
 
             // Set TimeFreeze Value
-            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
+            int timefreeze = PrefManager.GetFreezeValue();
             timefreeze = timefreeze + asignSuperoffertimefreezevalue;
-            PrefManager.s_Instance.SetFreezeValue(timefreeze);
+            PrefManager.SetFreezeValue(timefreeze);
 
             // Set Coins Value
-            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
+            int coinvalue = PrefManager.GetCoinsValue();
             coinvalue = coinvalue + asignSuperoffercoinvalue;
-            PrefManager.s_Instance.SetCoinsValue(coinvalue);
+            PrefManager.SetCoinsValue(coinvalue);
         }
         else if (String.Equals(args.purchasedProduct.definition.id, megaofferID, StringComparison.Ordinal))
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
             // Set Hint Value
-            int hint = PrefManager.s_Instance.GetHintValue();
+            int hint = PrefManager.GetHintValue();
             hint = hint + asignmegaofferhintvalue;
-            PrefManager.s_Instance.SetHintValue(hint);
+            PrefManager.SetHintValue(hint);
 
             // Set TimeFreeze Value
-            int timefreeze = PrefManager.s_Instance.GetFreezeValue();
+            int timefreeze = PrefManager.GetFreezeValue();
             timefreeze = timefreeze + asignmegaoffertimefreezevalue;
-            PrefManager.s_Instance.SetFreezeValue(timefreeze);
+            PrefManager.SetFreezeValue(timefreeze);
 
             // Set Coins Value
-            int coinvalue = PrefManager.s_Instance.GetCoinsValue();
+            int coinvalue = PrefManager.GetCoinsValue();
             coinvalue = coinvalue + asignmegaoffercoinvalue;
-            PrefManager.s_Instance.SetCoinsValue(coinvalue);
+            PrefManager.SetCoinsValue(coinvalue);
         }
         // Or ... a non-consumable product has been purchased by this user.
         else if (String.Equals(args.purchasedProduct.definition.id, removeadsID, StringComparison.Ordinal))
