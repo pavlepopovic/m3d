@@ -52,6 +52,8 @@ public class MainMenuManager : MonoBehaviour
     [UnityEngine.Serialization.FormerlySerializedAs("vibration")]
     public Image Vibration;
 
+    private int m_CurrentStageValue = 0;
+
     void Start()
     {
         LevelText.text = "Level " + PrefManager.GetLevelsValue(); // The level value which pops up if boosters are to be selected (not implemented)
@@ -95,17 +97,34 @@ public class MainMenuManager : MonoBehaviour
                 PrefManager.AdvanceToNextStage();
             }
 
-            int currentStageValue = PrefManager.GetStageValue();
-            StageValue.text = currentStageValue.ToString();
             LevelFillBar.fillAmount = PrefManager.GetStageProgress() / 5.0f;
-            GameObject stage = Instantiate(StageEditor.StageDatas[currentStageValue - 1], StageRoot.transform);
+            UnityEngine.Assertions.Assert.IsTrue(StageRoot.transform.childCount <= 1, "StageRoot should have one child at most!");
+
+            int oldStageValue = m_CurrentStageValue;
+            m_CurrentStageValue = PrefManager.GetStageValue();
+
+            GameObject stage = null;
+            if (oldStageValue != m_CurrentStageValue)
+            {
+                StageValue.text = m_CurrentStageValue.ToString();
+                if (StageRoot.transform.childCount == 1)
+                {
+                    Destroy(StageRoot.transform.GetChild(0).gameObject);
+                }
+                stage = Instantiate(StageEditor.StageDatas[m_CurrentStageValue - 1], StageRoot.transform);
+            }
+            else
+            {
+                stage = StageRoot.transform.GetChild(0).gameObject;
+            }
+
             for (int i = 0; i < stage.transform.childCount; i++)
             {
                 GameObject stageObjective = stage.transform.GetChild(i).gameObject;
                 Button stageButton = stageObjective.GetComponent<Button>();
                 UnityEngine.Assertions.Assert.IsNotNull(stageButton);
 
-                bool objectiveInteractedWith = PrefManager.GetStageObjectiveState(currentStageValue, i) > 0;
+                bool objectiveInteractedWith = PrefManager.GetStageObjectiveState(m_CurrentStageValue, i) > 0;
                 stageButton.interactable = (PrefManager.GetNumUpgradeStars() > 0) && !objectiveInteractedWith;
 
                 if (objectiveInteractedWith)
