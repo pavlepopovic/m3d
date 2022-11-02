@@ -15,9 +15,21 @@ public static class PrefManager
         SetFreezeValue(5);
         SetCurrentRateUsValue(0);
         SetStageProgress(0);
+        for (int i = 0; i < 20; i++)
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                SetStageObjectiveState(i, j, 0);
+            }
+        }
     }
 
     #region Getters
+
+    public static int GetStageObjectiveState(int stage, int childIndex)
+    {
+        return PlayerPrefs.GetInt($"stageobjectivestate{stage}{childIndex}");
+    }
 
     public static int GetNumUpgradeStars()
     {
@@ -83,6 +95,11 @@ public static class PrefManager
     #endregion
 
     #region Setters
+
+    public static void SetStageObjectiveState(int stage, int childIndex, int value)
+    {
+        PlayerPrefs.SetInt($"stageobjectivestate{stage}{childIndex}", value);
+    }
 
     public static void SetNumUpgradeStars(int numStars)
     {
