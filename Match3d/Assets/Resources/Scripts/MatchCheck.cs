@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MatchCheck : MonoBehaviour
-{    
+{
+    public static MatchCheck s_Instance = null;
+
     [Header("Destination point")]
     public GameObject PointA;
     public GameObject PointB;
@@ -30,6 +32,7 @@ public class MatchCheck : MonoBehaviour
 
     private List<GameObject> m_HintObjects = new List<GameObject>();
     private List<GameObject> m_PlaceObject = new List<GameObject>();
+    private bool[] m_ReservedSlots = new bool[] { false, false };
     private int m_CollectedObjectValue = 0;
     private int m_StarValue = 0;
 
@@ -45,20 +48,13 @@ public class MatchCheck : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if(m_PlaceObject.Count == 0)
-        {           
-            other.gameObject.transform.position = PointA.transform.position;
-            other.gameObject.transform.rotation = PointA.transform.rotation;
-            other.gameObject.GetComponent<Item>().SetRotation(); 
+        {            
             other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;           
             m_PlaceObject.Add(other.gameObject);          
         }
         else if(other.gameObject.name.Contains(m_PlaceObject[0].name) == true)
         {
-            other.gameObject.transform.position = PointB.transform.position;
-            other.gameObject.transform.rotation = PointB.transform.rotation;
-            other.gameObject.GetComponent<Item>().SetRotation();
             other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            other.gameObject.GetComponent<MeshCollider>().enabled = false;
             m_PlaceObject.Add(other.gameObject);
             m_PlaceObject[0].GetComponent<MeshCollider>().enabled = false;
             m_PlaceObject[1].GetComponent<MeshCollider>().enabled = false;
@@ -74,23 +70,24 @@ public class MatchCheck : MonoBehaviour
         }
         else
         {
-            other.gameObject.transform.position = PointB.transform.position;
-            other.gameObject.transform.rotation = PointB.transform.rotation;
-
             SoundManager.instance.PlayWrongMatchSound();
             if(PrefManager.GetVibrationsValue() == 1)
             {
                 Handheld.Vibrate();
             }
-            other.GetComponent<Rigidbody>().velocity = new Vector3(0, 1, 1) * 120 * Time.deltaTime;
+
+            Rigidbody otherRigidbody = other.GetComponent<Rigidbody>();
+            otherRigidbody.useGravity = true;
+            otherRigidbody.velocity = new Vector3(0, 1, 1) * 120 * Time.deltaTime;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        m_ReservedSlots[1] = false;
         if (m_PlaceObject.Contains(other.gameObject))
         {             
-            m_PlaceObject.Remove(other.gameObject);             
+            m_PlaceObject.Remove(other.gameObject);
         }
     }
 
@@ -189,18 +186,48 @@ public class MatchCheck : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        UnityEngine.Assertions.Assert.IsNull(s_Instance);
+        s_Instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        UnityEngine.Assertions.Assert.IsNotNull(s_Instance);
+        s_Instance = null;
+    }
+
+    public GameObject GetEmptySlot()
+    {
+        if (m_ReservedSlots[0] == false)
+        {
+            m_ReservedSlots[0] = true;
+            return PointA.transform.GetChild(0).gameObject;
+        }
+        if (m_ReservedSlots[1] == false)
+        {
+            m_ReservedSlots[1] = true;
+            return PointB.transform.GetChild(0).gameObject;
+        }
+        return null;
+    }
+
     // Moving object to center of point to give merging illusion
     IEnumerator MoveToMatchPoint(float delayTime, GameObject a, GameObject b)
     {
         yield return new WaitForSeconds(delayTime); // start at time X
         float startTime = Time.time; // Time.time contains current frame time, so remember starting point
         while (Time.time - startTime <= 0.17)
-        { 
+        {
             // until one second passed
             a.transform.position = Vector3.Lerp(a.transform.position, MatchPoint.transform.position, Time.time - startTime); // lerp from A to B in one second
             b.transform.position = Vector3.Lerp(b.transform.position, MatchPoint.transform.position, Time.time - startTime); // lerp from A to B in one second
             yield return 0.17f; // wait for next frame           
         }
+
+        m_ReservedSlots[0] = false;
+        m_ReservedSlots[1] = false;
     }
 
     void TranslateObjectToPoint(GameObject g, GameObject point)
