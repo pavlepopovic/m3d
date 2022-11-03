@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MatchCheck : MonoBehaviour
-{    
+{
+    public static MatchCheck s_Instance = null;
+
     [Header("Destination point")]
     public GameObject PointA;
     public GameObject PointB;
@@ -82,7 +84,10 @@ public class MatchCheck : MonoBehaviour
             {
                 Handheld.Vibrate();
             }
-            other.GetComponent<Rigidbody>().velocity = new Vector3(0, 1, 1) * 120 * Time.deltaTime;
+
+            Rigidbody otherRigidbody = other.GetComponent<Rigidbody>();
+            otherRigidbody.constraints = RigidbodyConstraints.None;
+            otherRigidbody.velocity = new Vector3(0, 1, 1) * 120 * Time.deltaTime;
         }
     }
 
@@ -189,13 +194,39 @@ public class MatchCheck : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        UnityEngine.Assertions.Assert.IsNull(s_Instance);
+        s_Instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        UnityEngine.Assertions.Assert.IsNotNull(s_Instance);
+        s_Instance = null;
+    }
+
+    public GameObject GetEmptySlot()
+    {
+        switch (m_PlaceObject.Count)
+        {
+            case 0:
+                return PointA.transform.GetChild(0).gameObject;
+            case 1:
+                return PointB.transform.GetChild(0).gameObject;
+            default:
+                UnityEngine.Assertions.Assert.IsTrue(false, "No place to insert an item!");
+                return null;
+        }
+    }
+
     // Moving object to center of point to give merging illusion
     IEnumerator MoveToMatchPoint(float delayTime, GameObject a, GameObject b)
     {
         yield return new WaitForSeconds(delayTime); // start at time X
         float startTime = Time.time; // Time.time contains current frame time, so remember starting point
         while (Time.time - startTime <= 0.17)
-        { 
+        {
             // until one second passed
             a.transform.position = Vector3.Lerp(a.transform.position, MatchPoint.transform.position, Time.time - startTime); // lerp from A to B in one second
             b.transform.position = Vector3.Lerp(b.transform.position, MatchPoint.transform.position, Time.time - startTime); // lerp from A to B in one second
