@@ -112,15 +112,14 @@ public class Item : MonoBehaviour
     {
         if (m_MatchSlot != null)
         {
-            StartCoroutine(MoveToSlot(0.05f, m_MatchSlot));
+            StartCoroutine(MoveToSlot(0.05f));
             m_MatchSlot = null;
         }
     }
 
-
-    IEnumerator MoveToSlot(float delayTime, GameObject slot)
+    IEnumerator MoveToSlot(float delayTime)
     {
-        UnityEngine.Assertions.Assert.IsNotNull(slot, "Slot is null!");
+        UnityEngine.Assertions.Assert.IsNotNull(m_MatchSlot, "Slot is null!");
         yield return new WaitForSeconds(delayTime);
         m_MeshCollider.enabled = false;
         
@@ -129,7 +128,7 @@ public class Item : MonoBehaviour
         float startTime = Time.time;
         float interpolatedRatio = 0.0f;
         Vector3 startingPosition = transform.position;
-        Vector3 endingPosition = slot.transform.position;
+        Vector3 endingPosition = m_MatchSlot.transform.position;
 
         Vector3 startingScale = transform.localScale;
         Vector3 endingScale = Vector3.one;
@@ -146,6 +145,7 @@ public class Item : MonoBehaviour
         m_MeshCollider.enabled = true;
     }
 
+    // Happening during spawn - to be investigated, and hopefully removed
     void MakeSpawnFalse()
     {
         m_UpPositionBool = true;
