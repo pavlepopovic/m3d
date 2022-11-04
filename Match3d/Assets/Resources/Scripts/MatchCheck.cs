@@ -49,8 +49,11 @@ public class MatchCheck : MonoBehaviour
     {
         if(m_PlaceObject.Count == 0)
         {            
-            other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;           
-            m_PlaceObject.Add(other.gameObject);          
+            other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+
+            // Disable collider so it's not clickable while inside this trigger
+            other.gameObject.GetComponent<MeshCollider>().enabled = false;
+            m_PlaceObject.Add(other.gameObject);
         }
         else if(other.gameObject.name.Contains(m_PlaceObject[0].name) == true)
         {

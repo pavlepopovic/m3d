@@ -11,6 +11,7 @@ public class Item : MonoBehaviour
     private bool m_UpPositionBool;
     private Rigidbody m_RigidBody;
     private MeshCollider m_MeshCollider;
+    private GameObject m_Slot;
 
     private float m_ClampMarginMinX = 0.0f;
     private float m_ClampMarginMaxX = 0.0f;
@@ -43,6 +44,7 @@ public class Item : MonoBehaviour
         m_ClampMinY = Camera.main.ScreenToWorldPoint(new Vector2(0, 0 + m_ClampMarginMinY)).z + m_OffsetYMinValue;
         m_ClampMaxY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height + m_ClampMarginMaxY)).z+ m_OffsetYMaxValue;
 
+        m_Slot = null;
         Invoke("MakeSpawnFalse", 1f);
     }
 
@@ -82,12 +84,22 @@ public class Item : MonoBehaviour
     // OnMouseDown is called when the user has pressed the mouse button while over the Collider.
     public void OnMouseDown()
     {
-        m_RigidBody.useGravity = false;
+        UnityEngine.Assertions.Assert.IsNull(m_Slot);
+        m_Slot = MatchCheck.s_Instance.GetEmptySlot();
+        if (m_Slot != null)
+        {
+            m_RigidBody.useGravity = false;
+        }
     }
 
     // OnMouseDrag is called when the user has clicked on a Collider and is still holding down the mouse.
     public void OnMouseDrag()
     {
+        if (m_Slot == null)
+        {
+            return;
+        }
+
         transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
         transform.Rotate(0f, 1f, 0f);
 
@@ -98,14 +110,10 @@ public class Item : MonoBehaviour
     // OnMouseUp is called when the user has released the mouse button.
     public void OnMouseUp()
     {
-        GameObject emptySlot = MatchCheck.s_Instance.GetEmptySlot();
-        if (emptySlot != null)
+        if (m_Slot != null)
         {
-            StartCoroutine(MoveToSlot(0.05f, emptySlot));
-        }
-        else
-        {
-            m_RigidBody.useGravity = true;
+            StartCoroutine(MoveToSlot(0.05f, m_Slot));
+            m_Slot = null;
         }
     }
 
