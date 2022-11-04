@@ -10,6 +10,7 @@ public class Item : MonoBehaviour
 
     private bool m_UpPositionBool;
     private Rigidbody m_RigidBody;
+    private MeshCollider m_MeshCollider;
 
     private float m_ClampMarginMinX = 0.0f;
     private float m_ClampMarginMaxX = 0.0f;
@@ -31,6 +32,10 @@ public class Item : MonoBehaviour
     void Start()
     {
         m_RigidBody = GetComponent<Rigidbody>();
+        m_MeshCollider = GetComponent<MeshCollider>();
+
+        UnityEngine.Assertions.Assert.IsNotNull(m_RigidBody, "RigidBody is null!");
+        UnityEngine.Assertions.Assert.IsNotNull(m_MeshCollider, "MeshCollider is null!");
 
         // Get the minimum and maximum position values according to the screen size represented by the main camera.
         m_ClampMinX = Camera.main.ScreenToWorldPoint(new Vector2(0 + m_ClampMarginMinX, 0)).x + m_OffsetXMinValue;        
@@ -78,13 +83,11 @@ public class Item : MonoBehaviour
     public void OnMouseDown()
     {
         m_RigidBody.useGravity = false;
-        m_RigidBody.constraints = RigidbodyConstraints.None;
     }
 
     // OnMouseDrag is called when the user has clicked on a Collider and is still holding down the mouse.
     public void OnMouseDrag()
     {
-        m_RigidBody.constraints = RigidbodyConstraints.None;
         transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
         transform.Rotate(0f, 1f, 0f);
 
@@ -95,27 +98,44 @@ public class Item : MonoBehaviour
     // OnMouseUp is called when the user has released the mouse button.
     public void OnMouseUp()
     {
-        StartCoroutine(MoveToSlot(0.05f, MatchCheck.s_Instance.GetEmptySlot()));
+        GameObject emptySlot = MatchCheck.s_Instance.GetEmptySlot();
+        if (emptySlot != null)
+        {
+            StartCoroutine(MoveToSlot(0.05f, emptySlot));
+        }
+        else
+        {
+            m_RigidBody.useGravity = true;
+        }
     }
 
 
     IEnumerator MoveToSlot(float delayTime, GameObject slot)
     {
+        UnityEngine.Assertions.Assert.IsNotNull(slot, "Slot is null!");
         yield return new WaitForSeconds(delayTime);
+        m_MeshCollider.enabled = false;
+        
+        SetRotation();
+
         float startTime = Time.time;
-        while(Time.time - startTime <= 0.5)
+        float interpolatedRatio = 0.0f;
+        Vector3 startingPosition = transform.position;
+        Vector3 endingPosition = slot.transform.position;
+
+        Vector3 startingScale = transform.localScale;
+        Vector3 endingScale = Vector3.one;
+
+        while(Time.time - startTime <= 0.5 || interpolatedRatio != 1.0f)
         {
-            transform.position = Vector3.Lerp(transform.position, slot.transform.position, Time.time - startTime);
-            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one, Time.time - startTime);
+            interpolatedRatio = Mathf.Min(2 * (Time.time - startTime), 1.0f);
+            transform.position = Vector3.Lerp(startingPosition, endingPosition, interpolatedRatio);
+            transform.localScale = Vector3.Lerp(startingScale, endingScale, interpolatedRatio);
             yield return null;
         }
 
-        // Assure that RB is in adequate state after this
-        transform.localScale = Vector3.one;
-        m_RigidBody.useGravity = true;
-
-        // Freeze RB when it's in the slot
-        m_RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        UnityEngine.Assertions.Assert.AreEqual(interpolatedRatio, 1.0f, "Interpolated ratio is not 1!");
+        m_MeshCollider.enabled = true;
     }
 
     void MakeSpawnFalse()
