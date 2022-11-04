@@ -112,14 +112,14 @@ public class Item : MonoBehaviour
     {
         if (m_MatchSlot != null)
         {
-            StartCoroutine(MoveToSlot(0.05f));
+            StartCoroutine(MoveToSlot(0.05f, m_MatchSlot));
             m_MatchSlot = null;
         }
     }
 
-    IEnumerator MoveToSlot(float delayTime)
+    IEnumerator MoveToSlot(float delayTime, GameObject matchSlot)
     {
-        UnityEngine.Assertions.Assert.IsNotNull(m_MatchSlot, "Slot is null!");
+        UnityEngine.Assertions.Assert.IsNotNull(matchSlot, "Slot is null!");
         yield return new WaitForSeconds(delayTime);
         m_MeshCollider.enabled = false;
         
@@ -128,7 +128,7 @@ public class Item : MonoBehaviour
         float startTime = Time.time;
         float interpolatedRatio = 0.0f;
         Vector3 startingPosition = transform.position;
-        Vector3 endingPosition = m_MatchSlot.transform.position;
+        Vector3 endingPosition = matchSlot.transform.position;
 
         Vector3 startingScale = transform.localScale;
         Vector3 endingScale = Vector3.one;
