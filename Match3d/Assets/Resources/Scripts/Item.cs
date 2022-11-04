@@ -1,24 +1,18 @@
+using System.Collections;
 using UnityEngine;
 
 public class Item : MonoBehaviour
 {
     public Vector3 RotationValues;
 
-    [UnityEngine.Serialization.FormerlySerializedAs("applyforce")]
-    public bool ApplyForce;
-
     [HideInInspector]
     public bool HintBool;
 
     private bool m_UpPositionBool;
     private Rigidbody m_RigidBody;
-    private Vector3 m_ScreenPoint;
-    private Vector3 m_Offset;
+    private MeshCollider m_MeshCollider;
+    private GameObject m_MatchSlot;
 
-    private float m_OriginalScaleX;
-    private float m_OriginalScaleY;
-    private float m_OriginalScaleZ;
-     
     private float m_ClampMarginMinX = 0.0f;
     private float m_ClampMarginMaxX = 0.0f;
     private float m_ClampMarginMinY = 0.0f;
@@ -39,16 +33,18 @@ public class Item : MonoBehaviour
     void Start()
     {
         m_RigidBody = GetComponent<Rigidbody>();
-        m_OriginalScaleX = m_RigidBody.gameObject.transform.localScale.x;
-        m_OriginalScaleX = m_RigidBody.gameObject.transform.localScale.x;
-        m_OriginalScaleX = m_RigidBody.gameObject.transform.localScale.x;
+        m_MeshCollider = GetComponent<MeshCollider>();
+
+        UnityEngine.Assertions.Assert.IsNotNull(m_RigidBody, "RigidBody is null!");
+        UnityEngine.Assertions.Assert.IsNotNull(m_MeshCollider, "MeshCollider is null!");
 
         // Get the minimum and maximum position values according to the screen size represented by the main camera.
-        m_ClampMinX = Camera.main.ScreenToWorldPoint(new Vector2(0 + m_ClampMarginMinX, 0)).x+ m_OffsetXMinValue;        
+        m_ClampMinX = Camera.main.ScreenToWorldPoint(new Vector2(0 + m_ClampMarginMinX, 0)).x + m_OffsetXMinValue;        
         m_ClampMaxX = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width - m_ClampMarginMaxX, 0)).x+ m_OffsetXMaxValue;
-        m_ClampMinY = Camera.main.ScreenToWorldPoint(new Vector2(0, 0 + m_ClampMarginMinY)).z+ m_OffsetYMinValue;
+        m_ClampMinY = Camera.main.ScreenToWorldPoint(new Vector2(0, 0 + m_ClampMarginMinY)).z + m_OffsetYMinValue;
         m_ClampMaxY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height + m_ClampMarginMaxY)).z+ m_OffsetYMaxValue;
 
+        m_MatchSlot = null;
         Invoke("MakeSpawnFalse", 1f);
     }
 
@@ -58,11 +54,6 @@ public class Item : MonoBehaviour
         {
             transform.position = new Vector3(Mathf.Clamp(transform.position.x, -1.4f, 1f),
              Mathf.Clamp(transform.position.y, -1f, 1f), Mathf.Clamp(transform.position.z, -3f, 3f));
-        }
-
-        if (ApplyForce == true && HintBool != true)
-        {
-            GetComponent<Rigidbody>().AddForce(Physics.gravity * 100f, ForceMode.Acceleration);
         }
 
         if (transform.position.x < m_ClampMinX)
@@ -90,44 +81,71 @@ public class Item : MonoBehaviour
         }
     }
 
+    // OnMouseDown is called when the user has pressed the mouse button while over the Collider.
     public void OnMouseDown()
     {
-        m_RigidBody.useGravity = false;
-        m_RigidBody.constraints = RigidbodyConstraints.None;
-        m_ScreenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        m_Offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, m_ScreenPoint.z));
+        UnityEngine.Assertions.Assert.IsNull(m_MatchSlot);
+        m_MatchSlot = MatchCheck.s_Instance.GetEmptySlot();
+        if (m_MatchSlot != null)
+        {
+            m_RigidBody.useGravity = false;
+        }
     }
 
+    // OnMouseDrag is called when the user has clicked on a Collider and is still holding down the mouse.
     public void OnMouseDrag()
     {
-        Vector3 cursorPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, m_ScreenPoint.z);
-        Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + m_Offset;
-        m_RigidBody.position = cursorPosition;
-        m_RigidBody.constraints = RigidbodyConstraints.None;
+        if (m_MatchSlot == null)
+        {
+            return;
+        }
 
         transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
         transform.Rotate(0f, 1f, 0f);
-        //Change Value of Selection height from here
-        m_RigidBody.MovePosition(new Vector3(m_RigidBody.position.x, 3.5f, m_RigidBody.position.z));
-        transform.position = new Vector3(m_RigidBody.position.x, 3.5f, m_RigidBody.position.z);
+
+        Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = new Vector3(cursorPosition.x, 3.5f, cursorPosition.z);
     }
 
+    // OnMouseUp is called when the user has released the mouse button.
     public void OnMouseUp()
     {
-        m_RigidBody.useGravity = true;
-        m_RigidBody.constraints = RigidbodyConstraints.None;
-        ApplyForce = true;
-        Invoke("MakeForceFalse", 0.07f);
-
-        transform.localScale = new Vector3(m_OriginalScaleX , m_OriginalScaleY, m_OriginalScaleZ);
-        transform.localScale = new Vector3(1f, 1f, 1f);
+        if (m_MatchSlot != null)
+        {
+            StartCoroutine(MoveToSlot(0.05f));
+            m_MatchSlot = null;
+        }
     }
 
-    void MakeForceFalse()
+    IEnumerator MoveToSlot(float delayTime)
     {
-        ApplyForce = false;
+        UnityEngine.Assertions.Assert.IsNotNull(m_MatchSlot, "Slot is null!");
+        yield return new WaitForSeconds(delayTime);
+        m_MeshCollider.enabled = false;
+        
+        SetRotation();
+
+        float startTime = Time.time;
+        float interpolatedRatio = 0.0f;
+        Vector3 startingPosition = transform.position;
+        Vector3 endingPosition = m_MatchSlot.transform.position;
+
+        Vector3 startingScale = transform.localScale;
+        Vector3 endingScale = Vector3.one;
+
+        while(Time.time - startTime <= 0.5 || interpolatedRatio != 1.0f)
+        {
+            interpolatedRatio = Mathf.Min(2 * (Time.time - startTime), 1.0f);
+            transform.position = Vector3.Lerp(startingPosition, endingPosition, interpolatedRatio);
+            transform.localScale = Vector3.Lerp(startingScale, endingScale, interpolatedRatio);
+            yield return null;
+        }
+
+        UnityEngine.Assertions.Assert.AreEqual(interpolatedRatio, 1.0f, "Interpolated ratio is not 1!");
+        m_MeshCollider.enabled = true;
     }
 
+    // Happening during spawn - to be investigated, and hopefully removed
     void MakeSpawnFalse()
     {
         m_UpPositionBool = true;
