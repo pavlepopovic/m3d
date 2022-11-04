@@ -59,7 +59,8 @@ public class MatchCheck : MonoBehaviour
         {
             other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             m_PlaceObject.Add(other.gameObject);
-            m_PlaceObject[0].GetComponent<MeshCollider>().enabled = false;
+
+            // Disable other collider so it won't collide while doing the animation
             m_PlaceObject[1].GetComponent<MeshCollider>().enabled = false;
 
             Invoke("CollectObject", 0.2f);
