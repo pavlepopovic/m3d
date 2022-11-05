@@ -8,7 +8,6 @@ public class Item : MonoBehaviour
     [HideInInspector]
     public bool HintBool;
 
-    private bool m_UpPositionBool;
     private Rigidbody m_RigidBody;
     private MeshCollider m_MeshCollider;
 
@@ -42,18 +41,10 @@ public class Item : MonoBehaviour
         m_ClampMaxX = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width - m_ClampMarginMaxX, 0)).x+ m_OffsetXMaxValue;
         m_ClampMinY = Camera.main.ScreenToWorldPoint(new Vector2(0, 0 + m_ClampMarginMinY)).z + m_OffsetYMinValue;
         m_ClampMaxY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height + m_ClampMarginMaxY)).z+ m_OffsetYMaxValue;
-
-        Invoke("MakeSpawnFalse", 1f);
     }
 
     private void LateUpdate()
     {
-        if (m_UpPositionBool == false)
-        {
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x, -1.4f, 1f),
-             Mathf.Clamp(transform.position.y, -1f, 1f), Mathf.Clamp(transform.position.z, -3f, 3f));
-        }
-
         if (transform.position.x < m_ClampMinX)
         {
             // If the object position tries to exceed the left screen bound clamp the min x position to 0.
@@ -111,12 +102,6 @@ public class Item : MonoBehaviour
         {
             MatchBoard.s_Instance.MoveItemToSlot(gameObject);
         }
-    }
-
-    // Happening during spawn - to be investigated, and hopefully removed
-    void MakeSpawnFalse()
-    {
-        m_UpPositionBool = true;
     }
 
     public void SetRotation()

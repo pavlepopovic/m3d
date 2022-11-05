@@ -20,7 +20,9 @@ public class MatchBoard : MonoBehaviour
     private GameObject[] m_MatchSlotItems;
     private int m_StarValue = 0;
 
-    private int m_NewItemIndex = 0;
+    // Needed as a workaround as coroutines don't return values.
+    private bool m_DidMatchHappen = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -110,6 +112,12 @@ public class MatchBoard : MonoBehaviour
 
         yield return MatchIfPossible(newItemIndex);
 
+        if (m_DidMatchHappen == true)
+        {
+            // cleanup
+            yield return CleanBoardAfterMatch(newItemIndex);
+        }
+
         // Todo - move objects back where they belong, and cleanup board
     }
 
@@ -173,6 +181,7 @@ public class MatchBoard : MonoBehaviour
 
     private IEnumerator MatchIfPossible(int newItemIndex)
     {
+        m_DidMatchHappen = false;
         if (newItemIndex == 0)
         {
             // Nothing happens
@@ -192,29 +201,45 @@ public class MatchBoard : MonoBehaviour
             yield break;
         }
 
+        m_DidMatchHappen = true;
+
         // match
+        yield return MatchObjects(newItem, adjacentItem);
+    }
+
+    private IEnumerator MatchObjects(GameObject a, GameObject b)
+    {
+        SoundManager.instance.PlayBottleFillSound();
+        StarAnim.SetActive(true);
+        Invoke("DisableStarAnim", 1f);
+
+        float startTime = Time.time; // Time.time contains current frame time, so remember starting point
+        float interpolationRatio = 0.0f;
+
+        Vector3 startingPositionNewItem = a.transform.position;
+        Vector3 startingPositionAdjacentItem = b.transform.position;
+        Vector3 endingPosition = (startingPositionNewItem + startingPositionAdjacentItem) / 2.0f;
+
+        while (Time.time - startTime <= 0.20f || interpolationRatio != 1.0f)
         {
-            SoundManager.instance.PlayBottleFillSound();
-            StarAnim.SetActive(true);
-            Invoke("DisableStarAnim", 1f);
+            interpolationRatio = Mathf.Min(5 * (Time.time - startTime), 1.0f);
+            a.transform.position = Vector3.Lerp(startingPositionNewItem, endingPosition, interpolationRatio); // lerp from A to B in one second
+            b.transform.position = Vector3.Lerp(startingPositionAdjacentItem, endingPosition, interpolationRatio); // lerp from A to B in one second
+            yield return null;
+        }
+    }
 
-            m_NewItemIndex = newItemIndex;
-            Invoke("CollectObjects", 0.25f);
+    private IEnumerator CleanBoardAfterMatch(int newItemIndex)
+    {
+        yield return new WaitForSeconds(0.05f);
 
-            float startTime = Time.time; // Time.time contains current frame time, so remember starting point
-            float interpolationRatio = 0.0f;
+        // Destroy matched items
+        {
+            GameObject newItem = m_MatchSlotItems[newItemIndex];
+            GameObject adjacentItem = m_MatchSlotItems[newItemIndex - 1];
 
-            Vector3 startingPositionNewItem = newItem.transform.position;
-            Vector3 startingPositionAdjacentItem = adjacentItem.transform.position;
-            Vector3 endingPosition = (startingPositionNewItem + startingPositionAdjacentItem) / 2.0f;
-
-            while (Time.time - startTime <= 0.20f || interpolationRatio != 1.0f)
-            {
-                interpolationRatio = Mathf.Min(5 * (Time.time - startTime), 1.0f);
-                newItem.transform.position = Vector3.Lerp(startingPositionNewItem, endingPosition, interpolationRatio); // lerp from A to B in one second
-                adjacentItem.transform.position = Vector3.Lerp(startingPositionAdjacentItem, endingPosition, interpolationRatio); // lerp from A to B in one second
-                yield return null;
-            }
+            Destroy(newItem);
+            Destroy(adjacentItem);
         }
 
     }
@@ -228,12 +253,10 @@ public class MatchBoard : MonoBehaviour
         //GameManager.s_Instance.CheckLevelComplete(m_CollectedObjectValue);
     }
 
-    private void CollectObjects()
+    private void CollectObjects(int newItemIndex)
     {
-        UnityEngine.Assertions.Assert.IsTrue(m_NewItemIndex > 0);
-
-        GameObject newItem = m_MatchSlotItems[m_NewItemIndex];
-        GameObject adjacentItem = m_MatchSlotItems[m_NewItemIndex - 1];
+        GameObject newItem = m_MatchSlotItems[newItemIndex];
+        GameObject adjacentItem = m_MatchSlotItems[newItemIndex - 1];
 
         Destroy(newItem);
         Destroy(adjacentItem);
