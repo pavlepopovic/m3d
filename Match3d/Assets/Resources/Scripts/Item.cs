@@ -8,10 +8,8 @@ public class Item : MonoBehaviour
     [HideInInspector]
     public bool HintBool;
 
-    private bool m_UpPositionBool;
     private Rigidbody m_RigidBody;
     private MeshCollider m_MeshCollider;
-    private GameObject m_MatchSlot;
 
     private float m_ClampMarginMinX = 0.0f;
     private float m_ClampMarginMaxX = 0.0f;
@@ -43,19 +41,10 @@ public class Item : MonoBehaviour
         m_ClampMaxX = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width - m_ClampMarginMaxX, 0)).x+ m_OffsetXMaxValue;
         m_ClampMinY = Camera.main.ScreenToWorldPoint(new Vector2(0, 0 + m_ClampMarginMinY)).z + m_OffsetYMinValue;
         m_ClampMaxY = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height + m_ClampMarginMaxY)).z+ m_OffsetYMaxValue;
-
-        m_MatchSlot = null;
-        Invoke("MakeSpawnFalse", 1f);
     }
 
     private void LateUpdate()
     {
-        if (m_UpPositionBool == false)
-        {
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x, -1.4f, 1f),
-             Mathf.Clamp(transform.position.y, -1f, 1f), Mathf.Clamp(transform.position.z, -3f, 3f));
-        }
-
         if (transform.position.x < m_ClampMinX)
         {
             // If the object position tries to exceed the left screen bound clamp the min x position to 0.
@@ -84,9 +73,8 @@ public class Item : MonoBehaviour
     // OnMouseDown is called when the user has pressed the mouse button while over the Collider.
     public void OnMouseDown()
     {
-        UnityEngine.Assertions.Assert.IsNull(m_MatchSlot);
-        m_MatchSlot = MatchCheck.s_Instance.GetEmptySlot();
-        if (m_MatchSlot != null)
+        // Potentialy problematic if multiple objects are on top of each other
+        if (MatchBoard.s_Instance.IsThereAtLeastOnePlaceOnBoard())
         {
             m_RigidBody.useGravity = false;
         }
@@ -95,7 +83,7 @@ public class Item : MonoBehaviour
     // OnMouseDrag is called when the user has clicked on a Collider and is still holding down the mouse.
     public void OnMouseDrag()
     {
-        if (m_MatchSlot == null)
+        if (!MatchBoard.s_Instance.IsThereAtLeastOnePlaceOnBoard())
         {
             return;
         }
@@ -110,45 +98,10 @@ public class Item : MonoBehaviour
     // OnMouseUp is called when the user has released the mouse button.
     public void OnMouseUp()
     {
-        if (m_MatchSlot != null)
+        if (MatchBoard.s_Instance.IsThereAtLeastOnePlaceOnBoard())
         {
-            StartCoroutine(MoveToSlot(0.05f));
-            m_MatchSlot = null;
+            MatchBoard.s_Instance.MoveItemToSlot(gameObject);
         }
-    }
-
-    IEnumerator MoveToSlot(float delayTime)
-    {
-        UnityEngine.Assertions.Assert.IsNotNull(m_MatchSlot, "Slot is null!");
-        yield return new WaitForSeconds(delayTime);
-        m_MeshCollider.enabled = false;
-        
-        SetRotation();
-
-        float startTime = Time.time;
-        float interpolatedRatio = 0.0f;
-        Vector3 startingPosition = transform.position;
-        Vector3 endingPosition = m_MatchSlot.transform.position;
-
-        Vector3 startingScale = transform.localScale;
-        Vector3 endingScale = Vector3.one;
-
-        while(Time.time - startTime <= 0.5 || interpolatedRatio != 1.0f)
-        {
-            interpolatedRatio = Mathf.Min(2 * (Time.time - startTime), 1.0f);
-            transform.position = Vector3.Lerp(startingPosition, endingPosition, interpolatedRatio);
-            transform.localScale = Vector3.Lerp(startingScale, endingScale, interpolatedRatio);
-            yield return null;
-        }
-
-        UnityEngine.Assertions.Assert.AreEqual(interpolatedRatio, 1.0f, "Interpolated ratio is not 1!");
-        m_MeshCollider.enabled = true;
-    }
-
-    // Happening during spawn - to be investigated, and hopefully removed
-    void MakeSpawnFalse()
-    {
-        m_UpPositionBool = true;
     }
 
     public void SetRotation()
