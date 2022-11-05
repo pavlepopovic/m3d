@@ -52,10 +52,7 @@ public class MatchBoard : MonoBehaviour
         item.GetComponent<MeshCollider>().enabled = false;
         item.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
-        // place accordingly
         PlaceItemInMatchBoardArray(item);
-        
-        // check for match
     }
 
     private void PlaceItemInMatchBoardArray(GameObject item)
@@ -122,9 +119,6 @@ public class MatchBoard : MonoBehaviour
 
     private IEnumerator MoveItemsToCorrectPositionsOnBoard(int startingItemIndex)
     {
-        float startTime = Time.time;
-        float interpolationRatio = 0.0f;
-
         // StartingItem is specific, as it needs to move twice slower then other items on board
         GameObject startingItem = m_MatchSlotItems[startingItemIndex];
 
@@ -142,7 +136,7 @@ public class MatchBoard : MonoBehaviour
                 }
             }
         }
-        
+
         Vector3[] startingPositions = new Vector3[numNonNullElementsToTheRight];
         Vector3[] endingPositions = new Vector3[numNonNullElementsToTheRight];
         for (int i = 0; i < numNonNullElementsToTheRight;i++)
@@ -157,6 +151,8 @@ public class MatchBoard : MonoBehaviour
         Vector3 startingItemStartingScale = startingItem.transform.localScale;
         Vector3 startingItemEndingScale = new Vector3(0.8f, 0.8f, 0.8f);
 
+        float startTime = Time.time;
+        float interpolationRatio = 0.0f;
         while (Time.time - startTime <= 0.25f || interpolationRatio != 1.0f)
         {
             interpolationRatio = Mathf.Min(4 * (Time.time - startTime), 1.0f);
@@ -258,8 +254,8 @@ public class MatchBoard : MonoBehaviour
             }
 
             // make last two items null, as they represent free space now
-            m_MatchSlotItems[k_MatchSlotsLength - 2] = null;
             m_MatchSlotItems[k_MatchSlotsLength - 1] = null;
+            m_MatchSlotItems[k_MatchSlotsLength - 2] = null;
         }
 
         // finally, move items to their place on board properly
