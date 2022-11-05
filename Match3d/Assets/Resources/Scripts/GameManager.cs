@@ -21,15 +21,15 @@ public class GameManager : MonoBehaviour
     [UnityEngine.Serialization.FormerlySerializedAs("holdercube")]
     public GameObject HolderCube;
 
-    [Header("dialogeboxes")]
+    [Header("Dialog Boxes")]
     [UnityEngine.Serialization.FormerlySerializedAs("tutorial")]
     public GameObject Tutorial;
     [UnityEngine.Serialization.FormerlySerializedAs("pausedialogbox")]
     public GameObject PausedDialogBox;
     [UnityEngine.Serialization.FormerlySerializedAs("levelcompletebox")]
     public GameObject LevelCompleteBox;
-    [UnityEngine.Serialization.FormerlySerializedAs("levelfailbox")]
-    public GameObject LevelFailBox;
+    public GameObject LevelFailFullBoard;
+
     public Text ScoreText;
     public Text TimerText;
     [UnityEngine.Serialization.FormerlySerializedAs("levelfailtimertext")]
@@ -63,6 +63,18 @@ public class GameManager : MonoBehaviour
 
     private int m_GamePlayLevelValue;
     private int m_TotalObjects;
+
+    internal void FailLevelDueToFullBoard()
+    {
+        FindObjectOfType<LevelTimer>().FreezeTimeBool = true;
+        LevelFailFullBoard.SetActive(true);
+    }
+
+    public void CleanBoard()
+    {
+        // todo: implement
+        Debug.Log("Clean board button pressed! Implement me!");
+    }
 
     private void Awake()
     {

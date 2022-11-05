@@ -19,6 +19,7 @@ public class MatchBoard : MonoBehaviour
 
     private GameObject[] m_MatchSlotItems;
     private int m_StarValue = 0;
+    private int m_NumCollectedObjects = 0;
 
     // Needed as a workaround as coroutines don't return values.
     private bool m_DidMatchHappen = false;
@@ -114,11 +115,9 @@ public class MatchBoard : MonoBehaviour
 
         if (m_DidMatchHappen == true)
         {
-            // cleanup
+            // increase score, destroy matched items, and move others in proper place
             yield return CleanBoardAfterMatch(newItemIndex);
         }
-
-        // Todo - move objects back where they belong, and cleanup board
     }
 
     private IEnumerator MoveItemsToCorrectPositionsOnBoard(int startingItemIndex)
@@ -195,7 +194,7 @@ public class MatchBoard : MonoBehaviour
             // Loss
             if(!IsThereAtLeastOnePlaceOnBoard())
             {
-                // ...
+                GameManager.s_Instance.FailLevelDueToFullBoard();
             }
             
             yield break;
@@ -227,13 +226,16 @@ public class MatchBoard : MonoBehaviour
             b.transform.position = Vector3.Lerp(startingPositionAdjacentItem, endingPosition, interpolationRatio); // lerp from A to B in one second
             yield return null;
         }
+
+        UnityEngine.Assertions.Assert.AreEqual(interpolationRatio, 1.0f);
     }
 
     private IEnumerator CleanBoardAfterMatch(int newItemIndex)
     {
+        // Destroy items with a slight delay
         yield return new WaitForSeconds(0.05f);
 
-        // Destroy matched items
+        // destroy matched items
         {
             GameObject newItem = m_MatchSlotItems[newItemIndex];
             GameObject adjacentItem = m_MatchSlotItems[newItemIndex - 1];
@@ -242,6 +244,52 @@ public class MatchBoard : MonoBehaviour
             Destroy(adjacentItem);
         }
 
+        // set board pieces to null
+        {
+            m_MatchSlotItems[newItemIndex] = null;
+            m_MatchSlotItems[newItemIndex - 1] = null;
+        }
+        
+        // make array valid
+        {
+            for (int i = newItemIndex + 1; i < k_MatchSlotsLength; i++)
+            {
+                m_MatchSlotItems[i - 2] = m_MatchSlotItems[i];
+            }
+
+            // make last two items null, as they represent free space now
+            m_MatchSlotItems[k_MatchSlotsLength - 2] = null;
+            m_MatchSlotItems[k_MatchSlotsLength - 1] = null;
+        }
+
+        // finally, move items to their place on board properly
+        {
+            Vector3[] startingPositions = new Vector3[k_MatchSlotsLength - 1 - newItemIndex];
+            for (int i = newItemIndex - 1, j = 0; j < startingPositions.Length; i++, j++)
+            {
+                if (m_MatchSlotItems[i] != null)
+                {
+                    startingPositions[j] = m_MatchSlotItems[i].transform.position;
+                }
+            }
+
+            float interpolationRatio = 0.0f;
+            float startTime = Time.time;
+            while (Time.time - startTime <= 0.25f || interpolationRatio != 1.0f)
+            {
+                interpolationRatio = Mathf.Min(4 * (Time.time - startTime), 1.0f);
+                for (int i = newItemIndex - 1, j = 0; i < k_MatchSlotsLength; i++, j++)
+                {
+                    if (m_MatchSlotItems[i] != null)
+                    {
+                        m_MatchSlotItems[i].transform.position = Vector3.Lerp(startingPositions[j], MatchSlots[i].transform.position, interpolationRatio);
+                    }
+                }
+                yield return null;
+            }
+
+            UnityEngine.Assertions.Assert.AreEqual(interpolationRatio, 1.0f);
+        }
     }
 
     void DisableStarAnim()
@@ -249,17 +297,8 @@ public class MatchBoard : MonoBehaviour
         StarAnim.SetActive(false);
         m_StarValue++;
         StarValue.text = m_StarValue.ToString();
-        //m_CollectedObjectValue++;
-        //GameManager.s_Instance.CheckLevelComplete(m_CollectedObjectValue);
-    }
-
-    private void CollectObjects(int newItemIndex)
-    {
-        GameObject newItem = m_MatchSlotItems[newItemIndex];
-        GameObject adjacentItem = m_MatchSlotItems[newItemIndex - 1];
-
-        Destroy(newItem);
-        Destroy(adjacentItem);
+        m_NumCollectedObjects++;
+        GameManager.s_Instance.CheckLevelComplete(m_NumCollectedObjects);
     }
 
     public bool IsThereAtLeastOnePlaceOnBoard()
@@ -272,11 +311,5 @@ public class MatchBoard : MonoBehaviour
             }
         }
         return false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -47,7 +47,7 @@ public class MatchCheck : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(m_PlaceObject.Count == 0)
+        if (m_PlaceObject.Count == 0)
         {            
             other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
@@ -55,7 +55,7 @@ public class MatchCheck : MonoBehaviour
             other.gameObject.GetComponent<MeshCollider>().enabled = false;
             m_PlaceObject.Add(other.gameObject);
         }
-        else if(other.gameObject.name.Contains(m_PlaceObject[0].name) == true)
+        else if (other.gameObject.name.Contains(m_PlaceObject[0].name) == true)
         {
             other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             m_PlaceObject.Add(other.gameObject);

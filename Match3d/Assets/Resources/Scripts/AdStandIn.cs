@@ -21,6 +21,9 @@ public class AdStandIn : MonoBehaviour
             case 5:
                 FindObjectOfType<LevelTimer>().ReviveButton();
                 break;
+            case 6:
+                FindObjectOfType<GameManager>().CleanBoard();
+                break;
             default:
                 UnityEngine.Assertions.Assert.IsTrue(false);
                 break;
