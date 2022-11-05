@@ -64,12 +64,12 @@ public class MatchCheck : MonoBehaviour
             m_PlaceObject[1].GetComponent<MeshCollider>().enabled = false;
 
             Invoke("CollectObject", 0.2f);
-            Invoke("DisableAnim", 0.4f);
+            //Invoke("DisableAnim", 0.4f);
             StartCoroutine(MoveToMatchPoint(0.01f, m_PlaceObject[0], m_PlaceObject[1]));
 
             SoundManager.instance.PlayBottleFillSound();
             Invoke("DisableStarAnim", 1f);
-            MatchAnim.GetComponent<Animator>().SetBool("collect", true);
+            //MatchAnim.GetComponent<Animator>().SetBool("collect", true);
             StarAnim.SetActive(true);            
         }
         else
