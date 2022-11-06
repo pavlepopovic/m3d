@@ -18,8 +18,6 @@ public class GameManager : MonoBehaviour
     [Header("Spawn Point")]
     [UnityEngine.Serialization.FormerlySerializedAs("Spawnpoint")]
     public GameObject SpawnPoint;
-    [UnityEngine.Serialization.FormerlySerializedAs("holdercube")]
-    public GameObject HolderCube;
 
     [Header("Dialog Boxes")]
     [UnityEngine.Serialization.FormerlySerializedAs("tutorial")]
@@ -106,14 +104,7 @@ public class GameManager : MonoBehaviour
             TimeFreezeLocked.SetActive(false);
         }
 
-        CreateLevel();
-        
-        Invoke("MakeCubeInactive", 0.5f);
-    }
-
-    void MakeCubeInactive()
-    {
-        HolderCube.gameObject.SetActive(false);
+        CreateLevel();        
     }
 
     void CreateLevel()
