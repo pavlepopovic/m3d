@@ -11,8 +11,10 @@ public class MatchBoard : MonoBehaviour
     [Header("Match slots")]
     public GameObject[] MatchSlots;
 
-    [Header("Animation")]
-    public GameObject StarAnim;
+    [Header("Star Animation")]
+    public GameObject StarPrefab;
+    public GameObject StarEndPoint;
+    public GameObject Canvas;
 
     [Header("Star text")]
     public Text StarValue;
@@ -29,7 +31,10 @@ public class MatchBoard : MonoBehaviour
     {
         UnityEngine.Assertions.Assert.IsNotNull(MatchSlots, "MatchSlots is null!");
         UnityEngine.Assertions.Assert.AreEqual(MatchSlots.Length, k_MatchSlotsLength, "MatchSlots inapropriate length");
-        UnityEngine.Assertions.Assert.IsNull(s_Instance);
+        UnityEngine.Assertions.Assert.IsNull(s_Instance, "Instance is not null!");
+        UnityEngine.Assertions.Assert.IsNotNull(StarEndPoint, "StarEndPoint is null!");
+        UnityEngine.Assertions.Assert.IsNotNull(StarPrefab, "StarPrefab is null");
+        UnityEngine.Assertions.Assert.IsNotNull(Canvas, "Canvas is null");
 
         m_MatchSlotItems = new GameObject[k_MatchSlotsLength];
         s_Instance = this;
@@ -205,23 +210,23 @@ public class MatchBoard : MonoBehaviour
     private IEnumerator MatchObjects(GameObject a, GameObject b)
     {
         SoundManager.instance.PlayBottleFillSound();
-        StarAnim.SetActive(true);
-        Invoke("DisableStarAnim", 1f);
-
+ 
         float startTime = Time.time; // Time.time contains current frame time, so remember starting point
         float interpolationRatio = 0.0f;
 
         Vector3 startingPositionNewItem = a.transform.position;
         Vector3 startingPositionAdjacentItem = b.transform.position;
-        Vector3 endingPosition = (startingPositionNewItem + startingPositionAdjacentItem) / 2.0f;
+        Vector3 matchPosition = (startingPositionNewItem + startingPositionAdjacentItem) / 2.0f;
 
         while (Time.time - startTime <= 0.20f || interpolationRatio != 1.0f)
         {
             interpolationRatio = Mathf.Min(5 * (Time.time - startTime), 1.0f);
-            a.transform.position = Vector3.Lerp(startingPositionNewItem, endingPosition, interpolationRatio); // lerp from A to B in one second
-            b.transform.position = Vector3.Lerp(startingPositionAdjacentItem, endingPosition, interpolationRatio); // lerp from A to B in one second
+            a.transform.position = Vector3.Lerp(startingPositionNewItem, matchPosition, interpolationRatio); // lerp from A to B in one second
+            b.transform.position = Vector3.Lerp(startingPositionAdjacentItem, matchPosition, interpolationRatio); // lerp from A to B in one second
             yield return null;
         }
+
+        StartCoroutine(MoveStarAndIncreaseScore(matchPosition));
 
         UnityEngine.Assertions.Assert.AreEqual(interpolationRatio, 1.0f);
     }
@@ -288,9 +293,37 @@ public class MatchBoard : MonoBehaviour
         }
     }
 
-    void DisableStarAnim()
+    private IEnumerator MoveStarAndIncreaseScore(Vector3 starSpawnPosition)
     {
-        StarAnim.SetActive(false);
+        GameObject star = Instantiate(StarPrefab, Canvas.transform);
+        RectTransform starRectTransform = star.GetComponent<RectTransform>();
+
+        // Set proper star position in canvas
+        // Don't know what this exactly does, copied it from internet.
+        {
+            RectTransform canvasTransform = Canvas.GetComponent<RectTransform>();
+            Vector2 uiOffset = new Vector2(canvasTransform.sizeDelta.x / 2.0f, canvasTransform.sizeDelta.y / 2.0f);
+            Vector2 viewPortSpawnPosition = Camera.main.WorldToViewportPoint(starSpawnPosition);
+            Vector2 proportionalPosition = new Vector2(viewPortSpawnPosition.x * canvasTransform.sizeDelta.x, viewPortSpawnPosition.y * canvasTransform.sizeDelta.y);
+            starRectTransform.localPosition = proportionalPosition - uiOffset;
+        }
+
+        float interpolationRatio = 0.0f;
+        float startTime = Time.time;
+        RectTransform endPointRectTransform = StarEndPoint.GetComponent<RectTransform>();
+        Vector2 endPoint = endPointRectTransform.position;
+        Vector2 startPoint = starRectTransform.position;
+        while (Time.time - startTime <= 1.0f || interpolationRatio != 1.0f)
+        {
+            interpolationRatio = Mathf.Min(Time.time - startTime, 1.0f);
+            star.GetComponent<RectTransform>().position = Vector2.Lerp(startPoint, endPoint, interpolationRatio);
+            yield return null;
+        }
+
+        UnityEngine.Assertions.Assert.AreEqual(1.0f, interpolationRatio);
+        Destroy(star);
+
+        // Update score
         m_StarValue++;
         StarValue.text = m_StarValue.ToString();
         m_NumCollectedObjects++;
