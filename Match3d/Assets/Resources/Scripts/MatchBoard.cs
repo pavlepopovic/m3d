@@ -81,11 +81,15 @@ public class MatchBoard : MonoBehaviour
             else if (m_MatchSlotItems[i].name == item.name)
             {
                 // In this case, we need to move all other items to the right
-                MoveItemsOnePlaceToTheRightInArray(i + 1);
-                UnityEngine.Assertions.Assert.IsNull(m_MatchSlotItems[i + 1]);
-
-                m_MatchSlotItems[i + 1] = item;
                 itemIndex = i + 1;
+                if (m_MatchSlotItems[itemIndex] != null && m_MatchSlotItems[itemIndex].name == item.name)
+                {
+                    itemIndex++;
+                }
+                MoveItemsOnePlaceToTheRightInArray(itemIndex);
+                UnityEngine.Assertions.Assert.IsNull(m_MatchSlotItems[itemIndex]);
+
+                m_MatchSlotItems[itemIndex] = item;
                 break;
             }
         }
@@ -189,15 +193,21 @@ public class MatchBoard : MonoBehaviour
     private IEnumerator MatchIfPossible(int newItemIndex)
     {
         m_DidMatchHappen = false;
-        if (newItemIndex == 0)
+        if (newItemIndex <= 1)
         {
             // Nothing happens
             yield break;
         }
 
         GameObject newItem = m_MatchSlotItems[newItemIndex];
-        GameObject adjacentItem = m_MatchSlotItems[newItemIndex - 1];
-        if (adjacentItem == null || newItem.name != adjacentItem.name)
+        GameObject secondItem = m_MatchSlotItems[newItemIndex - 1];
+        GameObject thirdItem = m_MatchSlotItems[newItemIndex - 2];
+        
+        UnityEngine.Assertions.Assert.IsNotNull(newItem);
+        UnityEngine.Assertions.Assert.IsNotNull(secondItem);
+        UnityEngine.Assertions.Assert.IsNotNull(thirdItem);
+
+        if (newItem.name != secondItem.name || newItem.name != thirdItem.name)
         {
             // Loss
             if(!IsThereAtLeastOnePlaceOnBoard())
@@ -211,10 +221,10 @@ public class MatchBoard : MonoBehaviour
         m_DidMatchHappen = true;
 
         // match
-        yield return MatchObjects(newItem, adjacentItem);
+        yield return MatchObjects(newItem, secondItem, thirdItem);
     }
 
-    private IEnumerator MatchObjects(GameObject a, GameObject b)
+    private IEnumerator MatchObjects(GameObject a, GameObject b, GameObject c)
     {
         SoundManager.instance.PlayBottleFillSound();
  
@@ -222,14 +232,16 @@ public class MatchBoard : MonoBehaviour
         float interpolationRatio = 0.0f;
 
         Vector3 startingPositionNewItem = a.transform.position;
-        Vector3 startingPositionAdjacentItem = b.transform.position;
-        Vector3 matchPosition = (startingPositionNewItem + startingPositionAdjacentItem) / 2.0f;
+        Vector3 startingPositionSecondItem = b.transform.position;
+        Vector3 startingPositionThirdItem = c.transform.position;
+        Vector3 matchPosition = (startingPositionNewItem + startingPositionSecondItem + startingPositionThirdItem) / 3.0f;
 
         while (Time.time - startTime <= 0.20f || interpolationRatio != 1.0f)
         {
             interpolationRatio = Mathf.Min(5 * (Time.time - startTime), 1.0f);
-            a.transform.position = Vector3.Lerp(startingPositionNewItem, matchPosition, interpolationRatio); // lerp from A to B in one second
-            b.transform.position = Vector3.Lerp(startingPositionAdjacentItem, matchPosition, interpolationRatio); // lerp from A to B in one second
+            a.transform.position = Vector3.Lerp(startingPositionNewItem, matchPosition, interpolationRatio);
+            b.transform.position = Vector3.Lerp(startingPositionSecondItem, matchPosition, interpolationRatio);
+            c.transform.position = Vector3.Lerp(startingPositionThirdItem, matchPosition, interpolationRatio);
             yield return null;
         }
 
@@ -246,34 +258,38 @@ public class MatchBoard : MonoBehaviour
         // destroy matched items
         {
             GameObject newItem = m_MatchSlotItems[newItemIndex];
-            GameObject adjacentItem = m_MatchSlotItems[newItemIndex - 1];
+            GameObject secondItem = m_MatchSlotItems[newItemIndex - 1];
+            GameObject thirdItem = m_MatchSlotItems[newItemIndex - 2];
 
             Destroy(newItem);
-            Destroy(adjacentItem);
+            Destroy(secondItem);
+            Destroy(thirdItem);
         }
 
         // set board pieces to null
         {
             m_MatchSlotItems[newItemIndex] = null;
             m_MatchSlotItems[newItemIndex - 1] = null;
+            m_MatchSlotItems[newItemIndex - 2] = null;
         }
         
         // make array valid
         {
             for (int i = newItemIndex + 1; i < k_MatchSlotsLength; i++)
             {
-                m_MatchSlotItems[i - 2] = m_MatchSlotItems[i];
+                m_MatchSlotItems[i - 3] = m_MatchSlotItems[i];
             }
 
-            // make last two items null, as they represent free space now
+            // make last three items null, as they represent free space now
             m_MatchSlotItems[k_MatchSlotsLength - 1] = null;
             m_MatchSlotItems[k_MatchSlotsLength - 2] = null;
+            m_MatchSlotItems[k_MatchSlotsLength - 3] = null;
         }
 
         // finally, move items to their place on board properly
         {
             Vector3[] startingPositions = new Vector3[k_MatchSlotsLength - 1 - newItemIndex];
-            for (int i = newItemIndex - 1, j = 0; j < startingPositions.Length; i++, j++)
+            for (int i = newItemIndex - 2, j = 0; j < startingPositions.Length; i++, j++)
             {
                 if (m_MatchSlotItems[i] != null)
                 {
@@ -286,7 +302,7 @@ public class MatchBoard : MonoBehaviour
             while (Time.time - startTime <= 0.25f || interpolationRatio != 1.0f)
             {
                 interpolationRatio = Mathf.Min(4 * (Time.time - startTime), 1.0f);
-                for (int i = newItemIndex - 1, j = 0; i < k_MatchSlotsLength; i++, j++)
+                for (int i = newItemIndex - 2, j = 0; i < k_MatchSlotsLength; i++, j++)
                 {
                     if (m_MatchSlotItems[i] != null)
                     {
