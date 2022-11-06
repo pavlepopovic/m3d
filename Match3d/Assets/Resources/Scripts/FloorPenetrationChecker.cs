@@ -5,8 +5,8 @@ using UnityEngine;
 // there is a trigger event.
 public class FloorPenetrationChecker : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        UnityEngine.Assertions.Assert.IsTrue(false, $"{other.gameObject.name} has fell below the floor!");
+        UnityEngine.Assertions.Assert.IsTrue(false, $"{collision.gameObject.name} has fell below the floor!");
     }
 }

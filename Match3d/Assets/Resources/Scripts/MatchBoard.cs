@@ -8,6 +8,8 @@ public class MatchBoard : MonoBehaviour
     public static MatchBoard s_Instance = null;
     public const int k_MatchSlotsLength = 7;
 
+    public bool SafeToAddNewItemToBoard { get; private set; }
+
     [Header("Match slots")]
     public GameObject[] MatchSlots;
 
@@ -38,6 +40,7 @@ public class MatchBoard : MonoBehaviour
 
         m_MatchSlotItems = new GameObject[k_MatchSlotsLength];
         s_Instance = this;
+        SafeToAddNewItemToBoard = true;
     }
 
     private void OnDestroy()
@@ -56,6 +59,8 @@ public class MatchBoard : MonoBehaviour
         item.GetComponent<Item>().SetRotation();
         item.GetComponent<MeshCollider>().enabled = false;
         item.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+
+        SafeToAddNewItemToBoard = false;
 
         PlaceItemInMatchBoardArray(item);
     }
@@ -91,8 +96,6 @@ public class MatchBoard : MonoBehaviour
 
     private void MoveItemsOnePlaceToTheRightInArray(int startingIndex)
     {
-        UnityEngine.Assertions.Assert.IsTrue(startingIndex < k_MatchSlotsLength - 1);
-
         GameObject[] helpArray = new GameObject[k_MatchSlotsLength - 1 - startingIndex];
         for (int i = 0; i < helpArray.Length; i++)
         {
@@ -119,6 +122,10 @@ public class MatchBoard : MonoBehaviour
         {
             // increase score, destroy matched items, and move others in proper place
             yield return CleanBoardAfterMatch(newItemIndex);
+        }
+        else
+        {
+            SafeToAddNewItemToBoard = true;
         }
     }
 
@@ -327,6 +334,7 @@ public class MatchBoard : MonoBehaviour
         m_StarValue++;
         StarValue.text = m_StarValue.ToString();
         m_NumCollectedObjects++;
+        SafeToAddNewItemToBoard = true;
         GameManager.s_Instance.CheckLevelComplete(m_NumCollectedObjects);
     }
 
