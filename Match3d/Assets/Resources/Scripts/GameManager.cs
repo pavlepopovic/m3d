@@ -15,9 +15,6 @@ public class GameManager : MonoBehaviour
     public leveleditor Levels;
     [UnityEngine.Serialization.FormerlySerializedAs("levelValuetxt")]
     public Text LevelValueText;
-    [Header("Spawn Point")]
-    [UnityEngine.Serialization.FormerlySerializedAs("Spawnpoint")]
-    public GameObject SpawnPoint;
 
     [Header("Dialog Boxes")]
     [UnityEngine.Serialization.FormerlySerializedAs("tutorial")]
@@ -121,8 +118,8 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < Levels.LevelData[m_GamePlayLevelValue - 1].TotalObjects.Length; i++)
             {
-                GameObject g = Instantiate(Levels.LevelData[m_GamePlayLevelValue - 1].TotalObjects[i].gameObject, SpawnPoint.transform);
-                g.transform.position = new Vector3(g.transform.position.x + Random.Range(-1, 1), g.transform.position.y, g.transform.position.z + Random.Range(0, -1));
+                GameObject g = Instantiate(Levels.LevelData[m_GamePlayLevelValue - 1].TotalObjects[i].gameObject, gameObject.transform);
+                g.transform.position = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(0.2f, 1.5f), Random.Range(-2.0f, 1.0f));
             }
         }
     }
