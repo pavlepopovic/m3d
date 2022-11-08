@@ -49,6 +49,61 @@ public class MatchBoard : MonoBehaviour
         s_Instance = null;
     }
 
+    public IEnumerator ProcessMagnet()
+    {
+        if (!SafeToAddNewItemToBoard)
+            yield break;
+
+        SafeToAddNewItemToBoard = false;
+
+        // case 1: 3 items to be matched
+        var items = FindObjectsOfType<Item>();
+
+        // check that it isn't in m_MatchSlotItems array
+        int itemIndexToUseHintOn = -1;
+        for (int i = 0; i < items.Length; i++)
+        {
+            Item item = items[i];
+            for (int j = 0; j < m_MatchSlotItems.Length; j++)
+            {
+                // Relying on the fact that the array is sorted
+                if (m_MatchSlotItems[j] == null)
+                {
+                    itemIndexToUseHintOn = i;
+                    break;
+                }
+
+                if (item.gameObject.name == m_MatchSlotItems[j].gameObject.name)
+                {
+                    break;
+                }
+            }
+            if (itemIndexToUseHintOn != -1)
+            {
+                break;
+            }
+        }
+
+        UnityEngine.Assertions.Assert.AreNotEqual(-1, itemIndexToUseHintOn, "Not implemented case, fix me!");
+
+        // find other items, in the array, with the same name
+        var itemsToAdd = new Item[3];
+        for(int i = 0, j = 0; i < items.Length; i++)
+        {
+            if (items[i].gameObject.name == items[itemIndexToUseHintOn].gameObject.name)
+            {
+                itemsToAdd[j++] = items[i];
+            }
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            SafeToAddNewItemToBoard = false;
+            yield return PlaceItemInMatchBoardArrayIEnumerator(itemsToAdd[i].gameObject);
+        }
+
+    }
+
     public void MoveItemToSlot(GameObject item)
     {
         UnityEngine.Assertions.Assert.IsNotNull(item);
@@ -65,7 +120,7 @@ public class MatchBoard : MonoBehaviour
         PlaceItemInMatchBoardArray(item);
     }
 
-    private void PlaceItemInMatchBoardArray(GameObject item)
+    private int PlaceItemInMatchBoardArrayImpl(GameObject item)
     {
         UnityEngine.Assertions.Assert.IsTrue(IsThereAtLeastOnePlaceOnBoard(), "No place on board!");
 
@@ -95,6 +150,23 @@ public class MatchBoard : MonoBehaviour
         }
 
         UnityEngine.Assertions.Assert.IsTrue(itemIndex != -1, "Item index wrongly calculated");
+        return itemIndex;
+    }
+
+    private IEnumerator PlaceItemInMatchBoardArrayIEnumerator(GameObject item)
+    {
+        int itemIndex = PlaceItemInMatchBoardArrayImpl(item);
+        item.GetComponent<Item>().SetRotation();
+        item.GetComponent<MeshCollider>().enabled = false;
+        item.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        SafeToAddNewItemToBoard = false;
+
+        yield return ResolveMatchBoard(itemIndex);
+    }
+
+    private void PlaceItemInMatchBoardArray(GameObject item)
+    {
+        int itemIndex = PlaceItemInMatchBoardArrayImpl(item);
         StartCoroutine(ResolveMatchBoard(itemIndex));
     }
 
@@ -132,6 +204,7 @@ public class MatchBoard : MonoBehaviour
             SafeToAddNewItemToBoard = true;
         }
     }
+
 
     private IEnumerator MoveItemsToCorrectPositionsOnBoard(int startingItemIndex)
     {

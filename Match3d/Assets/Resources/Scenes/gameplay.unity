@@ -7228,7 +7228,7 @@ GameObject:
   - component: {fileID: 990526525}
   - component: {fileID: 990526524}
   m_Layer: 5
-  m_Name: HintLocked
+  m_Name: MagnetLocked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13681,7 +13681,7 @@ GameObject:
   - component: {fileID: 1861952503}
   - component: {fileID: 1861952502}
   m_Layer: 5
-  m_Name: HintUnlocked
+  m_Name: MagnetUnlocked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13752,9 +13752,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MatchCheck, Assembly-CSharp
-        m_MethodName: OnHintClick
+      - m_Target: {fileID: 1211475868}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnMagnetClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13784,7 +13784,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5d12954e5c4b5ad4b8538efb2d2555ec, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 10f9c3d7499b68841b23beb0b6283ccf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
