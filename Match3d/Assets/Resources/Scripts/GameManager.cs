@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     [UnityEngine.Serialization.FormerlySerializedAs("freezetextvalue")]
     public Text FreezeTextValue;
     [UnityEngine.Serialization.FormerlySerializedAs("hinttextvalue")]
-    public Text HintTextValue;
+    public Text MagnetsTextValue;
     [UnityEngine.Serialization.FormerlySerializedAs("freezedelayvalue")]
     public int FreezeDelayValue;
 
@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         FreezeTextValue.text = "" + PrefManager.GetFreezeValue();
-        HintTextValue.text = "" + PrefManager.GetHintValue();
+        MagnetsTextValue.text = "" + PrefManager.GetMagnetsValue();
 
         if (PrefManager.GetFreezeValue() <= 0)
         {
@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviour
         {
             TimeFreezeAddButton.SetActive(false);
         }
-        if (PrefManager.GetHintValue() <= 0)
+        if (PrefManager.GetMagnetsValue() <= 0)
         {
             HintAddButton.SetActive(true);
         }
@@ -191,6 +191,25 @@ public class GameManager : MonoBehaviour
         m_GamePlayLevelValue++;
         PrefManager.SetLevelsValue(m_GamePlayLevelValue);
         SceneManager.LoadScene("gameplay");
+    }
+
+    public void OnMagnetClick()
+    {
+        int numMagnets = PrefManager.GetMagnetsValue();
+
+        if (numMagnets > 0)
+        {
+            if (MatchBoard.s_Instance.SafeToAddNewItemToBoard)
+            {
+                StartCoroutine(MatchBoard.s_Instance.ProcessMagnet());
+
+                // Magnets can be changed inside ProcessMagnet(),
+                // hence we are not decrementing them, but rather reading them from
+                // a persistent storage
+                PrefManager.SetMagnetsValue(PrefManager.GetMagnetsValue());
+                MagnetsTextValue.text = numMagnets.ToString();
+            }
+        }
     }
 
     void MakeTimeScaleZero()
@@ -280,9 +299,9 @@ public class GameManager : MonoBehaviour
 
     public void GiveHints(int numHintsToAdd)
     {
-        int hintsValue = PrefManager.GetHintValue();
+        int hintsValue = PrefManager.GetMagnetsValue();
         hintsValue += numHintsToAdd;
-        PrefManager.SetHintValue(hintsValue);
+        PrefManager.SetMagnetsValue(hintsValue);
     }
 
     public void AddCoinTimeFreeze()

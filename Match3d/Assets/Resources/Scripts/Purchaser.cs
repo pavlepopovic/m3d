@@ -412,9 +412,9 @@ public class Purchaser : MonoBehaviour, IStoreListener
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
             
             // Set Hint Value
-            int hint = PrefManager.GetHintValue();
+            int hint = PrefManager.GetMagnetsValue();
             hint = hint + asignspecialofferhintvalue;
-            PrefManager.SetHintValue(hint);
+            PrefManager.SetMagnetsValue(hint);
 
             // Set TimeFreeze Value
             int timefreeze = PrefManager.GetFreezeValue();
@@ -431,9 +431,9 @@ public class Purchaser : MonoBehaviour, IStoreListener
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
             // Set Hint Value
-            int hint = PrefManager.GetHintValue();
+            int hint = PrefManager.GetMagnetsValue();
             hint = hint + asignspecialofferhintvalue;
-            PrefManager.SetHintValue(hint);
+            PrefManager.SetMagnetsValue(hint);
 
             // Set TimeFreeze Value
             int timefreeze = PrefManager.GetFreezeValue();
@@ -450,9 +450,9 @@ public class Purchaser : MonoBehaviour, IStoreListener
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
             //Set Hint Value
-            int hint = PrefManager.GetHintValue();
+            int hint = PrefManager.GetMagnetsValue();
             hint = hint + asignmasterofferhintvalue;
-            PrefManager.SetHintValue(hint);
+            PrefManager.SetMagnetsValue(hint);
 
             //Set TimeFreeze Value
             int timefreeze = PrefManager.GetFreezeValue();
@@ -469,9 +469,9 @@ public class Purchaser : MonoBehaviour, IStoreListener
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
             // Set Hint Value
-            int hint = PrefManager.GetHintValue();
+            int hint = PrefManager.GetMagnetsValue();
             hint = hint + asignSuperofferhintvalue;
-            PrefManager.SetHintValue(hint);
+            PrefManager.SetMagnetsValue(hint);
 
             // Set TimeFreeze Value
             int timefreeze = PrefManager.GetFreezeValue();
@@ -488,9 +488,9 @@ public class Purchaser : MonoBehaviour, IStoreListener
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
 
             // Set Hint Value
-            int hint = PrefManager.GetHintValue();
+            int hint = PrefManager.GetMagnetsValue();
             hint = hint + asignmegaofferhintvalue;
-            PrefManager.SetHintValue(hint);
+            PrefManager.SetMagnetsValue(hint);
 
             // Set TimeFreeze Value
             int timefreeze = PrefManager.GetFreezeValue();

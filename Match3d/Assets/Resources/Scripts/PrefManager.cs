@@ -7,7 +7,7 @@ public static class PrefManager
         SetLevelsValue(1);
         SetNumUpgradeStars(0);
         SetStageValue(1);
-        SetHintValue(5);
+        SetMagnetsValue(50);
         SetCoinsValue(1000);
         SetMusicValue(1);
         SetSoundsValue(1);
@@ -51,9 +51,9 @@ public static class PrefManager
         return GetStageProgress() == 5;
     }
 
-    public static int GetHintValue()
+    public static int GetMagnetsValue()
     {
-        return PlayerPrefs.GetInt("hintpref", 5);
+        return PlayerPrefs.GetInt("magnetspref", 5);
     }
 
     public static int GetCoinsValue()
@@ -111,9 +111,9 @@ public static class PrefManager
         PlayerPrefs.SetInt("stage", stageValue);
     }
 
-    public static void SetHintValue(int value)
+    public static void SetMagnetsValue(int value)
     {
-        PlayerPrefs.SetInt("hintpref", value);
+        PlayerPrefs.SetInt("magnetspref", value);
     }
 
     public static void SetCoinsValue(int value)
@@ -195,6 +195,12 @@ public static class PrefManager
             PlayerPrefs.SetInt("upgradestars", currentNumStars - 1);
             IncrementStageProgress();
         }
+    }
+
+    public static void DecrementMagnets()
+    {
+        int currentNumMagnets = GetMagnetsValue();
+        SetMagnetsValue(currentNumMagnets - 1);
     }
 
     #endregion
