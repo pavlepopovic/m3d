@@ -7,7 +7,7 @@ public static class PrefManager
         SetLevelsValue(1);
         SetNumUpgradeStars(0);
         SetStageValue(1);
-        SetMagnetsValue(5);
+        SetMagnetsValue(50);
         SetCoinsValue(1000);
         SetMusicValue(1);
         SetSoundsValue(1);

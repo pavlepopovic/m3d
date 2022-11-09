@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,63 +50,168 @@ public class MatchBoard : MonoBehaviour
         s_Instance = null;
     }
 
-    public IEnumerator ProcessMagnet()
+    // Checks if there are two same items on board, and if we can pull third
+    private bool PullOneMissingItem(Item[] allItems, Item[] itemsToPullOut)
     {
-        if (!SafeToAddNewItemToBoard)
-            yield break;
-
-        SafeToAddNewItemToBoard = false;
-
-        // case 1: 3 items to be matched
-        var items = FindObjectsOfType<Item>();
-
-        // check that it isn't in m_MatchSlotItems array
-        int itemIndexToUseHintOn = -1;
-        for (int i = 0; i < items.Length; i++)
+        // Find two of the same items in the array
+        GameObject firstItem = null;
+        GameObject secondItem = null;
+        for (int i = 0; i < k_MatchSlotsLength - 1; i++)
         {
-            Item item = items[i];
-            for (int j = 0; j < m_MatchSlotItems.Length; j++)
+            if (m_MatchSlotItems[i] == null || m_MatchSlotItems[i + 1] == null)
             {
-                // Relying on the fact that the array is sorted
-                if (m_MatchSlotItems[j] == null)
-                {
-                    itemIndexToUseHintOn = i;
-                    break;
-                }
-
-                if (item.gameObject.name == m_MatchSlotItems[j].gameObject.name)
-                {
-                    break;
-                }
+                break;
             }
-            if (itemIndexToUseHintOn != -1)
+            if (m_MatchSlotItems[i].name == m_MatchSlotItems[i + 1].name)
+            {
+                firstItem = m_MatchSlotItems[i];
+                secondItem = m_MatchSlotItems[i + 1];
+                break;
+            }
+        }
+
+        // No matching items in array
+        if (firstItem == null)
+        {
+            return false;
+        }
+
+        // Find the third item
+        for (int i = 0; i < allItems.Length; i++)
+        {
+            Item item = allItems[i];
+            if ((item.name == firstItem.name) && (item.gameObject != firstItem) && (item.gameObject != secondItem))
+            {
+                itemsToPullOut[0] = item;
+                break;
+            }
+        }
+
+        UnityEngine.Assertions.Assert.IsNotNull(itemsToPullOut[0], "Third item is null");
+        return true;
+    }
+
+    // Checks if there is at least one item on board, and 2 free spaces, if so, we can pull other two
+    private bool PullTwoMissingItems(Item[] allItems, Item[] itemsToPullOut)
+    {
+        // If the last two places on the board aren't null, we can't do anything
+        if (m_MatchSlotItems[k_MatchSlotsLength - 1] != null || m_MatchSlotItems[k_MatchSlotsLength - 2] != null)
+        {
+            return false;
+        }
+
+        // Otherwise, get the first item and match it
+        if (m_MatchSlotItems[0] == null)
+        {
+            return false;
+        }
+
+        Item item = m_MatchSlotItems[0].GetComponent<Item>();
+
+        // find other two items
+        for (int i = 0, j = 0; i < allItems.Length; i++)
+        {
+            if (allItems[i].name == item.name && allItems[i] != item)
+            {
+                itemsToPullOut[j++] = allItems[i];
+            }
+            if (j == 2)
             {
                 break;
             }
         }
 
-        UnityEngine.Assertions.Assert.AreNotEqual(-1, itemIndexToUseHintOn, "Not implemented case, fix me!");
+        UnityEngine.Assertions.Assert.IsNotNull(itemsToPullOut[0], "First item is null");
+        UnityEngine.Assertions.Assert.IsNotNull(itemsToPullOut[1], "Second item is null");
+        return true;
+    }
 
-        // find other items, in the array, with the same name
-        var itemsToAdd = new Item[3];
-        for(int i = 0, j = 0; i < items.Length; i++)
+    // Checks if it is possible to pull 3 items on board, only possible if the board is empty
+    private bool PullThreeMissingItems(Item[] allItems, Item[] itemsToPullOut)
+    {
+        if (m_MatchSlotItems[0] != null)
         {
-            if (items[i].gameObject.name == items[itemIndexToUseHintOn].gameObject.name)
+            return false;
+        }
+
+        Item targetItem = allItems[0];
+        itemsToPullOut[0] = targetItem;
+        for (int i = 1, j = 1; i < allItems.Length; i++)
+        {
+            if (allItems[i].name == targetItem.name)
             {
-                itemsToAdd[j++] = items[i];
+                itemsToPullOut[j++] = allItems[i];
+            }
+            if (j == 3)
+            {
+                break;
+            }
+        }
+        return true;
+    }
+
+    public IEnumerator ProcessMagnet()
+    {
+        if (!SafeToAddNewItemToBoard)
+            yield break;
+
+        UnityEngine.Assertions.Assert.IsTrue(IsThereAtLeastOnePlaceOnBoard(), "No room when calling magnet");
+
+        var itemsToPull = new Item[3];
+        var allItems = FindObjectsOfType<Item>();
+
+        bool canPull = PullOneMissingItem(allItems, itemsToPull);
+        if (!canPull)
+        {
+            canPull = PullTwoMissingItems(allItems, itemsToPull);
+            if (!canPull)
+            {
+                canPull = PullThreeMissingItems(allItems, itemsToPull);
+                if (!canPull)
+                {
+                    SafeToAddNewItemToBoard = true;
+                    yield break;
+                }
             }
         }
 
+        PrefManager.DecrementMagnets();
+
         for (int i = 0; i < 3; i++)
         {
-            SafeToAddNewItemToBoard = false;
-            yield return PlaceItemInMatchBoardArrayIEnumerator(itemsToAdd[i].gameObject);
+            if (itemsToPull[i] != null)
+            {
+                SafeToAddNewItemToBoard = false;
+                for (int j = 0; j < k_MatchSlotsLength; j++)
+                {
+                    if (m_MatchSlotItems[j] != null)
+                    {
+                        if (itemsToPull[i].gameObject == m_MatchSlotItems[j].gameObject)
+                        {
+                            UnityEngine.Assertions.Assert.IsFalse(true, "AA");
+                        }
+                    }
+                }
+                yield return PlaceItemInMatchBoardArrayIEnumerator(itemsToPull[i].gameObject);
+            }
         }
-
     }
 
-    public void MoveItemToSlot(GameObject item)
+    public void PlaceItemInMatchBoardArray(GameObject item)
     {
+        int itemIndex = PlaceItemInMatchBoardArrayImpl(item);
+        StartCoroutine(ResolveMatchBoard(itemIndex));
+    }
+
+    private IEnumerator PlaceItemInMatchBoardArrayIEnumerator(GameObject item)
+    {
+        int itemIndex = PlaceItemInMatchBoardArrayImpl(item);
+        yield return ResolveMatchBoard(itemIndex);
+    }
+
+    private int PlaceItemInMatchBoardArrayImpl(GameObject item)
+    {
+        UnityEngine.Assertions.Assert.IsTrue(IsThereAtLeastOnePlaceOnBoard(), "No place on board!");
         UnityEngine.Assertions.Assert.IsNotNull(item);
         UnityEngine.Assertions.Assert.IsNotNull(item.GetComponent<Item>());
         UnityEngine.Assertions.Assert.IsNotNull(item.GetComponent<Rigidbody>());
@@ -114,15 +220,7 @@ public class MatchBoard : MonoBehaviour
         item.GetComponent<Item>().SetRotation();
         item.GetComponent<MeshCollider>().enabled = false;
         item.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-
         SafeToAddNewItemToBoard = false;
-
-        PlaceItemInMatchBoardArray(item);
-    }
-
-    private int PlaceItemInMatchBoardArrayImpl(GameObject item)
-    {
-        UnityEngine.Assertions.Assert.IsTrue(IsThereAtLeastOnePlaceOnBoard(), "No place on board!");
 
         int itemIndex = -1;
         for (int i = 0; i < k_MatchSlotsLength; i++)
@@ -151,23 +249,6 @@ public class MatchBoard : MonoBehaviour
 
         UnityEngine.Assertions.Assert.IsTrue(itemIndex != -1, "Item index wrongly calculated");
         return itemIndex;
-    }
-
-    private IEnumerator PlaceItemInMatchBoardArrayIEnumerator(GameObject item)
-    {
-        int itemIndex = PlaceItemInMatchBoardArrayImpl(item);
-        item.GetComponent<Item>().SetRotation();
-        item.GetComponent<MeshCollider>().enabled = false;
-        item.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        SafeToAddNewItemToBoard = false;
-
-        yield return ResolveMatchBoard(itemIndex);
-    }
-
-    private void PlaceItemInMatchBoardArray(GameObject item)
-    {
-        int itemIndex = PlaceItemInMatchBoardArrayImpl(item);
-        StartCoroutine(ResolveMatchBoard(itemIndex));
     }
 
     private void MoveItemsOnePlaceToTheRightInArray(int startingIndex)
@@ -204,7 +285,6 @@ public class MatchBoard : MonoBehaviour
             SafeToAddNewItemToBoard = true;
         }
     }
-
 
     private IEnumerator MoveItemsToCorrectPositionsOnBoard(int startingItemIndex)
     {
@@ -275,7 +355,7 @@ public class MatchBoard : MonoBehaviour
         GameObject newItem = m_MatchSlotItems[newItemIndex];
         GameObject secondItem = m_MatchSlotItems[newItemIndex - 1];
         GameObject thirdItem = m_MatchSlotItems[newItemIndex - 2];
-        
+
         UnityEngine.Assertions.Assert.IsNotNull(newItem);
         UnityEngine.Assertions.Assert.IsNotNull(secondItem);
         UnityEngine.Assertions.Assert.IsNotNull(thirdItem);

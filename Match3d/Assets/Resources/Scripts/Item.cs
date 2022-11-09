@@ -53,7 +53,7 @@ public class Item : MonoBehaviour
     {
         if (m_PickedUp)
         {
-            MatchBoard.s_Instance.MoveItemToSlot(gameObject);
+            MatchBoard.s_Instance.PlaceItemInMatchBoardArray(gameObject);
         }
     }
 

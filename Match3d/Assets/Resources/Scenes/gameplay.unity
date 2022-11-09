@@ -8660,7 +8660,7 @@ GameObject:
   - component: {fileID: 1106633309}
   - component: {fileID: 1106633308}
   m_Layer: 5
-  m_Name: Text
+  m_Name: NumMagnets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9795,7 +9795,7 @@ MonoBehaviour:
   TimeFreezeLocked: {fileID: 1426920082}
   Freeze: {fileID: 2098479612}
   FreezeTextValue: {fileID: 1633633653}
-  HintTextValue: {fileID: 1106633308}
+  MagnetsTextValue: {fileID: 1106633308}
   FreezeDelayValue: 20
   HintAddButton: {fileID: 1568777490}
   TimeFreezeAddButton: {fileID: 1890875907}

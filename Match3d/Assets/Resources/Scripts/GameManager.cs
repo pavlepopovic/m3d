@@ -202,7 +202,11 @@ public class GameManager : MonoBehaviour
             if (MatchBoard.s_Instance.SafeToAddNewItemToBoard)
             {
                 StartCoroutine(MatchBoard.s_Instance.ProcessMagnet());
-                PrefManager.SetMagnetsValue(--numMagnets);
+
+                // Magnets can be changed inside ProcessMagnet(),
+                // hence we are not decrementing them, but rather reading them from
+                // a persistent storage
+                PrefManager.SetMagnetsValue(PrefManager.GetMagnetsValue());
                 MagnetsTextValue.text = numMagnets.ToString();
             }
         }
